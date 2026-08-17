@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Sleep Lab - Work &amp; Life Education Session 5. Briefing slides, checkpoint questions, morpheme word builders, a target bedtime calculator and a printable seven-night paper sleep diary.">
+<title>Sleep Lab</title>
+<style>
+  /* Paper ground, Georgia headings and step-card shell match Grammar Hub /
+     Bone Sparrow / Paragraph Builder so the suite reads as one. The accent
+     shifts to indigo — this is the night unit. */
+  :root{
+    --bg:#f4efe6; --paper:#fbf7ee; --band:#f5f0e6; --ink:#1f1f1f; --muted:#6b6256;
+    --line:#d8cfbb; --line-soft:#e8e0cd;
+    --accent:#39407e; --accent-deep:#282e60; --accent-soft:#e6e7f3;
+    --gold:#8b681e; --gold-soft:#f6e7c2;
+    --correct:#2f6a3e; --wrong:#a83232; --okbg:#eef5ee; --badbg:#f7ecec;
+    --shadow:0 1px 2px rgba(31,31,31,.05),0 4px 14px rgba(31,31,31,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#12140f; --paper:#1b1e1a; --band:#232722; --ink:#eae5db; --muted:#a2988a;
+      --line:#3a4036; --line-soft:#2e332b;
+      --accent:#98a2e8; --accent-deep:#b4bcf2; --accent-soft:#232744;
+      --gold:#dcb355; --gold-soft:#372c11;
+      --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
+      --shadow:0 1px 2px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12140f; --paper:#1b1e1a; --band:#232722; --ink:#eae5db; --muted:#a2988a;
+    --line:#3a4036; --line-soft:#2e332b;
+    --accent:#98a2e8; --accent-deep:#b4bcf2; --accent-soft:#232744;
+    --gold:#dcb355; --gold-soft:#372c11;
+    --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
+    --shadow:0 1px 2px rgba(0,0,0,.45);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif;background:var(--bg);
+       color:var(--ink);min-height:100vh;padding:16px;display:flex;justify-content:center;align-items:flex-start}
+  .container{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+       max-width:900px;width:100%;padding:26px;margin-top:12px;box-shadow:var(--shadow)}
+  h1{text-align:center;font-size:24px;font-family:Georgia,'Times New Roman',serif;letter-spacing:.4px}
+  h2{font-family:Georgia,serif;font-size:19px;margin:4px 0 10px}
+  h3{font-family:Georgia,serif;font-size:15.5px;margin:18px 0 8px}
+  .subtitle{color:var(--muted);text-align:center;margin:6px 0 18px;font-size:13px}
+  .muted{color:var(--muted);font-size:13px;line-height:1.55}
+  .screen{display:none}.screen.active{display:block}
+  button{font-family:inherit}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+
+  .btn{padding:11px 18px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-weight:600;
+       cursor:pointer;background:var(--paper);color:var(--ink);transition:all .15s ease}
+  .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn-primary:hover:not(:disabled){background:var(--accent-deep);border-color:var(--accent-deep)}
+  .btn-primary:disabled{background:var(--line);border-color:var(--line);color:var(--muted);cursor:not-allowed}
+  .btn-ghost{background:var(--bg);color:var(--muted)}
+  .btn-ghost:hover{color:var(--ink);border-color:var(--ink)}
+  .linkbtn{background:none;border:none;color:var(--accent);font-weight:600;font-size:13px;cursor:pointer;padding:4px 8px}
+  .linkbtn:hover{text-decoration:underline}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px}
+  .progress{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.4px;text-align:right}
+
+  /* ---------- home step cards ---------- */
+  .steps{display:flex;flex-direction:column;gap:10px;margin:18px 0}
+  .step{display:flex;align-items:center;gap:14px;border:1px solid var(--line-soft);border-radius:10px;
+        padding:14px 16px;background:var(--paper);text-align:left;cursor:pointer;width:100%;color:inherit}
+  .step:hover:not(:disabled){border-color:var(--accent)}
+  .step:disabled{opacity:.5;cursor:not-allowed}
+  .step .num{width:34px;height:34px;border-radius:50%;background:var(--bg);border:1px solid var(--line);
+        display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+  .step.done .num{background:var(--okbg);border-color:var(--correct);color:var(--correct)}
+  .step .t{font-weight:700;font-size:15px}
+  .step .d{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.45}
+  .step .tag{margin-left:auto;font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--muted);
+        flex-shrink:0;text-align:right;max-width:120px;line-height:1.35}
+  .step.done .tag{color:var(--correct)}
+
+  /* ---------- teach / lesson cards ---------- */
+  .teach{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;
+         background:var(--bg);padding:16px 18px;margin-bottom:16px;font-size:14.5px;line-height:1.65}
+  .teach b{color:var(--accent)}
+  .teach ul,.teach ol{margin:8px 0 0 20px}
+  .teach li{margin-bottom:6px}
+  .teach .ex{font-style:italic}
+
+  /* ---------- slides ---------- */
+  .slidewrap{border:1px solid var(--line);border-radius:12px;background:var(--band);
+             padding:22px 24px;min-height:330px;display:flex;flex-direction:column;gap:12px}
+  .slidewrap .of{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .slidewrap h2{font-family:Georgia,serif;font-size:clamp(20px,2.4vw + 10px,30px);line-height:1.12;margin:0}
+  .slidewrap .lead{font-size:clamp(14px,.6vw + 12px,17px);line-height:1.6}
+  .slidewrap .pts{display:flex;flex-direction:column;gap:8px}
+  .slidewrap .pts div{display:flex;gap:10px;font-size:clamp(13.5px,.5vw + 11.5px,16px);line-height:1.55}
+  .slidewrap .pts .b{color:var(--accent);font-weight:800;flex:none}
+  .pull{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);
+        border-radius:8px;padding:11px 14px;font-family:Georgia,serif;
+        font-size:clamp(14px,.6vw + 12px,17.5px);line-height:1.5}
+  .pull span{display:block;font-family:'Segoe UI',sans-serif;font-size:11px;font-weight:800;
+             letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .srcline{font-size:12px;color:var(--muted);font-style:italic;margin-top:auto;padding-top:8px}
+  .slidenav{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .slidenav .sp{flex:1}
+  .pips{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+  .pip{width:26px;height:6px;border-radius:3px;background:var(--line);border:none;cursor:pointer;padding:0}
+  .pip.seen{background:var(--muted)}
+  .pip.now{background:var(--accent)}
+
+  /* present mode */
+  body.present .container{max-width:100%;margin:0;border:none;border-radius:0;padding:10px}
+  body.present .slidewrap{min-height:calc(100dvh - 150px);justify-content:center}
+  body.present .hide-present{display:none !important}
+  body.present .slidewrap h2{font-size:clamp(28px,4.4vw,58px)}
+  body.present .slidewrap .lead{font-size:clamp(17px,1.7vw,28px)}
+  body.present .slidewrap .pts div{font-size:clamp(16px,1.5vw,25px)}
+  body.present .pull{font-size:clamp(17px,1.6vw,27px)}
+
+  /* ---------- word builder ---------- */
+  .buildword{font-family:Georgia,serif;font-size:20px;text-align:center;margin-bottom:4px;color:var(--muted)}
+  .slots,.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0}
+  .slot{min-width:78px;min-height:46px;border:2px dashed var(--line);border-radius:8px;
+        display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;
+        padding:6px 10px;background:var(--bg)}
+  .slot.filled{border-style:solid;border-color:var(--correct);background:var(--okbg);color:var(--correct)}
+  .tile{padding:10px 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);
+        font-weight:700;font-size:16px;cursor:pointer;color:var(--ink)}
+  .tile:hover:not(:disabled){border-color:var(--accent)}
+  .tile:disabled{opacity:.32;cursor:default}
+  .tile.shake{animation:shake .3s;border-color:var(--wrong);color:var(--wrong)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  @media (prefers-reduced-motion:reduce){ .tile.shake{animation:none} }
+  .glosses{margin:10px auto;max-width:560px;font-size:13px;color:var(--muted);line-height:1.75;text-align:center}
+  .glosses b{color:var(--ink)}
+  .reveal{border:1px solid var(--correct);background:var(--okbg);border-radius:10px;padding:14px 16px;
+          margin:14px 0;font-size:14.5px;line-height:1.6;display:none}
+  .reveal.show{display:block}
+  .buildprog{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:14px}
+  .bdot{width:12px;height:12px;border-radius:50%;border:1px solid var(--line);background:var(--bg)}
+  .bdot.done{background:var(--correct);border-color:var(--correct)}
+  .bdot.now{border-color:var(--accent);background:var(--paper);box-shadow:0 0 0 2px rgba(57,64,126,.25)}
+
+  /* ---------- study list ---------- */
+  .vcard{border:1px solid var(--line-soft);border-radius:10px;padding:14px 16px;margin-bottom:10px;background:var(--paper)}
+  .vcard .w{font-family:Georgia,serif;font-size:17.5px;font-weight:700}
+  .vcard .pos{font-size:12px;color:var(--muted);font-style:italic;margin-left:6px}
+  .vcard .meaning{font-size:14px;margin:6px 0;line-height:1.5}
+  .vcard .morph{font-size:12.5px;color:var(--muted);line-height:1.6;border-top:1px dashed var(--line-soft);
+                padding-top:6px;margin-top:6px}
+  .vcard .morph b,.vcard .morph i{color:var(--ink)}
+  .vcard .morph code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:700;color:var(--accent)}
+
+  /* ---------- task shell ---------- */
+  .prompt{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:8px}
+  .qtext{font-size:17px;line-height:1.6;margin-bottom:16px}
+  .qtext .gap{display:inline-block;min-width:110px;border-bottom:2px solid var(--ink);text-align:center;
+              font-weight:700;color:var(--accent)}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--paper);font-size:15px;
+       text-align:left;cursor:pointer;line-height:1.5;color:var(--ink)}
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default}
+  .opt.right{background:var(--okbg);border-color:var(--correct);color:var(--correct);font-weight:700}
+  .opt.wrongpick{background:var(--badbg);border-color:var(--wrong);color:var(--wrong)}
+  .numrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .numrow input{padding:11px 13px;border:1px solid var(--line);border-radius:8px;font-size:16px;
+                font-family:ui-monospace,Menlo,monospace;width:130px;background:var(--paper);color:var(--ink)}
+  .numrow .unit{font-size:14px;color:var(--muted);font-weight:600}
+  .feedback{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:14px;line-height:1.6;display:none}
+  .feedback.ok{display:block;background:var(--okbg);border:1px solid var(--correct)}
+  .feedback.bad{display:block;background:var(--badbg);border:1px solid var(--wrong)}
+  .nextrow{margin-top:16px;display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;align-items:center}
+
+  /* send-back panel */
+  .sendback{border:1px solid var(--wrong);border-left:4px solid var(--wrong);background:var(--badbg);
+            border-radius:10px;padding:16px 18px;margin-top:14px}
+  .sendback .hd{font-weight:800;color:var(--wrong);font-size:14px;letter-spacing:.3px;
+                text-transform:uppercase;margin-bottom:8px}
+  .sendback .slidecopy{background:var(--paper);border:1px solid var(--line);border-radius:8px;
+                       padding:14px 16px;font-size:14.5px;line-height:1.6}
+  .sendback .slidecopy h4{font-family:Georgia,serif;font-size:16px;margin-bottom:8px}
+  .sendback .slidecopy .pts div{display:flex;gap:9px;margin-bottom:6px}
+  .sendback .slidecopy .pts .b{color:var(--accent);font-weight:800;flex:none}
+  .dwell{font-size:12.5px;color:var(--muted);margin-top:10px;font-weight:600}
+
+  /* stage pips */
+  .stagepath{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;justify-content:center}
+  .spip{font-size:11px;font-weight:700;letter-spacing:.3px;padding:4px 10px;border-radius:12px;
+        border:1px solid var(--line-soft);color:var(--muted);background:var(--bg)}
+  .spip.done{border-color:var(--correct);color:var(--correct);background:var(--okbg)}
+  .spip.now{border-color:var(--accent);color:var(--accent);background:var(--paper)}
+
+  /* summary */
+  .sumbox{border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0;text-align:center}
+  .sumbox .big{font-family:Georgia,serif;font-size:31px;font-weight:700}
+  .sumbox .big.good{color:var(--correct)} .sumbox .big.mid{color:var(--gold)} .sumbox .big.low{color:var(--wrong)}
+
+  /* ---------- target calculator ---------- */
+  .calcgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:14px 0}
+  .calcfield label{display:block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+                   color:var(--muted);margin-bottom:5px}
+  .calcfield input,.calcfield select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;
+        font-size:16px;font-family:ui-monospace,Menlo,monospace;background:var(--paper);color:var(--ink)}
+  .resultband{border:1px solid var(--line);border-left:4px solid var(--gold);background:var(--gold-soft);
+              border-radius:10px;padding:16px 18px;margin-top:6px}
+  .resultband .big{font-family:Georgia,serif;font-size:29px;font-weight:700;color:var(--ink)}
+  .resultband .lbl{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .ladder{margin-top:12px;display:grid;gap:6px}
+  .ladder .r{display:grid;grid-template-columns:112px 1fr;gap:10px;font-size:14px;align-items:baseline}
+  .ladder .k{font-weight:800;color:var(--accent);font-size:12.5px;text-transform:uppercase;letter-spacing:.05em}
+  .debtnote{margin-top:12px;font-size:14px;line-height:1.6;border-top:1px dashed var(--line);padding-top:10px}
+  .debtnote b{color:var(--wrong)}
+
+  /* ---------- report ---------- */
+  .repgrid{width:100%;border-collapse:collapse;margin:12px 0}
+  .repgrid th,.repgrid td{border:1px solid var(--line);padding:8px 10px;font-size:13.5px;text-align:left}
+  .repgrid th{background:var(--bg);font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  .repgrid td.score{font-weight:700;white-space:nowrap}
+  .repgrid td.nf{color:var(--muted);font-style:italic}
+  .idrow{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  .idrow label{font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
+  .idrow input{padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:15px;
+               font-family:inherit;background:var(--paper);color:var(--ink)}
+  .vcode{font-family:ui-monospace,Menlo,monospace;font-size:13px;letter-spacing:2px}
+
+  /* ---------- paper diary ---------- */
+  .diarysheet{border:1px solid var(--line);border-radius:10px;padding:18px;background:var(--paper);margin-top:12px}
+  .diarysheet h3{margin-top:0}
+  table.diary{width:100%;border-collapse:collapse;margin-top:10px}
+  table.diary th,table.diary td{border:1px solid var(--ink);padding:0;text-align:left}
+  table.diary th{background:var(--bg);font-size:10.5px;text-transform:uppercase;letter-spacing:.3px;
+                 padding:6px 5px;line-height:1.25;font-weight:800}
+  table.diary td{height:34px;padding:4px 5px;font-size:12px}
+  table.diary td.night{font-weight:700;white-space:nowrap;font-size:11.5px}
+  .diaryscroll{overflow-x:auto}
+  .diaryrules{font-size:12.5px;color:var(--muted);line-height:1.6;margin-top:10px}
+  .diaryrules b{color:var(--ink)}
+
+  /* ---------- curriculum ---------- */
+  .vc{background:var(--accent-soft);border-radius:8px;padding:12px 15px;font-size:13px;line-height:1.55;margin-top:12px}
+  .vc .hd{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:6px}
+  .vc li{margin:5px 0 5px 18px}
+  .vc em{color:var(--ink)}
+
+  details.tnote{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-top:16px}
+  details.tnote summary{cursor:pointer;font-weight:700;font-size:13.5px;color:var(--muted);letter-spacing:.02em}
+  details.tnote .in{margin-top:12px;font-size:13.5px;line-height:1.6}
+  details.tnote .in ol{margin:8px 0 0 20px}
+  details.tnote .in li{margin-bottom:6px}
+
+  @media print{
+    body{background:#fff;padding:0;display:block}
+    .container{border:none;box-shadow:none;max-width:100%;padding:6px;background:#fff}
+    .noprint{display:none !important}
+    .pagebreak{break-before:page;page-break-before:always}
+    table.diary td{height:44px}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+  @media (max-width:560px){
+    .container{padding:16px}
+    .step .tag{max-width:74px;font-size:10px}
+    .ladder .r{grid-template-columns:1fr}
+  }
+</style>
+
+</head>
+<body>
+<div class="container">
+
+<!-- ============ HOME ============ -->
+<div class="screen active" id="scr-home">
+  <h1>Sleep Lab</h1>
+  <p class="subtitle">Work &amp; Life Education · Session 5 · Year 10</p>
+  <div class="steps" id="home-steps"></div>
+  <p class="muted" style="text-align:center;max-width:640px;margin:0 auto">
+    Your <b>first attempt</b> at every question is what goes on your report. Get a briefing question wrong and you are
+    sent back to that slide before you can try again. Wrong answers keep coming back until you've mastered them —
+    but the report remembers the first try.
+  </p>
+  <div class="nextrow noprint" style="justify-content:center">
+    <button class="linkbtn" id="resetAllBtn" type="button">start over (clears everything)</button>
+  </div>
+  <div class="vc">
+    <div class="hd">Victorian Curriculum F–10 Version 2.0 · alignment</div>
+    <ul>
+      <li><b>Health and Physical Education, Levels 9–10</b> — students <em>access, synthesise and apply health
+        information from credible sources to propose and justify responses to situations in the home, in the school
+        and the community</em>, and <em>apply health and physical activity information to devise and implement
+        personalised plans for maintaining healthy and active habits</em>.</li>
+      <li><b>Personal and Social Capability, Levels 9–10</b> — students <em>develop criteria to appraise personal
+        qualities and use these to design strategies to plan for the future or address a challenge</em>.</li>
+      <li><b>Critical and Creative Thinking</b> — the source-evaluation questions in Step 5 ask students to judge
+        the reliability of a health claim and to separate correlation from causation.</li>
+    </ul>
+    <p class="muted" style="margin-top:8px">Descriptor wording is quoted from VCAA. Confirm the current alphanumeric
+      codes against <b>victoriancurriculum.vcaa.vic.edu.au</b> before pasting into a planning document — codes changed
+      between Version 1.0 and Version 2.0.</p>
+  </div>
+</div>
+
+<!-- ============ STUDY ============ -->
+<div class="screen" id="scr-study">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">STEP 1 · WORD LIST</span>
+  </div>
+  <h2>Ten words you need before the briefing</h2>
+  <p class="muted" style="margin-bottom:14px">Read each one: its meaning, and the <b>morphemes</b> — the prefix, root
+    and suffix — that build that meaning. The word builders in Step 3 use near-miss decoy morphemes. Knowing what each
+    piece <i>means</i> is how you tell <span style="font-style:italic">insomnia</span> from
+    <span style="font-style:italic">hypersomnia</span>, or <span style="font-style:italic">chronotype</span> from
+    <span style="font-style:italic">chromotype</span>.</p>
+  <div id="study-list"></div>
+  <div class="nextrow noprint">
+    <button class="btn btn-primary" id="markStudiedBtn" type="button">I've read them all — go to the briefing &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDES ============ -->
+<div class="screen" id="scr-slides">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="slide-prog">STEP 2 · THE BRIEFING</span>
+  </div>
+  <div class="pips noprint" id="slide-pips"></div>
+  <div class="slidewrap" id="slide-body"></div>
+  <div class="slidenav noprint">
+    <button class="btn btn-ghost" id="slidePrev" type="button">&larr; Back</button>
+    <button class="btn btn-ghost" id="presentBtn" type="button">Present mode</button>
+    <button class="btn btn-ghost hide-present" id="slideToQ" type="button" hidden>Skip to the questions &rarr;</button>
+    <span class="sp"></span>
+    <button class="btn btn-primary" id="slideNext" type="button">Next &rarr;</button>
+  </div>
+  <p class="muted hide-present" style="margin-top:12px;text-align:center" id="slideFoot"></p>
+</div>
+
+<!-- ============ CHECKPOINTS ============ -->
+<div class="screen" id="scr-check">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="check-prog">STEP 2 · CHECKPOINTS</span>
+  </div>
+  <div id="check-body"></div>
+</div>
+
+<!-- ============ WORD BUILDERS ============ -->
+<div class="screen" id="scr-build">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="build-prog">STEP 3 · WORD BUILDERS</span>
+  </div>
+  <div id="build-body"></div>
+</div>
+
+<!-- ============ TARGET ============ -->
+<div class="screen" id="scr-target">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">STEP 4 · FIND YOUR TARGET</span>
+  </div>
+  <div id="target-body"></div>
+</div>
+
+<!-- ============ AUDIT ============ -->
+<div class="screen" id="scr-audit">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="audit-prog">STEP 5 · SLEEP AUDIT</span>
+  </div>
+  <div id="audit-body"></div>
+</div>
+
+<!-- ============ REPORT ============ -->
+<div class="screen" id="scr-report">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">REPORT &amp; SLEEP DIARY</span>
+  </div>
+  <div id="report-body"></div>
+</div>
+
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   SLEEP LAB — Work & Life Education, Session 5 (Year 10)
+   Standalone. Nothing leaves the browser.
+
+   STEP 1 · WORD LIST — ten words frontloaded with their morphemes.
+   STEP 2 · THE BRIEFING — nine slides (teacher-led, Present mode
+     scales them for the projector), then a checkpoint question per
+     slide. A wrong answer SENDS THE STUDENT BACK to that slide with
+     a forced re-read dwell, and the question re-queues at the back.
+     First attempts are what the report records.
+   STEP 3 · WORD BUILDERS — assemble each word from its morphemes
+     against near-miss decoys. Wrong tiles shake; wrong words loop.
+   STEP 4 · FIND YOUR TARGET — work back from wake time through
+     sleep latency to lights-out, and project the week's sleep debt.
+   STEP 5 · SLEEP AUDIT — two harder sections (reading the evidence,
+     applying it). Under 80% first-attempt on a section = reteach
+     plus a fresh parallel set.
+   REPORT — name, student ID, print to PDF, and the seven-night
+     PAPER sleep diary that runs for the coming week.
+   ============================================================ */
+
+/* ================= WORD LIST ================= */
+const WORDS = [
+  { w:"Circadian", pos:"adjective",
+    meaning:"Following a cycle of roughly 24 hours.",
+    tiles:[["circa","around, about"],["di","day (Latin dies)"],["-an","relating to"]],
+    decoys:[["circum-","all the way round"],["-ary","connected with"]],
+    note:"Literally <b>around a day</b>. The point of the word is <i>around</i> — the human body clock free-runs slightly longer than 24 hours, which is why it needs a daily reset from light." },
+  { w:"Homeostasis", pos:"noun",
+    meaning:"The body's process of pushing itself back to a steady internal state.",
+    tiles:[["homeo-","same, steady"],["stasis","standing, staying"]],
+    decoys:[["hetero-","different"],["-ism","system or belief"]],
+    note:"Sleep pressure is <b>homeostatic</b>: the longer you stay awake, the harder your body pushes you toward sleep. <i>Hetero-</i> would mean the opposite — different, not same." },
+  { w:"Adolescence", pos:"noun",
+    meaning:"The stage of growing from a child into an adult.",
+    tiles:[["ad-","toward"],["olesc","growing"],["-ence","state or stage"]],
+    decoys:[["ab-","away from"],["-escent","becoming (makes a person/adjective)"]],
+    note:"Literally <b>the stage of growing toward</b> adulthood. Swap the suffix and you change the job of the word: <i>-escent</i> gives <b>adolescent</b>, the person; <i>-ence</i> gives the stage itself." },
+  { w:"Insomnia", pos:"noun",
+    meaning:"Ongoing difficulty falling asleep or staying asleep.",
+    tiles:[["in-","not"],["somn","sleep"],["-ia","medical condition"]],
+    decoys:[["hyper-","over, too much"],["somat","body"]],
+    note:"<i>In-</i> = not. Change one morpheme and you get the opposite condition: <b>hypersomnia</b> is sleeping too much. <i>Somat-</i> is a different root altogether — it gives <b>somatic</b>, meaning of the body." },
+  { w:"Latency", pos:"noun",
+    meaning:"A delay before something happens. Sleep latency is how long it takes you to fall asleep.",
+    tiles:[["lat","to lie hidden"],["-ency","state of"]],
+    decoys:[["later-","side"],["-ition","act of"]],
+    note:"You are lying there and sleep is still hidden. Do not confuse the root with <i>later-</i> (side), which gives <b>lateral</b>. You will record your sleep latency every night this week." },
+  { w:"Consolidation", pos:"noun",
+    meaning:"The process of making something firm, solid and lasting.",
+    tiles:[["con-","together"],["solid","firm, whole"],["-ation","process of"]],
+    decoys:[["dis-","apart"],["-ary","relating to"]],
+    note:"<b>Memory consolidation</b> is the job sleep does on the day's learning — pulling loose fragments together and making them solid. <i>Dis-</i> would give the reverse: pulling apart." },
+  { w:"Chronotype", pos:"noun",
+    meaning:"Your natural timing preference — early lark, night owl, or somewhere between.",
+    tiles:[["chrono","time"],["type","stamp, kind"]],
+    decoys:[["chrom-","colour"],["-ology","the study of"]],
+    note:"A <b>type</b> defined by <b>time</b>. The decoy is a real trap: <i>chrom-</i> gives <b>chromotype</b>, about colour. One letter, a completely different word." },
+  { w:"Deprivation", pos:"noun",
+    meaning:"Having something taken away that you need.",
+    tiles:[["de-","away from"],["priv","one's own"],["-ation","process of"]],
+    decoys:[["pre-","before"],["-ative","tending to"]],
+    note:"Literally <b>the process of having what is yours taken away</b>. The root <i>priv</i> also gives private, privacy and privilege — all about what belongs to you." },
+  { w:"Synchronise", pos:"verb",
+    meaning:"To make two or more things run on the same timing.",
+    tiles:[["syn-","together"],["chron","time"],["-ise","to make"]],
+    decoys:[["sym-","together (only before b, m, p)"],["-ist","a person who"]],
+    note:"To <b>make times run together</b>. <i>Syn-</i> only becomes <i>sym-</i> in front of b, m or p — symphony, sympathy, symbol. Not in front of <i>chron</i>." },
+  { w:"Restorative", pos:"adjective",
+    meaning:"Having the power to build something back up again.",
+    tiles:[["re-","again"],["stor","to stand up, set up"],["-ative","having the power to"]],
+    decoys:[["retro-","backwards"],["-ory","a place for"]],
+    note:"Sleep is <b>restorative</b> — it sets you up again. <i>Retro-</i> means backwards, not again; <i>-ory</i> would name a place, as in dormitory (a place for sleeping, from <i>dorm</i>)." }
+];
+
+/* ================= SLIDES + CHECKPOINTS ================= */
+const SLIDES = [
+  { id:"s1", title:"Two processes, not one",
+    lead:"Whether you feel sleepy right now is the result of two systems running at the same time — and they can disagree.",
+    pts:[
+      ["S","<b>Process S — sleep pressure.</b> A chemical called adenosine builds in the brain the entire time you are awake. The longer you are up, the heavier the pressure. Sleep clears it."],
+      ["C","<b>Process C — the circadian alerting signal.</b> Your body clock actively pushes alertness <i>up</i> at certain times of day, independent of how long you've been awake."]
+    ],
+    pull:{ lbl:"Why this matters", t:"At about 9–10pm your sleep pressure is already high — but the circadian alerting signal is near its evening peak and masks it. That is the “second wind”. It is not evidence that you don't need sleep." },
+    src:"Two-process model of sleep regulation (Borbély) — the standard framework in sleep science.",
+    q:{ kind:"mcq",
+        q:"You have been awake since 6.30am. At 10.30pm you suddenly feel wide awake and start a new task. Using the two-process model, what is the best explanation?",
+        opts:[
+          "Sleep pressure has dropped because the evening rest reduced adenosine.",
+          "The circadian alerting signal is near its evening peak and is temporarily masking high sleep pressure.",
+          "Your body clock has moved forward, so you now need less sleep tonight.",
+          "The task is interesting, so Process S has been switched off."
+        ],
+        a:1,
+        explain:"Sleep pressure has been building for 16 hours and has <b>not</b> dropped — it is being <i>masked</i> by the circadian alerting signal, which peaks late in the evening. Nothing has reduced your need for sleep; you have simply stopped feeling it." } },
+
+  { id:"s2", title:"A night has a shape",
+    lead:"Sleep is not eight flat hours of the same thing. You cycle roughly every 90 minutes, and the two kinds of sleep are unevenly spread across the night.",
+    pts:[
+      ["1","<b>Deep sleep (slow-wave)</b> is front-loaded — most of it happens in the first half of the night."],
+      ["2","<b>REM sleep</b> is back-loaded — the REM periods get longer and longer toward morning."],
+      ["3","A full night is about <b>4 to 6 cycles</b>. Cutting the night short does not shave a little off everything equally."]
+    ],
+    pull:{ lbl:"The consequence", t:"Going to bed at your usual time but getting up two hours early does not cost you “two hours of sleep” evenly. It removes the part of the night that is almost entirely REM." },
+    src:"Standard sleep architecture; consistent with NIH curriculum supplement Sleep, Sleep Disorders and Biological Rhythms.",
+    q:{ kind:"mcq",
+        q:"Two students both go to bed at 11pm. Ana wakes at 7am. Beau sets an alarm for 5am to finish an assignment. Compared with Ana, what has Beau <i>disproportionately</i> lost?",
+        opts:[
+          "Deep slow-wave sleep, because that is what the last two hours contain.",
+          "Nothing in particular — he has lost 25% of every stage evenly.",
+          "REM sleep, because REM periods are longest in the final hours of the night.",
+          "Stage 1 light sleep, because that is what is nearest to waking."
+        ],
+        a:2,
+        explain:"REM is <b>back-loaded</b>. Beau kept most of his deep sleep, which comes early, and cut out the part of the night where REM periods are longest. The loss is not spread evenly across stages." } },
+
+  { id:"s3", title:"The teenage clock really does run late",
+    lead:"Feeling alert at 11pm is not a character flaw and it is not proof you are a “night person” for life. Two measurable things change during adolescence.",
+    pts:[
+      ["1","<b>The circadian phase delays</b> by roughly one to two hours — the body clock's whole schedule shifts later."],
+      ["2","<b>Sleep pressure builds more slowly</b> across the evening than it does in younger children, so the pull toward bed arrives later."],
+      ["3","The requirement does <b>not</b> change: 8–10 hours for ages 14–17 remains the Australian benchmark."]
+    ],
+    pull:{ lbl:"The squeeze", t:"A later clock plus an unchanged school start time is a structural problem, not a willpower problem. It is also why the fix is usually to move the <i>morning</i> — light and a fixed wake time — rather than simply ordering an earlier bedtime." },
+    src:"Better Health Channel (Vic); Royal Children's Hospital Melbourne; Australian Government sleep guidelines.",
+    q:{ kind:"mcq",
+        q:"A student argues: “My body clock has shifted later, so biologically I need less sleep than a 12-year-old.” What is wrong with this reasoning?",
+        opts:[
+          "Nothing — a later clock does mean a shorter sleep requirement.",
+          "The clock shifts later but the 8–10 hour requirement is unchanged; timing and duration are two different things.",
+          "The body clock does not actually shift during adolescence.",
+          "It is wrong because teenagers need more sleep than younger children, not the same."
+        ],
+        a:1,
+        explain:"The shift is in <b>when</b> the body wants to sleep, not <b>how much</b> it needs. Confusing timing with duration is the single most common error in this topic. The 8–10 hour benchmark for ages 14–17 does not move." } },
+
+  { id:"s4", title:"You cannot feel your own sleep debt",
+    lead:"This is the finding that changes how you should read your own experience.",
+    pts:[
+      ["1","In controlled studies, people restricted to about six hours a night show <b>objective performance</b> — reaction time, attention, error rate — that keeps declining day after day."],
+      ["2","Their <b>self-rated sleepiness</b> rises for the first few days and then levels off. They stop feeling worse."],
+      ["3","So after a week, someone can genuinely report feeling “fine” while performing measurably worse than they did on day one."]
+    ],
+    pull:{ lbl:"The trap", t:"“I'm fine on six hours” is a statement about how you feel, not about how you perform. Those two things come apart under chronic restriction — which is exactly why a written diary beats a memory." },
+    src:"Chronic sleep restriction research (Van Dongen et al., 2003) — a widely replicated finding.",
+    q:{ kind:"mcq",
+        q:"Why does this finding make self-report an unreliable way to judge whether you are getting enough sleep?",
+        opts:[
+          "Because people deliberately lie about how much sleep they get.",
+          "Because subjective sleepiness plateaus while objective performance keeps declining, so feeling fine stops tracking being fine.",
+          "Because sleep debt only affects mood, which is hard to describe.",
+          "Because most people cannot remember what time they went to bed."
+        ],
+        a:1,
+        explain:"The two measures <b>come apart</b>. Feeling adapted is not the same as being adapted. This is the reason the task this week is a written record made each morning, not a judgement made at the end of the week." } },
+
+  { id:"s5", title:"Social jetlag",
+    lead:"There is a way to measure the gap between your school-week sleep and your weekend sleep — and it behaves like flying between time zones.",
+    pts:[
+      ["1","Find the <b>midpoint</b> of your sleep: halfway between falling asleep and waking. School night 11pm→7am gives a midpoint of 3am."],
+      ["2","Do the same for a free night. 1am→10am gives a midpoint of 5.30am."],
+      ["3","The difference — here <b>2.5 hours</b> — is your social jetlag. Your body has effectively changed time zone and must change back by Monday."]
+    ],
+    pull:{ lbl:"Remember the reset rate", t:"The body clock can usually only be shifted by about one to two hours per day, even with well-timed light. A 2.5-hour weekend shift cannot be undone by Monday morning." },
+    src:"Social jetlag (Wittmann & Roenneberg); reset rate from the NIH curriculum supplement.",
+    q:{ kind:"num",
+        q:"A student sleeps 11.30pm → 6.30am on school nights, and 1.30am → 10.30am on Saturday. What is their social jetlag, in hours?",
+        a:3, tol:0.05, unit:"hours",
+        hint:"Work out each midpoint first, then find the difference between the two midpoints.",
+        explain:"School night is 11.30pm → 6.30am, so 7 hours, and the midpoint sits 3½ hours in: <b>3.00am</b>. Saturday is 1.30am → 10.30am, so 9 hours, midpoint 4½ hours in: <b>6.00am</b>. The social jetlag is the gap between the midpoints — <b>3 hours</b>. If you answered 1.5, you halved a figure that the midpoint calculation had already halved." } },
+
+  { id:"s6", title:"Light is the main lever",
+    lead:"The body clock is set by light more than by anything else. Which direction it moves depends entirely on <i>when</i> the light arrives.",
+    pts:[
+      ["1","<b>Light in the morning pulls the clock earlier.</b> This is the one that helps you fall asleep sooner tonight."],
+      ["2","<b>Light in the late evening pushes the clock later.</b> This is the one that makes tomorrow worse."],
+      ["3","Outdoor daylight is far more intense than indoor lighting — stepping outside for a few minutes after waking does more than any lamp."]
+    ],
+    pull:{ lbl:"Where students get this wrong", t:"Most people try to fix sleep by controlling the night. The higher-leverage change is usually a fixed wake time plus getting outside soon after waking — because that is the input that moves the clock in the direction you want." },
+    src:"Better Health Channel (Vic); Royal Children's Hospital Melbourne.",
+    q:{ kind:"mcq",
+        q:"A student wants to fall asleep an hour earlier than they currently can. Which single change targets the underlying body clock most directly?",
+        opts:[
+          "Lying in bed an hour earlier and waiting for sleep.",
+          "Getting outside in daylight soon after a fixed wake-up time each morning.",
+          "Sleeping in an extra hour on the weekend to catch up first.",
+          "Turning the bedroom light off an hour before bed but keeping the phone."
+        ],
+        a:1,
+        explain:"Morning light <b>advances</b> the clock — it moves your natural sleep timing earlier, which is the actual goal. Lying in bed earlier does not shift the clock and often just adds frustration; a weekend sleep-in shifts it the wrong way." } },
+
+  { id:"s7", title:"Caffeine has a half-life",
+    lead:"Caffeine works by blocking the adenosine receptors that Process S depends on. It does not remove the adenosine — it hides it. And it leaves your system slowly.",
+    pts:[
+      ["1","The half-life of caffeine is roughly <b>5 to 6 hours</b> in a typical adult: after that long, about half the dose is still active."],
+      ["2","So a large energy drink at <b>3pm</b> still has around half its caffeine working at <b>9pm</b>, and about a quarter at <b>3am</b>."],
+      ["3","When it finally clears, the adenosine that built up the whole time is still waiting. That is the crash."]
+    ],
+    pull:{ lbl:"Also count", t:"Coffee, tea, cola, chocolate, pre-workout and some medicines. Energy drinks are the usual culprit at school because the dose is large and the timing is late." },
+    src:"Better Health Channel (Vic); Royal Children's Hospital Melbourne.",
+    q:{ kind:"num",
+        q:"Treat caffeine's half-life as 6 hours. A student drinks a caffeine dose of 160 mg at 4pm. Approximately how many mg are still active at 10pm?",
+        a:80, tol:1, unit:"mg",
+        hint:"How many half-lives have passed between 4pm and 10pm?",
+        explain:"4pm to 10pm is <b>6 hours</b> — exactly one half-life. Half of 160 mg is <b>80 mg</b>. By 4am, two more half-lives on, roughly 20 mg would still be circulating." } },
+
+  { id:"s8", title:"What short sleep actually costs",
+    lead:"Four systems, from the strongest evidence to the weakest. Notice that they are not equally well established — that matters for how confidently you should state them.",
+    pts:[
+      ["1","<b>Learning.</b> Sleep consolidates the day's learning. Short sleep degrades attention, working memory and the ability to encode new material — this is very well established."],
+      ["2","<b>Safety.</b> Fatigue slows reaction time and produces microsleeps. Drowsy driving is a recognised major contributor to road deaths, and young drivers are heavily over-represented."],
+      ["3","<b>Mood.</b> Poor sleep in adolescence is a consistent predictor of later anxiety and depression. Most of this evidence is correlational — it shows a strong link, not a proven one-way cause."],
+      ["4","<b>Body systems.</b> Sleep supports growth, recovery and immune function. Specific percentage claims that circulate in slide decks are often traceable to a single small study."]
+    ],
+    pull:{ lbl:"Say it accurately", t:"“Poor sleep in adolescence is a strong predictor of later depression and anxiety” is defensible. “Not sleeping gives you depression” is not — and overstating it is the fastest way to lose an audience that has heard it before." },
+    src:"Australian Government sleep guidelines; Better Health Channel; RCH Melbourne; NIH.",
+    q:{ kind:"mcq",
+        q:"Which of these four statements is stated at the level of confidence the evidence actually supports?",
+        opts:[
+          "Sleeping under 8 hours in Year 10 will cause depression.",
+          "Poor sleep across adolescence is consistently associated with higher rates of later depression and anxiety.",
+          "Sleep has no proven relationship with mental health.",
+          "One bad night of sleep measurably raises your long-term risk of heart disease."
+        ],
+        a:1,
+        explain:"Option B matches the evidence: a strong, repeatedly observed <b>association</b> across many studies. Option A overstates it into single-cause certainty, option C ignores the evidence entirely, and option D takes a long-term population-level link and misapplies it to one night." } },
+
+  { id:"s9", title:"Judging a sleep claim",
+    lead:"You will meet sleep claims from apps, supplements, influencers and slide decks — including this one. Three questions decide whether a claim is worth acting on.",
+    pts:[
+      ["1","<b>Who is the source, and what do they gain?</b> A health department, a children's hospital and a company selling a sleep supplement are not equivalent authorities."],
+      ["2","<b>Is it a measurement or an estimate?</b> A wearable's “sleep score” is an estimate built from movement and heart rate. It is not a clinical sleep measurement and should not override how you actually function."],
+      ["3","<b>Does the claim match the study behind it?</b> A finding about adults, or about 30 people, gets quietly reported as though it applies to everyone."]
+    ],
+    pull:{ lbl:"Australian rule worth knowing", t:"For young people, melatonin is prescription-only in Australia and approved for limited circumstances. Products bought online or brought in from overseas are not a shortcut around that. Behavioural change and finding the cause come first." },
+    src:"eSafety Commissioner; Therapeutic Goods Administration (melatonin); Centre for Clinical Interventions.",
+    q:{ kind:"mcq",
+        q:"A slide deck states: “Not getting enough sleep causes the number of T cells in a teenager's body to fall by 30 to 40%.” Applying the three questions, what is the best response?",
+        opts:[
+          "Accept it — it is a specific number, so it must come from research.",
+          "Reject it outright, because immune effects of sleep loss are not real.",
+          "Treat it as unverified until traced to its study: check who was measured, how many, and whether the finding was about teenagers at all.",
+          "Accept it if the slide deck was made by a teacher."
+        ],
+        a:2,
+        explain:"A precise-sounding number is not evidence of a reliable source — it is often the sign of a single small study travelling a long way without its context. Sleep does support immune function; the correct move is to trace <b>this</b> claim rather than accept or dismiss it on the strength of the number." } }
+];
+
+/* ================= SLEEP AUDIT (harder, two sections) ================= */
+const AUDIT = [
+  { id:"a1", title:"Reading the evidence", core:true,
+    teach:`<b>What this section is testing.</b> Not whether you can recall a fact — whether you can read a claim
+      carefully enough to catch what is wrong with it. Watch for four moves:
+      <ul>
+        <li>Confusing <b>timing</b> (when you sleep) with <b>duration</b> (how much).</li>
+        <li>Turning an <b>association</b> into a <b>cause</b>.</li>
+        <li>Applying a population-level, long-term risk to a <b>single night</b>.</li>
+        <li>Treating an <b>estimate</b> (a wearable score, a self-rating) as a <b>measurement</b>.</li>
+      </ul>`,
+    reteach:`<b>Slow down and label the claim before you judge it.</b> For each option, write two words in your head:
+      <ul>
+        <li>Is this about <i>when</i> or <i>how much</i>? Those are different claims and only one is usually supported.</li>
+        <li>Is the evidence <i>correlational</i> (things occur together) or <i>experimental</i> (something was changed
+            and the effect measured)? Only the second licenses the word <b>causes</b>.</li>
+        <li>Does the scale match? A lifetime risk statement cannot be attached to one Tuesday night.</li>
+        <li>Is the number <i>measured</i> or <i>inferred</i>? A sleep tracker infers from movement and heart rate.</li>
+      </ul>
+      Then pick the option that survives all four checks.`,
+    itemsA:[
+      { id:"a1a1", kind:"mcq",
+        q:"A student writes: “Research proves teenagers who use phones at night get depression.” Which single change makes the sentence defensible?",
+        opts:["Change “teenagers” to “some teenagers”.",
+              "Change “proves” to “suggests” and “get depression” to “report more symptoms of low mood”.",
+              "Add a percentage to make it more precise.",
+              "Change “phones” to “screens”."],
+        a:1,
+        explain:"The problem is the strength of the claim, not its vocabulary. <b>Proves</b> and <b>get depression</b> assert a one-way cause; the underlying research is largely correlational. Adding a percentage makes an unsupported claim sound more authoritative, not more accurate." },
+      { id:"a1a2", kind:"mcq",
+        q:"Which finding would give the <i>strongest</i> evidence that late screen use causes worse sleep, rather than just accompanying it?",
+        opts:["A survey showing students who use phones late also report worse sleep.",
+              "A study where students were randomly assigned to remove devices from the bedroom for two weeks, with sleep measured before and after.",
+              "Interviews with 200 students who say phones keep them awake.",
+              "A finding that phone sales and reported teen insomnia have both risen since 2010."],
+        a:1,
+        explain:"Only the second <b>changes something and measures the effect</b> — and random assignment rules out the possibility that students who already sleep badly are the ones reaching for phones. The last option is the classic trap: two things rising together over time is the weakest form of evidence there is." },
+      { id:"a1a3", kind:"mcq",
+        q:"A wearable reports a “sleep score” of 62/100 after a night the student felt rested and performed well at school. What is the most reasonable interpretation?",
+        opts:["The student was actually tired and did not notice.",
+              "The score is an estimate from movement and heart rate; how they functioned is the more meaningful signal here.",
+              "The device is broken and should be replaced.",
+              "Sleep scores are meaningless and should never be looked at."],
+        a:1,
+        explain:"A consumer sleep score is <b>inferred</b>, not measured in the clinical sense. It is not worthless — trends over weeks can be informative — but a single night's score should not override how the student actually functioned. Note that option A makes the same mistake in reverse to slide 4: there, feeling fine was unreliable across <i>chronic restriction</i>; here a single score is being trusted over a single day's real performance." },
+      { id:"a1a4", kind:"mcq",
+        q:"Which of these correctly separates timing from duration?",
+        opts:["Teenagers need less sleep because their body clock runs later.",
+              "Teenagers' body clocks run later, but their 8–10 hour requirement is unchanged.",
+              "Teenagers need more sleep because their body clock runs later.",
+              "Body clock timing and sleep duration are the same measure."],
+        a:1,
+        explain:"The adolescent phase delay moves <b>when</b> sleep is wanted. It does not move <b>how much</b> is needed. Options A and C both make the same category error in opposite directions." },
+      { id:"a1a5", kind:"mcq",
+        q:"Which statement applies evidence at the right scale?",
+        opts:["One night of four hours' sleep raises your lifetime risk of stroke.",
+              "Regularly poor sleep across many years is associated with higher cardiovascular risk, including stroke.",
+              "Sleep has no established link to cardiovascular health.",
+              "Sleeping badly this week will damage your heart."],
+        a:1,
+        explain:"The cardiovascular link is a <b>long-term, population-level</b> association. Attaching it to a single night, or to one bad week, misuses the evidence — and is the kind of overstatement that makes students stop believing the rest of the message." }
+    ],
+    itemsB:[
+      { id:"a1b1", kind:"mcq",
+        q:"A headline reads: “Study finds one hour less sleep drops exam marks by a full grade.” Before repeating it, what should you check first?",
+        opts:["Whether the newspaper is well known.",
+              "Who was studied, how many, and whether the study changed sleep or merely observed it.",
+              "Whether other headlines say something similar.",
+              "Whether the number sounds plausible."],
+        a:1,
+        explain:"Sample, population and design are what determine whether the claim transfers. Corroboration by other headlines usually means they share a single press release, not that the finding is replicated." },
+      { id:"a1b2", kind:"mcq",
+        q:"Which pair of statements shows correlation being wrongly upgraded to causation?",
+        opts:["“Late sleepers report lower marks” → “Late sleeping is linked to lower marks”.",
+              "“Late sleepers report lower marks” → “Sleeping late lowers your marks”.",
+              "“Sleep supports memory” → “Sleep supports memory consolidation”.",
+              "“Teen clocks shift later” → “Teen clocks shift about one to two hours later”."],
+        a:1,
+        explain:"Only B converts an observed pattern into a one-way causal claim. The others restate, specify or refine without changing the strength of the claim." },
+      { id:"a1b3", kind:"mcq",
+        q:"A supplement site claims its product is “clinically proven to reset your body clock overnight”. Which check most directly undermines the claim?",
+        opts:["The site has poor design.",
+              "The body clock can generally only be shifted by about one to two hours per day, so “reset overnight” contradicts established evidence — and the seller profits from the claim.",
+              "The product is expensive.",
+              "Other students say it did not work for them."],
+        a:1,
+        explain:"The claim collides with a well-established constraint on how fast circadian phase can shift, and the source has a direct commercial interest. Anecdotes and design are weak grounds by comparison." },
+      { id:"a1b4", kind:"mcq",
+        q:"Which statement about melatonin is accurate for a 15-year-old in Australia?",
+        opts:["It is available over the counter and is a normal first step for teenage sleep problems.",
+              "It is prescription-only for young people and approved for limited circumstances; behavioural strategies and finding the cause come first.",
+              "It is banned entirely in Australia.",
+              "It can be safely imported online because it is a natural hormone."],
+        a:1,
+        explain:"The TGA position is prescription-only for children and adolescents, for limited indications. Imported or online products sit outside that regulation, which is exactly why the advice is to speak with a GP or pharmacist first." },
+      { id:"a1b5", kind:"mcq",
+        q:"Which is the best-supported way to state what sleep does for learning?",
+        opts:["Sleep uploads the day's information into long-term memory perfectly.",
+              "Sleep supports the consolidation of the day's learning, and short sleep degrades attention and encoding.",
+              "Sleep has no effect on learning; only study time matters.",
+              "Sleep replaces the need for revision."],
+        a:1,
+        explain:"Option B is the accurate, hedged version — it names the mechanism (consolidation) and the measurable cost (attention and encoding) without overclaiming perfection or replacing effort." }
+    ] },
+
+  { id:"a2", title:"Applying it", core:true,
+    teach:`<b>What this section is testing.</b> Whether you can run the numbers and choose the intervention that
+      targets the actual mechanism. Two habits to carry in:
+      <ul>
+        <li><b>Work backwards from the fixed point.</b> The wake time is fixed by school. Everything else is calculated
+            from it — including the sleep latency you have to allow for.</li>
+        <li><b>Match the fix to the cause.</b> A body-clock problem needs a light-and-timing fix. A sleep-pressure
+            problem needs a caffeine or nap fix. An environment problem needs an environment fix. Using the wrong
+            lever is why most sleep plans fail.</li>
+      </ul>`,
+    reteach:`<b>Three things to get right before you answer.</b>
+      <ul>
+        <li><b>Latency is part of the maths.</b> Time in bed − time to fall asleep = time asleep. If you need 9 hours
+            asleep and take 30 minutes to drop off, lights out is 9 hours 30 before the alarm.</li>
+        <li><b>Sleep debt accumulates by subtraction, every night.</b> Nightly shortfall × number of nights. Do not
+            try to average it in your head — subtract each night from the target.</li>
+        <li><b>Name the mechanism before you pick the fix.</b> Ask: is this person's problem <i>when</i> their clock is
+            set, <i>how much</i> pressure has built, or <i>what the room is like</i>? Then choose the lever that acts on
+            that specific thing.</li>
+      </ul>`,
+    itemsA:[
+      { id:"a2a1", kind:"num",
+        q:"A student must wake at 6.45am. They want 9 hours of actual sleep and usually take 25 minutes to fall asleep. What time should lights be out? Enter as a 24-hour time, e.g. 21:40.",
+        kindTime:true, a:"21:20", unit:"24-hour time",
+        hint:"Subtract the sleep you need, then subtract the time it takes to get to sleep.",
+        explain:"6.45am minus 9 hours is <b>9.45pm</b> asleep. Allowing 25 minutes to fall asleep means lights out at <b>9.20pm — 21:20</b>. Forgetting latency is the most common error: it silently costs you half an hour every single night." },
+      { id:"a2a2", kind:"num",
+        q:"A student needs 9 hours a night. Monday to Friday they average 6 hours 30 minutes. Across those five school nights, what is their total sleep debt in hours?",
+        a:12.5, tol:0.05, unit:"hours",
+        hint:"Find the nightly shortfall first, then multiply by five.",
+        explain:"Shortfall is 9 − 6.5 = <b>2.5 hours</b> per night. Over five nights that is <b>12.5 hours</b> — more than an entire night's sleep missing by Friday. A single weekend sleep-in cannot repay it, and trying to shifts the clock further later." },
+      { id:"a2a3", kind:"mcq",
+        q:"A student falls asleep easily but wakes repeatedly and feels unrefreshed. Their room is warm, the TV is on a timer and a phone buzzes on the bedside table. Which lever is the right one to pull first?",
+        opts:["Move the wake-up time an hour later.",
+              "Fix the sleep environment — temperature, noise, light and the phone's position.",
+              "Cut caffeine after midday.",
+              "Get outside for morning light."],
+        a:1,
+        explain:"The described problem is <b>fragmented sleep</b>, and every named cause is environmental. Morning light and caffeine timing are the right tools for a different problem — trouble getting to sleep, or a clock set too late. Matching lever to mechanism is the whole skill." },
+      { id:"a2a4", kind:"mcq",
+        q:"A student cannot fall asleep before 1am and must wake at 7am. They want to shift to a midnight sleep onset. What is the most realistic plan?",
+        opts:["Go to bed at midnight tonight and stay there until they fall asleep.",
+              "Shift the wake time and the wind-down earlier by 15–20 minutes every few days, holding a fixed wake time and getting morning light.",
+              "Stay up all night once to reset the clock completely.",
+              "Sleep in until 11am on the weekend to build up a reserve."],
+        a:1,
+        explain:"The clock shifts about <b>one to two hours per day at best</b>, and only with the right cues. Small stepped changes anchored to a fixed wake time and morning light work with that constraint. Options C and D both push the clock in the wrong direction." },
+      { id:"a2a5", kind:"num",
+        q:"Take caffeine's half-life as 5 hours. A student has 200 mg at 2pm. Roughly how many mg remain active at midnight? Round to the nearest whole mg.",
+        a:50, tol:2, unit:"mg",
+        hint:"How many complete half-lives fit between 2pm and midnight?",
+        explain:"2pm to midnight is <b>10 hours</b> — two half-lives. 200 → 100 → <b>50 mg</b>. That is roughly a strong cup of coffee's worth still circulating at the exact moment they are trying to fall asleep." }
+    ],
+    itemsB:[
+      { id:"a2b1", kind:"num",
+        q:"A student must wake at 7.15am, wants 8 hours 30 minutes of actual sleep, and takes about 20 minutes to fall asleep. What time should lights be out? Enter as a 24-hour time.",
+        kindTime:true, a:"22:25", unit:"24-hour time",
+        hint:"Subtract the sleep needed from the wake time, then subtract the latency.",
+        explain:"7.15am minus 8 hours 30 is <b>10.45pm</b> asleep; minus 20 minutes latency gives lights out at <b>10.25pm — 22:25</b>." },
+      { id:"a2b2", kind:"num",
+        q:"A student needs 9 hours. Their week is: 7h, 6h, 6h30, 7h, 5h30. What is the total sleep debt across those five nights, in hours?",
+        a:13, tol:0.05, unit:"hours",
+        hint:"Subtract each night from 9, then add the five shortfalls.",
+        explain:"Shortfalls are 2 + 3 + 2.5 + 2 + 3.5 = <b>13 hours</b>. Note that no single night looks catastrophic — the damage is entirely in the accumulation, which is exactly why it is hard to notice from the inside." },
+      { id:"a2b3", kind:"mcq",
+        q:"A student takes over an hour to fall asleep, plays a competitive game until 11pm, and has an energy drink at training at 5pm. Which two changes target the causes most directly?",
+        opts:["A later wake time and a darker room.",
+              "Ending high-arousal gaming well before bed, and moving the caffeine much earlier in the day.",
+              "Morning light and a cooler room.",
+              "A longer weekend sleep-in and a earlier dinner."],
+        a:1,
+        explain:"Long sleep latency here has two named causes: <b>high arousal</b> close to bed and <b>caffeine still active</b> at bedtime — a 5pm dose is roughly half-strength at 11pm. Morning light is a good habit but treats a different problem." },
+      { id:"a2b4", kind:"mcq",
+        q:"Which weekend plan best limits social jetlag while still allowing extra rest?",
+        opts:["Sleep in three hours later on both days.",
+              "Keep the wake time within about an hour of the school-week time, and add a short early-afternoon nap if needed.",
+              "Stay up two hours later and wake at the usual time.",
+              "Keep the same schedule but skip breakfast."],
+        a:1,
+        explain:"Holding the wake time roughly steady keeps the sleep midpoint from drifting, which is what social jetlag measures. A short early-afternoon nap adds recovery without pushing the clock later the way a long sleep-in does." },
+      { id:"a2b5", kind:"num",
+        q:"A student sleeps 12.00am → 7.00am on school nights and 2.00am → 11.00am on Sunday morning. What is their social jetlag in hours?",
+        a:3, tol:0.05, unit:"hours",
+        hint:"Find the midpoint of each sleep period, then the gap between the midpoints.",
+        explain:"School-night midpoint: <b>3.30am</b>. Weekend midpoint: <b>6.30am</b>. Social jetlag is <b>3 hours</b> — roughly the equivalent of flying to Perth and back every weekend." }
+    ] }
+];
+
+/* ================= STATE ================= */
+const KEY = "sleeplab.v1";
+let S = load();
+function blank(){
+  return { studied:false, slidesSeen:[], slidesDone:false,
+           first:{}, done:{}, sendbacks:0, checkDone:false,
+           buildDone:{}, buildFirst:{}, target:null,
+           reteach:{}, retryScores:{},
+           name:"", sid:"", startedAt:null, finishedAt:null };
+}
+function load(){ try{ const s=JSON.parse(localStorage.getItem(KEY)); return (s&&s.first)?s:blank(); }catch(e){ return blank(); } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+function el(id){ return document.getElementById(id); }
+/* The checkpoint, word-builder and audit screens all build a task shell with the
+   same ids (#ansarea, #fb, #nextrow, #numin). A student can leave any of them
+   part-finished via the home link, so those ids can co-exist in the document.
+   Every lookup inside a task shell goes through its own screen root, never
+   getElementById, or it can pick up a stale element on a hidden screen. */
+function scoped(rootId){
+  return function(sel){ const r = el(rootId); return r ? r.querySelector(sel) : null; };
+}
+const qc = scoped("check-body");   // step 2 checkpoints
+const qb = scoped("build-body");   // step 3 word builders
+const qa = scoped("audit-body");   // step 5 audit
+function esc(t){ const d=document.createElement("div"); d.textContent=t==null?"":String(t); return d.innerHTML; }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function pad2(n){ return String(n).padStart(2,"0"); }
+
+function go(name){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  el("scr-"+name).classList.add("active");
+  window.scrollTo(0,0);
+  if(name==="home"){ setPresent(false); renderHome(); }
+  if(name==="study") renderStudy();
+  if(name==="report") renderReport();
+}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+
+/* ================= HOME ================= */
+function checkFirstCount(){ return SLIDES.filter(s=>S.first[s.id]===true).length; }
+function buildCount(){ return WORDS.filter(w=>S.buildDone[w.w]).length; }
+function buildFirstCount(){ return WORDS.filter(w=>S.buildFirst[w.w]===true).length; }
+function auditItems(){ return AUDIT.flatMap(sec=>sec.itemsA); }
+function auditFirstCount(){ return auditItems().filter(it=>S.first[it.id]===true).length; }
+
+function renderHome(){
+  const wrap = el("home-steps"); wrap.innerHTML="";
+  const steps = [
+    { t:"The word list",
+      d:"Ten words — meanings plus the prefix, root and suffix that build each one. Read before the briefing.",
+      done:S.studied, locked:false, fn:()=>go("study"), tag:S.studied?"READ":"" },
+    { t:"The briefing",
+      d:"Nine slides your teacher will walk through, then one checkpoint question per slide. Get one wrong and you go back to that slide before you try again.",
+      done:S.checkDone, locked:!S.studied, fn:()=>startSlides(),
+      tag:S.checkDone ? `${checkFirstCount()}/${SLIDES.length} FIRST TRY`
+        : (S.slidesDone ? "SLIDES SEEN" : "") },
+    { t:"Word builders",
+      d:"Assemble each of the ten words from its real morphemes. The tile bank includes near-miss decoys that belong to different words.",
+      done:S.done.build, locked:!S.checkDone, fn:()=>startBuild(),
+      tag:S.done.build ? `${buildFirstCount()}/${WORDS.length} CLEAN`
+        : (buildCount() ? `${buildCount()}/${WORDS.length}` : "") },
+    { t:"Find your target",
+      d:"Work back from your wake-up time through your sleep latency to a real lights-out time, and see the week's projected debt.",
+      done:!!S.target, locked:!S.done.build, fn:()=>startTarget(),
+      tag:S.target ? `LIGHTS OUT ${S.target.lightsOut}` : "" },
+    { t:"Sleep audit",
+      d:"Two harder sections: reading the evidence, then applying it. Under 80% on a section means a reteach and a fresh set of questions.",
+      done:S.done.audit, locked:!S.target, fn:()=>startAudit(),
+      tag:S.done.audit ? `${auditFirstCount()}/${auditItems().length} FIRST TRY` : "" },
+    { t:"Report &amp; paper sleep diary",
+      d:"Enter your name and student ID, print your report, and print the seven-night paper diary you'll fill in this week.",
+      done:false, locked:false, fn:()=>go("report"), tag:"ANY TIME" }
+  ];
+  steps.forEach((st,i)=>{
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="step"+(st.done?" done":"");
+    b.disabled=st.locked;
+    b.innerHTML=`<span class="num">${st.done?"✓":i+1}</span>`+
+      `<span><span class="t">${st.t}</span><br><span class="d">${st.d}</span></span>`+
+      `<span class="tag">${st.locked?"LOCKED":st.tag}</span>`;
+    b.addEventListener("click",st.fn);
+    wrap.appendChild(b);
+  });
+}
+
+el("resetAllBtn").addEventListener("click",()=>{
+  if(confirm("Wipe all your progress and scores?")){ S=blank(); save(); go("home"); }
+});
+
+/* ================= STEP 1 · STUDY ================= */
+function renderStudy(){
+  const wrap = el("study-list"); wrap.innerHTML="";
+  WORDS.forEach(v=>{
+    const parts = v.tiles.map(t=>`<code>${esc(t[0])}</code> <i>${esc(t[1])}</i>`).join(" + ");
+    const d=document.createElement("div"); d.className="vcard";
+    d.innerHTML = `<span class="w">${esc(v.w)}</span><span class="pos">${esc(v.pos)}</span>`+
+      `<div class="meaning">${esc(v.meaning)}</div>`+
+      `<div class="morph">${parts}<br>${v.note}</div>`;
+    wrap.appendChild(d);
+  });
+}
+el("markStudiedBtn").addEventListener("click",()=>{
+  S.studied=true; if(!S.startedAt) S.startedAt=Date.now(); save(); startSlides();
+});
+
+/* ================= STEP 2 · SLIDES ================= */
+let curSlide = 0;
+
+function setPresent(on){
+  document.body.classList.toggle("present", !!on);
+  el("presentBtn").textContent = on ? "Exit present mode" : "Present mode";
+}
+el("presentBtn").addEventListener("click",()=>setPresent(!document.body.classList.contains("present")));
+
+function slideHTML(sl, i){
+  return `<div class="of">Slide ${i+1} of ${SLIDES.length}</div>
+    <h2>${sl.title}</h2>
+    <p class="lead">${sl.lead}</p>
+    <div class="pts">${sl.pts.map(p=>`<div><span class="b">${esc(p[0])}</span><span>${p[1]}</span></div>`).join("")}</div>
+    ${sl.pull?`<div class="pull"><span>${esc(sl.pull.lbl)}</span>${sl.pull.t}</div>`:""}
+    <p class="srcline">${esc(sl.src)}</p>`;
+}
+
+function startSlides(){
+  if(!S.startedAt){ S.startedAt=Date.now(); save(); }
+  /* Once the checkpoints are cleared the slides stay reachable — a teacher needs
+     to be able to re-present them, and the score lives on the report anyway. */
+  if(!S.checkDone && S.slidesDone && confirmSkip()){ startCheck(); return; }
+  curSlide = 0; go("slides"); renderSlide();
+}
+function confirmSkip(){
+  return confirm("You've already been through the slides. Go straight to the checkpoint questions?\n\nOK = go to questions.  Cancel = read the slides again.");
+}
+
+function renderSlide(){
+  const sl = SLIDES[curSlide];
+  el("slide-body").innerHTML = slideHTML(sl, curSlide);
+  el("slide-prog").textContent = `STEP 2 · SLIDE ${curSlide+1}/${SLIDES.length}`;
+  if(!S.slidesSeen.includes(sl.id)){ S.slidesSeen.push(sl.id); save(); }
+  const pips = el("slide-pips"); pips.innerHTML="";
+  SLIDES.forEach((s,i)=>{
+    const p=document.createElement("button");
+    p.type="button";
+    p.className="pip"+(S.slidesSeen.includes(s.id)?" seen":"")+(i===curSlide?" now":"");
+    p.title = `Slide ${i+1}: ${s.title}`;
+    p.setAttribute("aria-label", `Go to slide ${i+1}: ${s.title}`);
+    p.addEventListener("click",()=>{ curSlide=i; renderSlide(); });
+    pips.appendChild(p);
+  });
+  el("slidePrev").disabled = curSlide===0;
+  const last = curSlide===SLIDES.length-1;
+  el("slideNext").textContent = last
+    ? (S.checkDone ? "Back to the checkpoint summary →" : "Start the checkpoint questions →")
+    : "Next →";
+  /* Anyone who has been through once can jump straight to the questions
+     instead of clicking through nine slides again. */
+  const skip = el("slideToQ");
+  skip.hidden = !(S.slidesDone || S.checkDone);
+  skip.textContent = S.checkDone ? "Checkpoint summary →" : "Skip to the questions →";
+  el("slideFoot").textContent = S.checkDone
+    ? "You've cleared these questions. The slides stay here for revision and for presenting to the class."
+    : (last
+      ? "Nine checkpoint questions follow — one per slide. A wrong answer sends you back to that slide."
+      : "Your teacher will talk through these. Present mode scales the slide for the projector.");
+}
+el("slideToQ").addEventListener("click",()=>{ S.slidesDone=true; save(); setPresent(false); startCheck(); });
+el("slidePrev").addEventListener("click",()=>{ if(curSlide>0){ curSlide--; renderSlide(); } });
+el("slideNext").addEventListener("click",()=>{
+  if(curSlide < SLIDES.length-1){ curSlide++; renderSlide(); }
+  else { S.slidesDone=true; save(); setPresent(false); startCheck(); }
+});
+document.addEventListener("keydown",(e)=>{
+  if(!el("scr-slides").classList.contains("active")) return;
+  if(e.key==="ArrowRight"){ el("slideNext").click(); }
+  if(e.key==="ArrowLeft"){ el("slidePrev").click(); }
+  if(e.key==="Escape" && document.body.classList.contains("present")) setPresent(false);
+});
+
+/* ---------- checkpoints: wrong answer = sent back to the slide ---------- */
+function startCheck(){
+  go("check");
+  const queue = SLIDES.filter(s=>!S.done[s.id]);
+  if(!queue.length){ finishCheck(); return; }
+  checkNext(shuffleKeepOrder(queue));
+}
+/* keep slide order — the questions build on each other */
+function shuffleKeepOrder(q){ return q.slice(); }
+
+function checkProgress(){
+  const done = SLIDES.filter(s=>S.done[s.id]).length;
+  el("check-prog").textContent = `STEP 2 · CHECKPOINTS · cleared ${done}/${SLIDES.length}`;
+}
+
+function checkNext(queue){
+  checkProgress();
+  if(!queue.length){ finishCheck(); return; }
+  const sl = queue.shift();
+  const i = SLIDES.indexOf(sl);
+  const body = el("check-body");
+  const q = sl.q;
+  const isFirst = S.first[sl.id]===undefined;
+
+  body.innerHTML =
+    `<div class="stagepath">${SLIDES.map(s=>
+      `<span class="spip${S.done[s.id]?" done":""}${s.id===sl.id?" now":""}">${SLIDES.indexOf(s)+1}</span>`).join("")}</div>
+     <p class="prompt">Checkpoint · slide ${i+1} · ${esc(sl.title)}</p>
+     <p class="qtext">${q.q}</p>
+     <div id="ansarea"></div>
+     <div class="feedback" id="fb"></div>
+     <div id="sbarea"></div>
+     <div class="nextrow noprint" id="nextrow"></div>`;
+
+  const ansarea = qc("#ansarea");
+  if(q.kind==="mcq"){
+    const order = shuffle(q.opts.map((t,idx)=>({t,idx})));
+    ansarea.className="opts";
+    order.forEach(o=>{
+      const b=document.createElement("button");
+      b.type="button"; b.className="opt"; b.innerHTML=o.t;
+      b.addEventListener("click",()=>judge(o.idx===q.a, b, order, q, sl, queue, isFirst, i));
+      ansarea.appendChild(b);
+    });
+  } else {
+    ansarea.className="numrow";
+    ansarea.innerHTML =
+      `<input type="text" inputmode="decimal" id="numin" placeholder="?" autocomplete="off">
+       <span class="unit">${esc(q.unit||"")}</span>
+       <button class="btn btn-primary" id="numgo" type="button">Check</button>
+       ${q.hint?`<div class="muted" style="flex-basis:100%;margin-top:6px">Hint: ${esc(q.hint)}</div>`:""}`;
+    const submit = ()=>{
+      const raw = qc("#numin").value.trim();
+      if(raw==="") return;
+      const v = parseFloat(raw.replace(/[^\d.\-]/g,""));
+      const ok = !isNaN(v) && Math.abs(v - q.a) <= (q.tol||0.001);
+      qc("#numin").disabled = true; qc("#numgo").disabled = true;
+      judge(ok, null, null, q, sl, queue, isFirst, i);
+    };
+    qc("#numgo").addEventListener("click",submit);
+    qc("#numin").addEventListener("keydown",(e)=>{ if(e.key==="Enter") submit(); });
+    setTimeout(()=>{ const n=qc("#numin"); if(n) n.focus(); },40);
+  }
+}
+
+function judge(correct, btn, order, q, sl, queue, isFirst, slideIndex){
+  if(isFirst){ S.first[sl.id] = correct; }
+  const fb = qc("#fb");
+  const nextrow = qc("#nextrow");
+
+  if(q.kind==="mcq"){
+    const opts = [...qc("#ansarea").querySelectorAll(".opt")];
+    opts.forEach((b,pos)=>{
+      b.disabled = true;
+      if(order[pos].idx === q.a) b.classList.add("right");
+      if(b===btn && !correct) b.classList.add("wrongpick");
+    });
+  }
+
+  if(correct){
+    S.done[sl.id] = true; save();
+    fb.className = "feedback ok";
+    fb.innerHTML = `<b>Correct.</b> ${q.explain}`;
+    const b=document.createElement("button");
+    b.type="button"; b.className="btn btn-primary"; b.textContent="Next →";
+    b.addEventListener("click",()=>checkNext(queue));
+    nextrow.appendChild(b);
+    checkProgress();
+  } else {
+    S.sendbacks = (S.sendbacks||0)+1; save();
+    fb.className = "feedback bad";
+    fb.innerHTML = `<b>Not right.</b> ${q.explain}`;
+    queue.push(sl);                       // the question comes back
+    renderSendback(sl, slideIndex, queue);
+  }
+}
+
+/* the send-back panel: the slide is reprinted and a dwell timer runs before
+   the student can continue. This is what "you go back" means in practice. */
+function renderSendback(sl, i, queue){
+  const DWELL = 8;
+  const area = qc("#sbarea");
+  area.innerHTML =
+    `<div class="sendback">
+       <div class="hd">Back to slide ${i+1} — read it again</div>
+       <div class="slidecopy">
+         <h4>${esc(sl.title)}</h4>
+         <p style="margin-bottom:8px">${sl.lead}</p>
+         <div class="pts">${sl.pts.map(p=>`<div><span class="b">${esc(p[0])}</span><span>${p[1]}</span></div>`).join("")}</div>
+         ${sl.pull?`<div class="pull" style="margin-top:10px"><span>${esc(sl.pull.lbl)}</span>${sl.pull.t}</div>`:""}
+       </div>
+       <p class="dwell" id="dwelltxt">You can continue in ${DWELL} seconds.</p>
+     </div>`;
+  const nextrow = qc("#nextrow");
+  const b=document.createElement("button");
+  b.type="button"; b.className="btn btn-primary"; b.disabled=true;
+  b.textContent = "I've re-read it — the question comes back later";
+  nextrow.appendChild(b);
+  let left = DWELL;
+  const t = setInterval(()=>{
+    left--;
+    const d = qc("#dwelltxt");
+    if(left<=0){
+      clearInterval(t);
+      if(d) d.textContent = "Re-read done. This question will come back before the section is finished.";
+      b.disabled = false;
+    } else if(d){ d.textContent = `You can continue in ${left} second${left===1?"":"s"}.`; }
+  },1000);
+  b.addEventListener("click",()=>checkNext(queue));
+}
+
+function finishCheck(){
+  S.checkDone = true; save();
+  const got = checkFirstCount(), tot = SLIDES.length;
+  const pct = Math.round(100*got/tot);
+  const cls = pct>=80?"good":(pct>=60?"mid":"low");
+  el("check-body").innerHTML =
+    `<div class="sumbox"><div class="big ${cls}">${got}/${tot}</div>
+      <p class="muted">first-attempt on the briefing checkpoints · ${pct}%</p>
+      <p class="muted" style="margin-top:8px">You were sent back to a slide
+        <b>${S.sendbacks||0}</b> time${(S.sendbacks||0)===1?"":"s"}. Every question has now been cleared.</p></div>
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" data-go2="home" type="button">Home</button>
+       <button class="btn btn-ghost" id="reviewSlides" type="button">Review the slides</button>
+       <button class="btn btn-primary" id="toBuild" type="button">On to the word builders →</button>
+     </div>`;
+  el("check-body").querySelector("[data-go2]").addEventListener("click",()=>go("home"));
+  qc("#reviewSlides").addEventListener("click",()=>{ curSlide=0; go("slides"); renderSlide(); });
+  qc("#toBuild").addEventListener("click",()=>startBuild());
+}
+
+/* ================= STEP 3 · WORD BUILDERS ================= */
+function buildDots(curW){
+  return `<div class="buildprog">`+WORDS.map(w=>
+    `<span class="bdot${S.buildDone[w.w]?" done":""}${w.w===curW?" now":""}"></span>`).join("")+`</div>`;
+}
+function startBuild(){
+  go("build");
+  const queue = WORDS.filter(w=>!S.buildDone[w.w]);
+  if(!queue.length){ finishBuild(); return; }
+  buildNext(shuffle(queue));
+}
+function buildNext(queue){
+  el("build-prog").textContent = `STEP 3 · WORD BUILDERS · built ${buildCount()}/${WORDS.length}`;
+  if(!queue.length){ finishBuild(); return; }
+  const b = queue.shift();
+  renderBuild(b, queue);
+}
+
+function renderBuild(b, queue){
+  const body = el("build-body");
+  const bank = shuffle(b.tiles.concat(b.decoys));
+  let pos = 0;
+  let clean = true;
+
+  body.innerHTML =
+    buildDots(b.w)+
+    `<p class="prompt">Build the word from its morphemes</p>
+     <p class="buildword">${esc(b.meaning)}</p>
+     <p class="muted" style="text-align:center;margin-bottom:6px">${esc(b.pos)} · ${b.tiles.length} morpheme${b.tiles.length===1?"":"s"} · the bank contains decoys that belong to other words</p>
+     <div class="slots" id="slots">${b.tiles.map((_,i)=>`<div class="slot" id="slot${i}">${i+1}</div>`).join("")}</div>
+     <div class="bank" id="bank"></div>
+     <div class="glosses" id="glosses"></div>
+     <div class="reveal" id="reveal"></div>
+     <div class="nextrow noprint" id="nextrow"></div>`;
+
+  const bankEl = qb("#bank");
+  bank.forEach(t=>{
+    const btn=document.createElement("button");
+    btn.type="button"; btn.className="tile"; btn.textContent=t[0];
+    btn.title = t[1];
+    btn.addEventListener("click",()=>{
+      if(pos >= b.tiles.length) return;
+      if(t[0] === b.tiles[pos][0]){
+        const slot = qb("#slot"+pos);
+        slot.textContent = t[0];
+        slot.classList.add("filled");
+        btn.disabled = true;
+        const g = qb("#glosses");
+        g.innerHTML += `<div><b>${esc(t[0])}</b> — ${esc(t[1])}</div>`;
+        pos++;
+        if(pos === b.tiles.length) revealBuild(b, queue, clean);
+      } else {
+        clean = false;
+        btn.classList.add("shake");
+        setTimeout(()=>btn.classList.remove("shake"),320);
+        const g = qb("#glosses");
+        if(!g.dataset.warned){
+          g.dataset.warned = "1";
+          g.innerHTML = `<div style="color:var(--wrong)"><b>Not that piece.</b> Morphemes go in order: what comes first in the word?</div>` + g.innerHTML;
+        }
+      }
+    });
+    bankEl.appendChild(btn);
+  });
+}
+
+function revealBuild(b, queue, clean){
+  if(S.buildFirst[b.w]===undefined) S.buildFirst[b.w] = clean;
+  S.buildDone[b.w] = true; save();
+  const r = qb("#reveal");
+  r.className = "reveal show";
+  r.innerHTML = `<b style="font-family:Georgia,serif;font-size:17px">${esc(b.w)}</b><br>${b.note}`;
+  const nextrow = qb("#nextrow");
+  const btn=document.createElement("button");
+  btn.type="button"; btn.className="btn btn-primary";
+  btn.textContent = queue.length ? "Next word →" : "Finish →";
+  btn.addEventListener("click",()=>buildNext(queue));
+  nextrow.appendChild(btn);
+  el("build-prog").textContent = `STEP 3 · WORD BUILDERS · built ${buildCount()}/${WORDS.length}`;
+}
+
+function finishBuild(){
+  S.done.build = true; save();
+  const cleanN = buildFirstCount();
+  const pct = Math.round(100*cleanN/WORDS.length);
+  const cls = pct>=80?"good":(pct>=60?"mid":"low");
+  el("build-body").innerHTML =
+    `<div class="sumbox"><div class="big ${cls}">${cleanN}/${WORDS.length}</div>
+      <p class="muted">words built with no wrong tile on the first pass · ${pct}%</p>
+      <p class="muted" style="margin-top:8px">All ten words are now assembled. The decoy morphemes you rejected
+        belong to real words — <i>hypersomnia</i>, <i>somatic</i>, <i>chromotype</i>, <i>lateral</i>, <i>dormitory</i>.</p></div>
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="bHome" type="button">Home</button>
+       <button class="btn btn-primary" id="toTarget" type="button">Find your target →</button>
+     </div>`;
+  el("bHome").addEventListener("click",()=>go("home"));
+  el("toTarget").addEventListener("click",()=>startTarget());
+}
+
+/* ================= STEP 4 · FIND YOUR TARGET ================= */
+function minsToStr(m){
+  m = ((m % 1440) + 1440) % 1440;
+  const h = Math.floor(m/60), mm = m%60;
+  const ampm = h>=12 ? "pm":"am";
+  let h12 = h%12; if(h12===0) h12=12;
+  return `${h12}.${pad2(mm)}${ampm}`;
+}
+function minsTo24(m){
+  m = ((m % 1440) + 1440) % 1440;
+  return `${pad2(Math.floor(m/60))}:${pad2(m%60)}`;
+}
+
+function startTarget(){
+  go("target");
+  const t = S.target || {};
+  el("target-body").innerHTML =
+    `<div class="teach">
+       <b>Work backwards from the one time you don't control.</b> Your wake time is set by school. Everything else is
+       calculated from it — including your <b>sleep latency</b>, the time you actually lie there before sleep takes
+       over. Leaving latency out is why so many bedtime plans quietly fail by half an hour a night.
+     </div>
+     <div class="calcgrid">
+       <div class="calcfield"><label for="tWake">I have to be awake by</label>
+         <input type="time" id="tWake" value="${esc(t.wake||"07:00")}"></div>
+       <div class="calcfield"><label for="tNeed">Sleep I'm aiming for</label>
+         <select id="tNeed">
+           ${[8,8.5,9,9.5,10].map(h=>`<option value="${h}"${String(t.need)===String(h)?" selected":""}>${h} hours</option>`).join("")}
+         </select></div>
+       <div class="calcfield"><label for="tLat">Minutes I take to fall asleep</label>
+         <input type="number" id="tLat" min="0" max="180" step="5" value="${esc(t.lat!=null?t.lat:20)}"></div>
+       <div class="calcfield"><label for="tActual">Sleep I'm actually getting now</label>
+         <select id="tActual">
+           ${[5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10].map(h=>`<option value="${h}"${String(t.actual)===String(h)?" selected":""}>${h} hours</option>`).join("")}
+         </select></div>
+     </div>
+     <div id="tOut"></div>
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="tHome" type="button">Home</button>
+       <button class="btn btn-primary" id="tSave" type="button">Lock this in and continue →</button>
+     </div>`;
+  ["tWake","tNeed","tLat","tActual"].forEach(id=>{
+    el(id).addEventListener("input", computeTarget);
+    el(id).addEventListener("change", computeTarget);
+  });
+  el("tHome").addEventListener("click",()=>go("home"));
+  el("tSave").addEventListener("click",()=>{
+    computeTarget(true);
+    go("home");
+  });
+  computeTarget();
+}
+
+function computeTarget(store){
+  const wake = el("tWake").value || "07:00";
+  const need = parseFloat(el("tNeed").value);
+  const lat  = Math.max(0, parseInt(el("tLat").value,10) || 0);
+  const actual = parseFloat(el("tActual").value);
+  const [wh,wm] = wake.split(":").map(Number);
+  const wakeMins = wh*60+wm;
+
+  const asleepBy  = wakeMins - need*60;
+  const lightsOut = asleepBy - lat;
+  const windDown  = lightsOut - 60;
+
+  const shortfall = Math.max(0, need - actual);
+  const weekDebt  = shortfall*5;
+
+  el("tOut").innerHTML =
+    `<div class="resultband">
+       <div class="lbl">Lights out, school nights</div>
+       <div class="big">${minsToStr(lightsOut)}</div>
+       <div class="ladder">
+         <div class="r"><span class="k">Wind-down</span><span>${minsToStr(windDown)} — stop gaming, scrolling and homework</span></div>
+         <div class="r"><span class="k">Lights out</span><span>${minsToStr(lightsOut)} — allowing ${lat} min to fall asleep</span></div>
+         <div class="r"><span class="k">Asleep by</span><span>${minsToStr(asleepBy)} — for ${need} hours</span></div>
+         <div class="r"><span class="k">Wake</span><span>${minsToStr(wakeMins)} — same time every day, then get outside</span></div>
+       </div>
+       <div class="debtnote">
+         ${shortfall>0
+           ? `At ${actual} hours a night you are ${shortfall} hour${shortfall===1?"":"s"} short of your target.
+              Across five school nights that is <b>${weekDebt} hours</b> of sleep debt by Friday
+              ${weekDebt>=need ? `— more than one entire night's sleep.` : `.`}
+              A weekend sleep-in cannot repay it, and a long one pushes your body clock further late.`
+           : `You are already meeting your target on paper. The diary this week will show whether that holds up
+              night by night — remember that self-report drifts, which is exactly what slide 4 was about.`}
+       </div>
+     </div>`;
+
+  if(store===true){
+    S.target = { wake, need, lat, actual,
+                 lightsOut: minsTo24(lightsOut), windDown: minsTo24(windDown),
+                 asleepBy: minsTo24(asleepBy), shortfall, weekDebt };
+    save();
+  }
+}
+
+/* ================= STEP 5 · SLEEP AUDIT ================= */
+function auditStage(idx){
+  if(idx >= AUDIT.length){ finishAudit(); return; }
+  const sec = AUDIT[idx];
+  runAuditSet(sec, false, idx);
+}
+function startAudit(){
+  go("audit");
+  const nextIdx = AUDIT.findIndex(sec=>!S.done["sec_"+sec.id]);
+  auditStage(nextIdx === -1 ? AUDIT.length : nextIdx);
+}
+function auditProgress(sec, cleared, total){
+  el("audit-prog").textContent = `STEP 5 · ${sec.title.toUpperCase()} · cleared ${cleared}/${total}`;
+}
+
+function runAuditSet(sec, isRetry, idx){
+  const items = isRetry ? sec.itemsB : sec.itemsA;
+  const shadow = {};                        // first-attempt record for THIS set
+  let queue = shuffle(items.slice());
+  let cleared = 0;
+  const total = items.length;
+
+  const body = el("audit-body");
+
+  function showTeach(){
+    body.innerHTML =
+      `<div class="stagepath">${AUDIT.map(s=>
+        `<span class="spip${S.done["sec_"+s.id]?" done":""}${s.id===sec.id?" now":""}">${esc(s.title)}</span>`).join("")}</div>
+       <h2>${esc(sec.title)}${isRetry?" — second set":""}</h2>
+       <div class="teach">${isRetry?sec.reteach:sec.teach}</div>
+       <p class="muted">${total} questions. Your <b>first attempt</b> on each is what the report records; anything you
+         get wrong comes back until you clear it.</p>
+       <div class="nextrow noprint"><button class="btn btn-primary" id="auStart" type="button">Start →</button></div>`;
+    el("auStart").addEventListener("click",()=>next());
+  }
+
+  function next(){
+    auditProgress(sec, cleared, total);
+    if(!queue.length){ done(); return; }
+    const it = queue.shift();
+    const isFirstOverall = S.first[it.id]===undefined;
+    const isFirstInSet   = shadow[it.id]===undefined;
+
+    body.innerHTML =
+      `<div class="stagepath">${AUDIT.map(s=>
+        `<span class="spip${S.done["sec_"+s.id]?" done":""}${s.id===sec.id?" now":""}">${esc(s.title)}</span>`).join("")}</div>
+       <p class="prompt">${esc(sec.title)}${isRetry?" · second set":""} · cleared ${cleared}/${total}</p>
+       <p class="qtext">${it.q}</p>
+       <div id="ansarea"></div>
+       <div class="feedback" id="fb"></div>
+       <div class="nextrow noprint" id="nextrow"></div>`;
+
+    const ansarea = qa("#ansarea");
+
+    function settle(ok){
+      if(isFirstOverall) S.first[it.id] = ok;
+      if(isFirstInSet)   shadow[it.id] = ok;
+      save();
+      const fb = qa("#fb");
+      fb.className = "feedback " + (ok?"ok":"bad");
+      fb.innerHTML = `<b>${ok?"Correct.":"Not right."}</b> ${it.explain}`;
+      if(ok) cleared++; else queue.push(it);
+      const b=document.createElement("button");
+      b.type="button"; b.className="btn btn-primary";
+      b.textContent = (queue.length||!ok) ? "Next →" : "Finish the section →";
+      b.addEventListener("click",()=>next());
+      qa("#nextrow").appendChild(b);
+      auditProgress(sec, cleared, total);
+    }
+
+    if(it.kind==="mcq"){
+      const order = shuffle(it.opts.map((t,i)=>({t,i})));
+      ansarea.className="opts";
+      order.forEach(o=>{
+        const b=document.createElement("button");
+        b.type="button"; b.className="opt"; b.innerHTML=o.t;
+        b.addEventListener("click",()=>{
+          const ok = o.i===it.a;
+          [...ansarea.querySelectorAll(".opt")].forEach((x,pos)=>{
+            x.disabled=true;
+            if(order[pos].i===it.a) x.classList.add("right");
+            if(x===b && !ok) x.classList.add("wrongpick");
+          });
+          settle(ok);
+        });
+        ansarea.appendChild(b);
+      });
+    } else {
+      ansarea.className="numrow";
+      ansarea.innerHTML =
+        `<input type="text" inputmode="${it.kindTime?"numeric":"decimal"}" id="numin"
+           placeholder="${it.kindTime?"hh:mm":"?"}" autocomplete="off">
+         <span class="unit">${esc(it.unit||"")}</span>
+         <button class="btn btn-primary" id="numgo" type="button">Check</button>
+         ${it.hint?`<div class="muted" style="flex-basis:100%;margin-top:6px">Hint: ${esc(it.hint)}</div>`:""}`;
+      const submit = ()=>{
+        const raw = qa("#numin").value.trim();
+        if(raw==="") return;
+        let ok;
+        if(it.kindTime){
+          const m = raw.match(/^(\d{1,2})[:.\s]?(\d{2})$/);
+          ok = !!m && `${pad2(+m[1])}:${m[2]}` === it.a;
+        } else {
+          const v = parseFloat(raw.replace(/[^\d.\-]/g,""));
+          ok = !isNaN(v) && Math.abs(v - it.a) <= (it.tol||0.001);
+        }
+        qa("#numin").disabled=true; qa("#numgo").disabled=true;
+        settle(ok);
+      };
+      qa("#numgo").addEventListener("click",submit);
+      qa("#numin").addEventListener("keydown",(e)=>{ if(e.key==="Enter") submit(); });
+      setTimeout(()=>{ const n=qa("#numin"); if(n) n.focus(); },40);
+    }
+  }
+
+  function done(){
+    const got = items.filter(it=>shadow[it.id]===true).length;
+    const passed = got >= Math.ceil(total*0.8);
+    const pct = Math.round(100*got/total);
+    const cls = pct>=80?"good":(pct>=60?"mid":"low");
+
+    if(isRetry){ S.retryScores[sec.id] = got; }
+
+    if(!passed && !isRetry){
+      S.reteach[sec.id] = true; save();
+      body.innerHTML =
+        `<div class="sumbox"><div class="big ${cls}">${got}/${total}</div>
+          <p class="muted">first attempts on this set · ${pct}% — below the 80% you need to move on</p></div>
+         <div class="teach"><b>Reteach.</b> ${sec.reteach}</div>
+         <p class="muted">A <b>fresh set</b> of ${sec.itemsB.length} questions on the same skills follows. Your original
+           score stays on the report; this second attempt is recorded beside it.</p>
+         <div class="nextrow noprint">
+           <button class="btn btn-primary" id="auRetry" type="button">Start the fresh set →</button></div>`;
+      el("auRetry").addEventListener("click",()=>runAuditSet(sec, true, idx));
+      return;
+    }
+
+    S.done["sec_"+sec.id] = true; save();
+    const last = idx >= AUDIT.length-1;
+    body.innerHTML =
+      `<div class="sumbox"><div class="big ${cls}">${got}/${total}</div>
+        <p class="muted">first attempts on ${isRetry?"the fresh set":"this section"} · ${pct}%</p>
+        ${isRetry?`<p class="muted" style="margin-top:8px">Both scores go on your report — the original and this one.</p>`:""}</div>
+       <div class="nextrow noprint">
+         <button class="btn btn-ghost" id="auHome" type="button">Home</button>
+         <button class="btn btn-primary" id="auNext" type="button">${last?"Go to my report and diary →":"Next section →"}</button>
+       </div>`;
+    el("auHome").addEventListener("click",()=>go("home"));
+    el("auNext").addEventListener("click",()=>{ last ? finishAudit() : auditStage(idx+1); });
+  }
+
+  showTeach();
+}
+
+function finishAudit(){
+  S.done.audit = true; S.finishedAt = Date.now(); save();
+  go("report");
+}
+
+/* ================= REPORT + PAPER DIARY ================= */
+function vcode(str){
+  let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h+str.charCodeAt(i))|0; }
+  return Math.abs(h).toString(36).toUpperCase().padStart(6,"0").slice(0,6);
+}
+function fmtDate(d){
+  const days=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const mons=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return `${days[d.getDay()]} ${d.getDate()} ${mons[d.getMonth()]}`;
+}
+
+function renderReport(){
+  const rows = [];
+
+  rows.push(S.studied
+    ? `<tr><td>Word list read</td><td class="score">✓</td><td>Ten words frontloaded with their morphemes</td></tr>`
+    : `<tr><td>Word list read</td><td class="nf">not yet</td><td class="nf">—</td></tr>`);
+
+  if(S.checkDone || Object.keys(S.first).some(k=>SLIDES.find(s=>s.id===k))){
+    const got = checkFirstCount();
+    const attempted = SLIDES.filter(s=>S.first[s.id]!==undefined).length;
+    rows.push(`<tr><td>Briefing checkpoints</td><td class="score">${got}/${attempted||SLIDES.length}</td>
+      <td>${S.checkDone?"Complete":"NOT FINISHED"} · first attempts · sent back to a slide
+      <b>${S.sendbacks||0}</b> time${(S.sendbacks||0)===1?"":"s"}</td></tr>`);
+  } else {
+    rows.push(`<tr><td>Briefing checkpoints</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+  }
+
+  if(buildCount()){
+    rows.push(`<tr><td>Word builders</td><td class="score">${buildFirstCount()}/${WORDS.length}</td>
+      <td>${S.done.build?"Complete":"NOT FINISHED — "+buildCount()+" of "+WORDS.length+" built"}
+      · built with no wrong tile on the first pass</td></tr>`);
+  } else {
+    rows.push(`<tr><td>Word builders</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+  }
+
+  if(S.target){
+    const t=S.target;
+    rows.push(`<tr><td>Target bedtime</td><td class="score">${t.lightsOut}</td>
+      <td>Wake ${t.wake} · ${t.need} h target · ${t.lat} min latency ·
+      projected school-week debt <b>${t.weekDebt} h</b></td></tr>`);
+  } else {
+    rows.push(`<tr><td>Target bedtime</td><td class="nf">not set</td><td class="nf">—</td></tr>`);
+  }
+
+  AUDIT.forEach(sec=>{
+    const items = sec.itemsA;
+    const att = items.filter(it=>S.first[it.id]!==undefined);
+    if(!att.length){
+      rows.push(`<tr><td>Audit — ${esc(sec.title)}</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+      return;
+    }
+    const got = items.filter(it=>S.first[it.id]===true).length;
+    const note = S.reteach[sec.id]
+      ? `Below 80% — reteach given, fresh set scored ${S.retryScores[sec.id]!==undefined?S.retryScores[sec.id]+"/"+sec.itemsB.length:"—"}`
+      : (S.done["sec_"+sec.id] ? "Passed first time" : "NOT FINISHED");
+    rows.push(`<tr><td>Audit — ${esc(sec.title)}</td><td class="score">${got}/${items.length}</td><td>${note}</td></tr>`);
+  });
+
+  const allItems = auditItems();
+  const attempted = allItems.filter(it=>S.first[it.id]!==undefined);
+  const totGot = attempted.filter(it=>S.first[it.id]===true).length;
+  const slideAtt = SLIDES.filter(s=>S.first[s.id]!==undefined);
+  const slideGot = slideAtt.filter(s=>S.first[s.id]===true).length;
+  const grandAtt = attempted.length + slideAtt.length;
+  const grandGot = totGot + slideGot;
+
+  const start = new Date(); start.setDate(start.getDate()+1);
+  const diaryRows = [];
+  for(let i=0;i<7;i++){
+    const d = new Date(start.getFullYear(), start.getMonth(), start.getDate()+i);
+    diaryRows.push(`<tr>
+      <td class="night">Night ${i+1}<br><span style="font-weight:400;color:var(--muted)">${fmtDate(d)}</span></td>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`);
+  }
+
+  const t = S.target;
+  el("report-body").innerHTML =
+    `<h2>My report</h2>
+     <div class="idrow noprint">
+       <div><label for="rName">Name</label><input id="rName" value="${esc(S.name)}" placeholder="Your name"></div>
+       <div><label for="rSid">Student ID</label><input id="rSid" value="${esc(S.sid)}" placeholder="ID"></div>
+     </div>
+     <p style="font-size:14px;margin:8px 0"><b>${esc(S.name)||"__________________"}</b>
+        &nbsp;·&nbsp; ID ${esc(S.sid)||"____________"}
+        &nbsp;·&nbsp; Sleep Lab · Work &amp; Life Education Session 5</p>
+
+     <table class="repgrid">
+       <thead><tr><th>Task</th><th>Score</th><th>Notes</th></tr></thead>
+       <tbody>
+         ${rows.join("")}
+         <tr><td><b>All scored questions</b></td>
+             <td class="score"><b>${grandAtt?`${grandGot}/${grandAtt}`:"—"}</b></td>
+             <td>${grandAtt?`<b>${Math.round(100*grandGot/grandAtt)}%</b> on first attempts — every attempted question was then cleared through the retry loop`:"Nothing attempted yet"}</td></tr>
+       </tbody>
+     </table>
+     <p class="muted">Verification code <span class="vcode">${vcode(`${S.name}|${S.sid}|${grandGot}|${grandAtt}|${S.sendbacks||0}|${buildFirstCount()}`)}</span>
+       · Scores are <b>first attempts</b>; wrong answers looped until mastered.
+       ${Object.keys(S.reteach).length?" A reteach and fresh question set were used.":""}</p>
+
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="rHome" type="button">Home</button>
+       <button class="btn btn-primary" id="rPrint" type="button">Print report + diary</button>
+     </div>
+
+     <div class="diarysheet pagebreak">
+       <h3>Seven-night sleep diary — fill this in on paper</h3>
+       <p class="muted">Complete one row each <b>morning</b>, not at the end of the week. Slide 4 is the reason:
+         under chronic short sleep, how you feel stops tracking how you perform, so a memory made on Sunday is not
+         evidence. Bring the completed sheet to the next session.</p>
+       ${t?`<p class="muted" style="margin-top:8px"><b>Your target from Step 4:</b> wind-down ${t.windDown},
+            lights out ${t.lightsOut}, asleep by ${t.asleepBy}, wake ${t.wake}.</p>`:""}
+       <div class="diaryscroll">
+       <table class="diary">
+         <thead><tr>
+           <th style="width:15%">Night</th>
+           <th>Lights out</th>
+           <th>Mins to fall asleep<br>(latency)</th>
+           <th>Times woken</th>
+           <th>Wake time</th>
+           <th>Hours slept</th>
+           <th>Screens in the<br>final hour? Y/N</th>
+           <th>Caffeine<br>after 3pm? Y/N</th>
+         </tr></thead>
+         <tbody>${diaryRows.join("")}</tbody>
+       </table>
+       </div>
+       <div class="diaryrules">
+         <b>Hours slept</b> = wake time − lights out − minutes to fall asleep. Work it out each morning while you
+         still remember.<br>
+         <b>At the end of the week, answer these three on the back of this sheet:</b>
+         <ol style="margin:6px 0 0 20px">
+           <li>What was your average sleep, and how many nights fell inside the 8–10 hour range?</li>
+           <li>Compare your latency on nights with screens in the final hour against nights without. What do your own
+               numbers show — and what would make that comparison stronger evidence?</li>
+           <li>Name <b>one</b> change for next week, say which mechanism it targets (body clock, sleep pressure, or
+               environment), and state what you expect to see in the diary if it works.</li>
+         </ol>
+       </div>
+     </div>
+
+     <details class="tnote noprint">
+       <summary>For teachers — running this session</summary>
+       <div class="in">
+         <ol>
+           <li><b>5 min · Step 1.</b> Students read the word list. It is a read-gate: the briefing stays locked until they mark it read.</li>
+           <li><b>20 min · Step 2 slides.</b> Hit <i>Present mode</i> and drive the nine slides from the front. Arrow keys work; Esc exits. Slides 4, 5, 7 and 9 are the ones worth pausing on.</li>
+           <li><b>15 min · Step 2 checkpoints.</b> Students work through nine questions on their own devices. A wrong answer reprints the slide with an eight-second forced re-read and re-queues the question, so nobody guesses their way through. The report counts send-backs.</li>
+           <li><b>10 min · Step 3.</b> Word builders. The tile bank carries decoy morphemes from real neighbouring words, so guessing by shape fails.</li>
+           <li><b>5 min · Step 4.</b> Each student calculates their own lights-out time and sees their projected weekly debt.</li>
+           <li><b>20 min · Step 5.</b> The audit. Under 80% on a section triggers a reteach and a parallel question set; both scores appear on the report.</li>
+           <li><b>Homework.</b> Print the report page — the diary sheet prints on its own page. Seven nights on paper, brought back next session.</li>
+           <li><b>Next session.</b> Students answer the three questions on the back of the diary sheet. Question 2 is the assessable one: it asks them to treat their own data as evidence and to say what would make it stronger.</li>
+         </ol>
+         <p style="margin-top:10px"><b>Differentiation.</b> Every question can be attempted repeatedly with no penalty
+           beyond the first-attempt record, so the floor is low and the ceiling is the audit's second set. Students who
+           would rather not use a device can do the whole sequence from the printed report page and the paper diary.</p>
+         <p style="margin-top:10px"><b>Data.</b> Nothing leaves the browser. There is no account, no upload and no
+           class dashboard — the report is printed or shown, and clearing browser data deletes it.</p>
+       </div>
+     </details>
+
+     <p class="muted" style="margin-top:18px">Sources: Australian Government sleep guidelines (8–10 hours, ages 14–17);
+       Better Health Channel Victoria; Royal Children's Hospital Melbourne; NIH/NHLBI <i>Sleep, Sleep Disorders and
+       Biological Rhythms</i>; Therapeutic Goods Administration (melatonin); eSafety Commissioner.
+       General information only — not individual medical advice. See a GP if sleep problems continue for two to four
+       weeks despite a steady routine.</p>`;
+
+  el("rName").addEventListener("input",e=>{ S.name=e.target.value; save(); });
+  el("rSid").addEventListener("input",e=>{ S.sid=e.target.value; save(); });
+  el("rHome").addEventListener("click",()=>go("home"));
+  el("rPrint").addEventListener("click",()=>window.print());
+}
+
+/* ================= BOOT ================= */
+renderHome();
+</script>
+
+</body>
+</html>
