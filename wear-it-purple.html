@@ -48,6 +48,13 @@
   .progress{font-size:.88rem;color:var(--muted);margin-top:8px}
   .tl-event{border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:16px 0}
   .tl-event .row input{max-width:110px;flex:0 1 auto}
+  .hero{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:center;
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 24px;margin:20px 0}
+  .hero .big{font-size:3rem;font-weight:700;color:var(--accent);line-height:1;grid-row:span 2}
+  .hero .cap{font-weight:700}
+  .hero .sub{color:var(--muted);font-size:.95rem}
+  .scenario{font-style:italic;border-left:3px solid var(--accent);padding-left:12px;margin:8px 0 12px}
+  .src{font-size:.8rem;color:var(--muted);margin:4px 0 0}
   .year{font-weight:700;font-size:1.1rem}
   .guess-row{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;margin:10px 0}
   .guess-row label{flex:1;min-width:260px}
@@ -61,6 +68,12 @@
   <p class="eyebrow">Connect · Year 10 · Wear it Purple Day</p>
   <h1>Words and History</h1>
   <p class="lede">Most of the vocabulary around gender and sexuality is built from a small kit of Greek and Latin parts. Learn the kit, and you can take apart words you've never met. Then: eight moments in the history of LGBTQIA+ rights — guess each year before you see it. Nothing you type leaves this device until you press Submit at the end.</p>
+
+  <div class="hero">
+    <div class="big">LGBTQIA+</div>
+    <div class="cap">Ten letters, one 2,000-year-old kit</div>
+    <div class="sub">Every word here is assembled from a small set of Greek and Latin parts. Learn the kit once and you can decode words this page never teaches you.</div>
+  </div>
 
   <h2>1 · The morpheme kit</h2>
   <div class="card">
@@ -121,7 +134,11 @@
     </div>
   </div>
 
-  <h2>6 · Submit your results</h2>
+  <h2>6 · Four moments — what would you actually say?</h2>
+  <p class="note">Write what you would realistically say or do — not the perfect speech, the real one. The compare button unlocks once you've written something real. This page can't judge your writing and won't pretend to; check yourself against the criteria.</p>
+  <div id="scenarios"></div>
+
+  <h2>7 · Submit your results</h2>
   <div class="card">
     <p class="note">Enter your name and the class code your teacher gives you, then submit. Your report counts <b>first attempts only</b> — the retries you did to clear words aren't held against you.</p>
     <div class="row">
@@ -134,7 +151,7 @@
     <p class="crit">What this report can't tell anyone: whether you used the kit or already knew the words, and whether you understood or pattern-matched. First tries and guesses, nothing more.</p>
   </div>
 
-  <h2>7 · Class report</h2>
+  <h2>8 · Class report</h2>
   <div class="card">
     <p class="note">For teachers (or the curious): enter a class code to see who has submitted and which words the class missed most — that ranking is the next lesson's starter.</p>
     <div class="row">
@@ -265,7 +282,56 @@ document.getElementById('gBtn').onclick=()=>{
 };
 ['g1','g2'].forEach(k=>{const v=load('wip2-'+k);if(v)document.getElementById(k).value=v});
 
-/* ---------- Sections 6–7: submit + class report ---------- */
+/* ---------- Section 6: scenarios (write-first, self-checked) ---------- */
+const SC=[
+ {t:"“That's so gay.”",
+  s:"In class, someone describes the homework as “so gay”. A few people laugh. You know at least one person in the room it might land on.",
+  helps:["Names the behaviour, not the person — “can we not use gay as an insult” beats “you're homophobic”.",
+         "Works at your actual volume. A quiet “not cool” or just not laughing counts; low-key responses from peers shift what's normal more than lectures do.",
+         "Doesn't out or point at anyone — never “careful, X is gay”."],
+  miss:"“Ignore it, it's just a word” — the people it lands on can't ignore it, and silence reads as agreement."},
+ {t:"A friend comes out to you",
+  s:"A friend tells you privately that they're bi. They seem nervous and say you're the first person they've told.",
+  helps:["Says thanks, not wow — they trusted you; the moment is about them, not your surprise.",
+         "Asks what they want — who else knows, whether they want it kept private. Then actually keeps it private: telling one other person is outing them.",
+         "Changes nothing — same jokes, same plans. The strongest message is that nothing between you needed to change."],
+  miss:"“Are you sure? Maybe it's a phase” — questioning it tells them the next person they tell might too."},
+ {t:"The group chat",
+  s:"Someone drops a mocking meme about trans people into a group chat you're in. Two people react with laughing emojis. Everyone can see who says nothing.",
+  helps:["Does something visible — even one “not funny” or a private message to the sender changes what the silent majority looks like.",
+         "Doesn't need to win the argument — you're showing everyone else the room isn't unanimous, not converting the sender.",
+         "Considers leaving loudly — “I'm out if this is the content” is a response too."],
+  miss:"Scrolling past because “it's not my fight” — in a group chat, silence is public."},
+ {t:"Wrong name, wrong pronouns",
+  s:"A classmate has changed their name and pronouns this year. Someone in your group keeps using the old ones — you can't tell if it's habit or deliberate.",
+  helps:["Corrects it lightly and moves on — “it's Sam” mid-sentence, no ceremony.",
+         "Models it — using the right name yourself, consistently, does more than policing others.",
+         "If you slip up yourself: correct, don't perform — “sorry, she—” and keep going beats a three-line apology they have to comfort you through."],
+  miss:"Waiting until you're sure it's deliberate — habit and hostility sound identical to the person being misnamed."},
+];
+const scWrap=document.getElementById('scenarios');
+SC.forEach((sc,i)=>{
+  const c=document.createElement('div');c.className='card';
+  c.innerHTML=`<h3>${sc.t}</h3><p class="scenario">${sc.s}</p>
+   <textarea data-sck="sc${i}" aria-label="Your response to: ${sc.t}" placeholder="What would you actually say or do?"></textarea>
+   <p><button data-i="${i}" class="scBtn" disabled>Compare with what helps</button></p>
+   <div class="reveal" id="scR${i}">
+     <h3>What tends to actually help</h3>
+     <ul>${sc.helps.map(h=>`<li>${h}</li>`).join('')}</ul>
+     <p class="crit"><b>The near-miss:</b> ${sc.miss}</p>
+     <p class="crit">If your answer does something this list doesn't, it might be better than the list.</p>
+   </div>`;
+  scWrap.appendChild(c);
+});
+document.querySelectorAll('[data-sck]').forEach(el=>{
+  const i=el.dataset.sck.slice(2);
+  el.value=load('wip2-'+el.dataset.sck);
+  const gate=()=>document.querySelector(`.scBtn[data-i="${i}"]`).disabled=el.value.trim().length<15;
+  el.addEventListener('input',()=>{store('wip2-'+el.dataset.sck,el.value);gate()});gate();
+});
+document.querySelectorAll('.scBtn').forEach(b=>b.onclick=()=>document.getElementById('scR'+b.dataset.i).classList.add('shown'));
+
+/* ---------- Sections 7–8: submit + class report ---------- */
 const nameEl=document.getElementById('stuName'),codeEl=document.getElementById('stuCode');
 nameEl.value=load('wip2-name');codeEl.value=load('wip2-code');
 nameEl.addEventListener('input',()=>store('wip2-name',nameEl.value));
