@@ -1,0 +1,332 @@
+<title>Wear it Purple: Words and History</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+  :root{
+    --bg:#faf8fb; --surface:#ffffff; --ink:#241d2e; --muted:#6b6376;
+    --accent:#5b2d86; --accent-ink:#ffffff; --line:#e2dbe9; --soft:#f1ebf7;
+    --good:#1d6b45; --bad:#a03535; --reveal-bg:#f5f0fa;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#171221; --surface:#211a2e; --ink:#efe9f6; --muted:#a99fb8;
+      --accent:#b48ae0; --accent-ink:#1b1226; --line:#3a3050; --soft:#2a2140;
+      --good:#6fd0a0; --bad:#e08a8a; --reveal-bg:#281f3b;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#171221; --surface:#211a2e; --ink:#efe9f6; --muted:#a99fb8;
+    --accent:#b48ae0; --accent-ink:#1b1226; --line:#3a3050; --soft:#2a2140;
+    --good:#6fd0a0; --bad:#e08a8a; --reveal-bg:#281f3b;
+  }
+  body{background:var(--bg);color:var(--ink);font:16px/1.55 "Atkinson Hyperlegible",system-ui,sans-serif;margin:0}
+  main{max-width:720px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:2rem;line-height:1.15;margin:.2em 0;text-wrap:balance}
+  h2{font-size:1.25rem;margin:2.2em 0 .4em;color:var(--accent)}
+  .eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;color:var(--muted)}
+  .lede{color:var(--muted);max-width:60ch}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:14px 0}
+  textarea,input[type=text]{width:100%;box-sizing:border-box;background:var(--bg);color:var(--ink);
+    border:1px solid var(--line);border-radius:6px;padding:10px;font:inherit}
+  textarea{min-height:64px;resize:vertical}
+  button{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;
+    padding:9px 16px;font:inherit;font-weight:700;cursor:pointer}
+  button.ghost{background:var(--soft);color:var(--ink)}
+  button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  button[disabled]{opacity:.45;cursor:not-allowed}
+  .reveal{display:none;background:var(--reveal-bg);border-radius:8px;padding:12px 16px;margin-top:12px}
+  .reveal.shown{display:block}
+  .crit{color:var(--muted);font-size:.92rem}
+  .note{font-size:.85rem;color:var(--muted)}
+  .morph{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:8px 0}
+  .morph b{color:var(--accent);font-size:1.05rem;white-space:nowrap}
+  .fb{margin-top:10px;font-size:.95rem}
+  .fb.ok{color:var(--good)} .fb.no{color:var(--bad)}
+  .qword{font-size:1.3rem;font-weight:700;color:var(--accent)}
+  .qmeta{color:var(--muted);font-size:.9rem;margin:2px 0 10px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+  .row input{flex:1;min-width:180px}
+  .progress{font-size:.88rem;color:var(--muted);margin-top:8px}
+  .tl-event{border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:16px 0}
+  .tl-event .row input{max-width:110px;flex:0 1 auto}
+  .year{font-weight:700;font-size:1.1rem}
+  .guess-row{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;margin:10px 0}
+  .guess-row label{flex:1;min-width:260px}
+  .guess-row input{max-width:110px}
+  code.k{background:var(--soft);padding:1px 6px;border-radius:4px;font-family:inherit}
+  footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px}
+  @media (prefers-reduced-motion:no-preference){ .reveal.shown{animation:fade .25s ease} }
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+</style>
+<main>
+  <p class="eyebrow">Connect · Year 10 · Wear it Purple Day</p>
+  <h1>Words and History</h1>
+  <p class="lede">Most of the vocabulary around gender and sexuality is built from a small kit of Greek and Latin parts. Learn the kit, and you can take apart words you've never met. Then: eight moments in the history of LGBTQIA+ rights — guess each year before you see it. Nothing you type leaves this device until you press Submit at the end.</p>
+
+  <h2>1 · The morpheme kit</h2>
+  <div class="card">
+    <p>Read this once, properly — everything in section 2 is built from it.</p>
+    <div class="morph">
+      <b>homo-</b><span>same (Greek) — <i>homosexual</i>: attracted to the same gender</span>
+      <b>hetero-</b><span>different, other (Greek) — <i>heterosexual</i>: attracted to a different gender</span>
+      <b>bi-</b><span>two (Latin) — <i>bisexual</i>: attracted to more than one gender</span>
+      <b>pan-</b><span>all (Greek) — <i>pansexual</i>: attraction regardless of gender</span>
+      <b>a-</b><span>without, not (Greek) — <i>asexual</i>: little or no sexual attraction</span>
+      <b>trans-</b><span>across, beyond (Latin) — <i>transgender</i>: gender is different from the sex presumed at birth. Same prefix as <i>transport</i>, <i>translate</i> — something crossing over.</span>
+      <b>cis-</b><span>on this side of (Latin) — <i>cisgender</i>: gender matches the sex presumed at birth. Chemists have used <i>cis-/trans-</i> as opposites for two centuries; the word isn't an insult, it's the other half of the pair.</span>
+      <b>inter-</b><span>between (Latin) — <i>intersex</i>: born with sex characteristics between typical definitions of male and female bodies</span>
+      <b>-sexual / -romantic</b><span>the kind of attraction — who you want, versus who you fall for. They can differ: <i>biromantic asexual</i> is a meaningful, buildable phrase.</span>
+      <b>-phobia</b><span>fear or aversion (Greek) — <i>homophobia, transphobia</i>: hostility toward, not literal fear</span>
+    </div>
+    <p class="crit">The near-miss to avoid: these parts describe <b>who someone is or who they're drawn to — identity and attraction are separate axes.</b> <i>Trans</i> answers "what is your gender?"; <i>homo/hetero/bi/pan/a</i> answer "who are you attracted to?". A trans woman attracted to men is straight.</p>
+  </div>
+
+  <h2>2 · Build the word</h2>
+  <p class="note">Type the word each definition describes. The kit above stays visible — using it is the point. Each word needs <b>two correct answers</b> to clear; a wrong answer sends it back into the queue. "Cleared" here means answered correctly twice this session, nothing grander.</p>
+  <div class="card" id="drill">
+    <div id="qbox"></div>
+    <div class="row"><input type="text" id="ansIn" autocomplete="off" autocapitalize="off" aria-label="Type the word"><button id="ansBtn">Check</button></div>
+    <div class="fb" id="fb" aria-live="polite"></div>
+    <div class="progress" id="prog"></div>
+  </div>
+
+  <h2>3 · Take one apart</h2>
+  <div class="card">
+    <p>You've probably never met the word <span class="qword">panromantic</span>. Using only the kit, write what it must mean.</p>
+    <textarea id="apart" aria-label="What must panromantic mean?" placeholder="pan- means… -romantic means… so the word means…"></textarea>
+    <p><button id="apartBtn" disabled>Compare</button></p>
+    <div class="reveal" id="apartR">
+      <p><b>pan</b> (all) + <b>romantic</b> (romantic attraction) → someone who can fall for people regardless of gender.</p>
+      <p class="crit">A strong answer names both parts and puts them together — not just "likes everyone", which misses that <i>-romantic</i> is specifically about falling for people, not sexual attraction and not liking. If your sentence did that, you can now decode <i>aromantic</i>, <i>demisexual</i>-style coinages, and anything else this kit produces.</p>
+    </div>
+  </div>
+
+  <h2>4 · Eight moments — guess the year first</h2>
+  <p class="note">For each event, commit to a year before revealing. You won't be scored on closeness — the point is noticing whether these things happened longer ago, or more recently, than you assumed. Most people are wrong in an interesting direction.</p>
+  <div id="timeline"></div>
+
+  <h2>5 · Two numbers from the research</h2>
+  <div class="card">
+    <div class="guess-row">
+      <label for="g1">Out of every 10 LGBTQIA+ secondary students in Australia, how many said their school was supportive?</label>
+      <input type="text" id="g1" inputmode="numeric" placeholder="guess">
+    </div>
+    <div class="guess-row">
+      <label for="g2">What percentage said they'd been verbally harassed about their identity in the past year?</label>
+      <input type="text" id="g2" inputmode="numeric" placeholder="guess">
+    </div>
+    <button id="gBtn">Lock in and reveal</button>
+    <div class="reveal" id="gReveal">
+      <p>About <b>4 in 10</b> said their school was supportive, and about <b>4 in 10</b> reported verbal harassment in the previous 12 months (<i>Writing Themselves In 4</i>, La Trobe University, 2021 — ~6,400 young Australians). Feeling supported at school was strongly linked with better mental health.</p>
+      <p class="crit">Whatever you guessed, notice the gap between your number and the real one — that gap is what days like Wear it Purple exist to close.</p>
+    </div>
+  </div>
+
+  <h2>6 · Submit your results</h2>
+  <div class="card">
+    <p class="note">Enter your name and the class code your teacher gives you, then submit. Your report counts <b>first attempts only</b> — the retries you did to clear words aren't held against you.</p>
+    <div class="row">
+      <input type="text" id="stuName" placeholder="Name" aria-label="Your name" style="max-width:220px">
+      <input type="text" id="stuCode" placeholder="Class code" aria-label="Class code" style="max-width:140px">
+      <button id="submitBtn">Submit</button>
+    </div>
+    <div class="fb" id="copyFb" aria-live="polite"></div>
+    <div class="reveal" id="myReport"></div>
+    <p class="crit">What this report can't tell anyone: whether you used the kit or already knew the words, and whether you understood or pattern-matched. First tries and guesses, nothing more.</p>
+  </div>
+
+  <h2>7 · Class report</h2>
+  <div class="card">
+    <p class="note">For teachers (or the curious): enter a class code to see who has submitted and which words the class missed most — that ranking is the next lesson's starter.</p>
+    <div class="row">
+      <input type="text" id="repCode" placeholder="Class code" aria-label="Class code for report" style="max-width:140px">
+      <button id="repBtn" class="ghost">Show report</button>
+    </div>
+    <div id="repOut" style="margin-top:10px;overflow-x:auto"></div>
+  </div>
+
+  <footer>
+    <p class="note">If anything here raises something for you: your Connect teacher or the wellbeing team, QLife 1800 184 527 (3pm–midnight), Kids Helpline 1800 55 1800, headspace.org.au.</p>
+    <p class="note">Sources: Hill et al., <i>Writing Themselves In 4</i>, La Trobe University 2021; Australian Human Rights Commission and state law timelines. Your answers stay in this browser until you choose to submit; submitting shares your name, first-try results and guesses with your class code's report.</p>
+  </footer>
+</main>
+<script>
+const store=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const load=k=>{try{return localStorage.getItem(k)||''}catch(e){return ''}};
+const norm=s=>s.toLowerCase().replace(/[^a-z]/g,'');
+
+/* ---------- Section 2: build-the-word mastery loop ---------- */
+const ITEMS=[
+ {w:'transgender', d:'A person whose gender is different from the sex presumed for them at birth.', parts:'trans (across) + gender'},
+ {w:'cisgender', d:'A person whose gender matches the sex presumed for them at birth.', parts:'cis (on this side of) + gender'},
+ {w:'bisexual', d:'Attracted to more than one gender.', parts:'bi (two) + sexual (attraction)'},
+ {w:'pansexual', d:'Experiences attraction regardless of gender.', parts:'pan (all) + sexual (attraction)'},
+ {w:'asexual', d:'Experiences little or no sexual attraction.', parts:'a (without) + sexual (attraction)'},
+ {w:'heterosexual', d:'Attracted to a different gender from their own.', parts:'hetero (different) + sexual (attraction)'},
+ {w:'intersex', d:'Born with physical sex characteristics that sit between typical definitions of male and female bodies.', parts:'inter (between) + sex'},
+ {w:'transphobia', d:'Hostility or aversion directed at trans people.', parts:'trans + phobia (aversion)'},
+ {w:'aromantic', d:'Experiences little or no romantic attraction.', parts:'a (without) + romantic (falling for people)'},
+];
+let state;
+try{state=JSON.parse(load('wip2-state'))||null}catch(e){state=null}
+if(!state||!state.items||state.items.length!==ITEMS.length){
+  state={items:ITEMS.map(()=>({streakNeed:2,firstTry:null})),order:[...ITEMS.keys()],ptr:0};
+  // shuffle
+  for(let i=state.order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[state.order[i],state.order[j]]=[state.order[j],state.order[i]];}
+}
+const save=()=>store('wip2-state',JSON.stringify(state));
+const qbox=document.getElementById('qbox'),fb=document.getElementById('fb'),
+      prog=document.getElementById('prog'),ansIn=document.getElementById('ansIn');
+function nextIdx(){
+  const pending=state.order.filter(i=>state.items[i].streakNeed>0);
+  if(!pending.length)return -1;
+  // rotate so the same item doesn't repeat immediately when others remain
+  const i=pending[state.ptr%pending.length];
+  return i;
+}
+function renderQ(){
+  const i=nextIdx();
+  if(i<0){
+    qbox.innerHTML='<p><b>All nine cleared</b> — each answered correctly twice this session.</p>';
+    document.getElementById('ansBtn').disabled=true;ansIn.disabled=true;
+    fb.textContent='';renderProg();return;
+  }
+  qbox.innerHTML=`<p class="qword">?</p><p>${ITEMS[i].d}</p>`;
+  ansIn.value='';ansIn.focus&&0;renderProg();
+}
+function renderProg(){
+  const done=state.items.filter(it=>it.streakNeed<=0).length;
+  prog.textContent=`${done} of ${ITEMS.length} cleared · a wrong answer puts a word back in the queue`;
+}
+document.getElementById('ansBtn').onclick=()=>{
+  const i=nextIdx();if(i<0)return;
+  const it=state.items[i],guess=norm(ansIn.value);
+  if(!guess){fb.className='fb';fb.textContent='Type a word first — the kit in section 1 has every part you need.';return;}
+  const right=guess===norm(ITEMS[i].w);
+  if(it.firstTry===null)it.firstTry=right;
+  if(right){
+    it.streakNeed--;state.ptr++;
+    fb.className='fb ok';
+    fb.textContent=it.streakNeed<=0?`${ITEMS[i].w} — cleared (twice correct).`:`${ITEMS[i].w} — correct. It comes back once more before it clears.`;
+  }else{
+    it.streakNeed=2;state.ptr++;
+    fb.className='fb no';
+    fb.textContent=`Not quite. Build it: ${ITEMS[i].parts} → ${ITEMS[i].w}. It's back in the queue, needing two correct again.`;
+  }
+  save();renderQ();
+};
+ansIn.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('ansBtn').click()});
+renderQ();
+
+/* ---------- Section 3 ---------- */
+const apart=document.getElementById('apart'),apartBtn=document.getElementById('apartBtn');
+apart.value=load('wip2-apart');
+const gateApart=()=>apartBtn.disabled=apart.value.trim().length<20;
+apart.addEventListener('input',()=>{store('wip2-apart',apart.value);gateApart()});gateApart();
+apartBtn.onclick=()=>document.getElementById('apartR').classList.add('shown');
+
+/* ---------- Section 4: timeline ---------- */
+const EVENTS=[
+ {y:1969,t:'The Stonewall uprising, New York',x:'Patrons of the Stonewall Inn — many of them trans women and drag performers — resisted a police raid. The riots turned scattered activism into a movement; Pride marches worldwide mark its anniversary.'},
+ {y:1975,t:'South Australia becomes the first Australian state to decriminalise homosexuality',x:'Until then, sex between men was a crime in every state. SA moved first — a reminder that rights arrived state by state, not all at once.'},
+ {y:1978,t:'The first Sydney Mardi Gras',x:'Began as a protest march; 53 people were arrested and many were outed when a newspaper published their names. The marchers are honoured today as the "78ers".'},
+ {y:1990,t:'The World Health Organization removes homosexuality from its classification of diseases',x:'Within living memory of your teachers, being gay was officially listed as an illness. The change recognised the science: it never was one.'},
+ {y:1997,t:'Tasmania becomes the last Australian state to decriminalise homosexuality',x:'Only after a UN Human Rights Committee complaint and federal intervention. People at your school were alive when being gay was still a crime in part of Australia.'},
+ {y:2010,t:'The first Wear it Purple Day',x:'Founded by two Australian students, Katherine Hudson and Scott Williams, responding to the deaths of young LGBTQIA+ people who had been bullied. It began as exactly what today is: a school-level action.'},
+ {y:2013,t:'"Gender identity disorder" is removed from the DSM',x:'Psychiatry\'s manual replaced it with "gender dysphoria" — naming the distress some people experience, not the identity itself, as the clinical concern. Being trans stopped being classified as a disorder.'},
+ {y:2017,t:'Australia legalises same-sex marriage',x:'After a national postal survey returned 61.6% yes, Parliament changed the Marriage Act. Probably within your own memory — the most recent item on this list is the one you lived through.'},
+];
+const tl=document.getElementById('timeline');
+EVENTS.forEach((ev,i)=>{
+  const d=document.createElement('div');d.className='card tl-event';
+  d.innerHTML=`<p><b>${ev.t}</b></p>
+    <div class="row"><label for="tly${i}">Year:</label><input type="text" id="tly${i}" inputmode="numeric" placeholder="e.g. 1985"><button class="ghost tlBtn" data-i="${i}">Reveal</button></div>
+    <div class="reveal" id="tlR${i}"><p class="year">${ev.y}</p><p>${ev.x}</p><p class="crit" id="tlD${i}"></p></div>`;
+  tl.appendChild(d);
+});
+document.querySelectorAll('.tlBtn').forEach(b=>b.onclick=()=>{
+  const i=+b.dataset.i,inp=document.getElementById('tly'+i);
+  if(!inp.value.trim()){inp.placeholder='commit to a year first';inp.focus();return;}
+  const g=parseInt(inp.value,10);
+  const diff=isNaN(g)?null:g-EVENTS[i].y;
+  const dEl=document.getElementById('tlD'+i);
+  if(diff!==null)dEl.textContent = diff===0?'You had the exact year.':
+    `Your guess was ${Math.abs(diff)} year${Math.abs(diff)===1?'':'s'} too ${diff>0?'late — this happened earlier than you assumed':'early — this is more recent than you assumed'}.`;
+  store('wip2-tl'+i,inp.value);
+  document.getElementById('tlR'+i).classList.add('shown');
+});
+EVENTS.forEach((_,i)=>{const v=load('wip2-tl'+i);if(v)document.getElementById('tly'+i).value=v});
+
+/* ---------- Section 5 ---------- */
+document.getElementById('gBtn').onclick=()=>{
+  const a=document.getElementById('g1'),b=document.getElementById('g2');
+  if(!a.value.trim()&&!b.value.trim()){a.focus();a.placeholder='write a guess first';return;}
+  store('wip2-g1',a.value);store('wip2-g2',b.value);
+  document.getElementById('gReveal').classList.add('shown');
+};
+['g1','g2'].forEach(k=>{const v=load('wip2-'+k);if(v)document.getElementById(k).value=v});
+
+/* ---------- Sections 6–7: submit + class report ---------- */
+const nameEl=document.getElementById('stuName'),codeEl=document.getElementById('stuCode');
+nameEl.value=load('wip2-name');codeEl.value=load('wip2-code');
+nameEl.addEventListener('input',()=>store('wip2-name',nameEl.value));
+codeEl.addEventListener('input',()=>store('wip2-code',codeEl.value));
+const copyFb=document.getElementById('copyFb');
+
+function mySummary(){
+  const ft=state.items.map((it,i)=>it.firstTry===null?null:{w:ITEMS[i].w,ok:it.firstTry}).filter(Boolean);
+  const missed=ft.filter(x=>!x.ok).map(x=>x.w);
+  const years={};EVENTS.forEach((ev,i)=>{const g=load('wip2-tl'+i);if(g)years[ev.y]=g});
+  return {firstTryCorrect:ft.filter(x=>x.ok).length,attempted:ft.length,missed,years,
+    guesses:{supported:load('wip2-g1'),harassed:load('wip2-g2')}};
+}
+function renderMyReport(s){
+  const el=document.getElementById('myReport');el.classList.add('shown');
+  el.innerHTML=`<h3>Your report</h3>
+   <p>Vocabulary, first attempts: <b>${s.firstTryCorrect}/${s.attempted}</b>${s.attempted<ITEMS.length?` (${ITEMS.length-s.attempted} not yet attempted)`:''}</p>
+   <p>${s.missed.length?('Words to revisit: <b>'+s.missed.join(', ')+'</b> — take each apart with the kit before retrying.'):'No first-try misses — try decoding a word the page never taught, like <i>demiromantic</i>.'}</p>
+   <p>Timeline: ${Object.keys(s.years).length}/${EVENTS.length} events guessed.</p>`;
+}
+document.getElementById('submitBtn').onclick=async()=>{
+  const name=nameEl.value.trim(),code=codeEl.value.trim().toUpperCase();
+  if(!name||!code){copyFb.className='fb';copyFb.textContent='Name and class code first.';return;}
+  const s=mySummary();
+  if(!s.attempted){copyFb.className='fb';copyFb.textContent='Do section 2 first — there is nothing to submit yet.';return;}
+  renderMyReport(s);
+  const db=await claude.use('db');
+  if(!db){copyFb.className='fb';copyFb.textContent='Live submission isn’t available in this view — show your report above to your teacher instead.';return;}
+  try{
+    const id=(code+'-'+name).toLowerCase().replace(/[^a-z0-9-]/g,'_');
+    await db.doc('results/'+id).set({name,code,...s,ts:Date.now()});
+    copyFb.className='fb ok';copyFb.textContent='Submitted to class '+code+'. Your report is above.';
+  }catch(e){
+    copyFb.className='fb no';copyFb.textContent='Submission failed ('+(e.code||e.message||'error')+') — show your on-screen report instead.';
+  }
+};
+
+document.getElementById('repBtn').onclick=async()=>{
+  const code=document.getElementById('repCode').value.trim().toUpperCase();
+  const out=document.getElementById('repOut');
+  if(!code){out.textContent='Enter a class code.';return;}
+  const db=await claude.use('db');
+  if(!db){out.textContent='Live reports aren’t available in this view.';return;}
+  out.textContent='Loading…';
+  try{
+    const snap=await db.collection('results').where('code','==',code).get();
+    const rows=snap.docs.map(d=>d.data());
+    if(!rows.length){out.textContent='No submissions yet for '+code+'.';return;}
+    const missCount={};rows.forEach(r=>(r.missed||[]).forEach(w=>missCount[w]=(missCount[w]||0)+1));
+    const ranked=Object.entries(missCount).sort((a,b)=>b[1]-a[1]);
+    out.innerHTML=`<p><b>${rows.length}</b> submission${rows.length===1?'':'s'} for ${code}.</p>
+     <p>${ranked.length?('<b>Most-missed words:</b> '+ranked.map(([w,n])=>`${w} (${n})`).join(', ')+' — the top of this list is tomorrow’s starter.'):'No first-try misses across the class.'}</p>
+     <table style="border-collapse:collapse;width:100%">
+      <tr><th style="text-align:left;padding:4px 8px">Name</th><th style="text-align:left;padding:4px 8px">First-try</th><th style="text-align:left;padding:4px 8px">Missed</th><th style="text-align:left;padding:4px 8px">Timeline</th></tr>
+      ${rows.sort((a,b)=>a.name.localeCompare(b.name)).map(r=>`<tr>
+        <td style="padding:4px 8px;border-top:1px solid var(--line)">${String(r.name).slice(0,40)}</td>
+        <td style="padding:4px 8px;border-top:1px solid var(--line)">${r.firstTryCorrect}/${r.attempted}</td>
+        <td style="padding:4px 8px;border-top:1px solid var(--line)">${(r.missed||[]).join(', ')||'—'}</td>
+        <td style="padding:4px 8px;border-top:1px solid var(--line)">${Object.keys(r.years||{}).length}/${EVENTS.length}</td></tr>`).join('')}
+     </table>
+     <p class="crit">What this table cannot tell you: whether they worked alone, used the kit, or already knew the words. First attempts only; retries during the mastery loop are not counted.</p>`;
+  }catch(e){out.textContent='Could not load report ('+(e.code||e.message||'error')+').';}
+};
+</script>
