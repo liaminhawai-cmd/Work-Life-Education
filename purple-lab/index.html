@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Purple Lab - Work &amp; Life Education, Wear it Purple session. Word list with morphemes, briefing slides with checkpoints, word builders, a decoding task, an evidence audit and a printed report.">
+<title>Purple Lab</title>
+<style>
+  /* Same shell as Sleep Lab (sleep-lab/) so the suite reads as one.
+     The accent shifts to purple — this is the Wear it Purple unit. */
+  :root{
+    --bg:#f4efe6; --paper:#fbf7ee; --band:#f5f0e6; --ink:#1f1f1f; --muted:#6b6256;
+    --line:#d8cfbb; --line-soft:#e8e0cd;
+    --accent:#5b2d86; --accent-deep:#46226b; --accent-soft:#ece4f4;
+    --gold:#8b681e; --gold-soft:#f6e7c2;
+    --correct:#2f6a3e; --wrong:#a83232; --okbg:#eef5ee; --badbg:#f7ecec;
+    --shadow:0 1px 2px rgba(31,31,31,.05),0 4px 14px rgba(31,31,31,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#141018; --paper:#1d1822; --band:#251e2c; --ink:#eae5db; --muted:#a2988a;
+      --line:#3e3648; --line-soft:#2f2938;
+      --accent:#b48ae0; --accent-deep:#c6a5ec; --accent-soft:#2c2340;
+      --gold:#dcb355; --gold-soft:#372c11;
+      --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
+      --shadow:0 1px 2px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#141018; --paper:#1d1822; --band:#251e2c; --ink:#eae5db; --muted:#a2988a;
+    --line:#3e3648; --line-soft:#2f2938;
+    --accent:#b48ae0; --accent-deep:#c6a5ec; --accent-soft:#2c2340;
+    --gold:#dcb355; --gold-soft:#372c11;
+    --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
+    --shadow:0 1px 2px rgba(0,0,0,.45);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif;background:var(--bg);
+       color:var(--ink);min-height:100vh;padding:16px;display:flex;justify-content:center;align-items:flex-start}
+  .container{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+       max-width:900px;width:100%;padding:26px;margin-top:12px;box-shadow:var(--shadow)}
+  h1{text-align:center;font-size:24px;font-family:Georgia,'Times New Roman',serif;letter-spacing:.4px}
+  h2{font-family:Georgia,serif;font-size:19px;margin:4px 0 10px}
+  h3{font-family:Georgia,serif;font-size:15.5px;margin:18px 0 8px}
+  .subtitle{color:var(--muted);text-align:center;margin:6px 0 18px;font-size:13px}
+  .muted{color:var(--muted);font-size:13px;line-height:1.55}
+  .screen{display:none}.screen.active{display:block}
+  button{font-family:inherit}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+
+  .btn{padding:11px 18px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-weight:600;
+       cursor:pointer;background:var(--paper);color:var(--ink);transition:all .15s ease}
+  .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn-primary:hover:not(:disabled){background:var(--accent-deep);border-color:var(--accent-deep)}
+  .btn-primary:disabled{background:var(--line);border-color:var(--line);color:var(--muted);cursor:not-allowed}
+  .btn-ghost{background:var(--bg);color:var(--muted)}
+  .btn-ghost:hover{color:var(--ink);border-color:var(--ink)}
+  .linkbtn{background:none;border:none;color:var(--accent);font-weight:600;font-size:13px;cursor:pointer;padding:4px 8px}
+  .linkbtn:hover{text-decoration:underline}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px}
+  .progress{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.4px;text-align:right}
+
+  .steps{display:flex;flex-direction:column;gap:10px;margin:18px 0}
+  .step{display:flex;align-items:center;gap:14px;border:1px solid var(--line-soft);border-radius:10px;
+        padding:14px 16px;background:var(--paper);text-align:left;cursor:pointer;width:100%;color:inherit}
+  .step:hover:not(:disabled){border-color:var(--accent)}
+  .step:disabled{opacity:.5;cursor:not-allowed}
+  .step .num{width:34px;height:34px;border-radius:50%;background:var(--bg);border:1px solid var(--line);
+        display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+  .step.done .num{background:var(--okbg);border-color:var(--correct);color:var(--correct)}
+  .step .t{font-weight:700;font-size:15px}
+  .step .d{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.45}
+  .step .tag{margin-left:auto;font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--muted);
+        flex-shrink:0;text-align:right;max-width:120px;line-height:1.35}
+  .step.done .tag{color:var(--correct)}
+
+  .teach{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;
+         background:var(--bg);padding:16px 18px;margin-bottom:16px;font-size:14.5px;line-height:1.65}
+  .teach b{color:var(--accent)}
+  .teach ul,.teach ol{margin:8px 0 0 20px}
+  .teach li{margin-bottom:6px}
+
+  .slidewrap{border:1px solid var(--line);border-radius:12px;background:var(--band);
+             padding:22px 24px;min-height:330px;display:flex;flex-direction:column;gap:12px}
+  .slidewrap .of{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .slidewrap h2{font-family:Georgia,serif;font-size:clamp(20px,2.4vw + 10px,30px);line-height:1.12;margin:0}
+  .slidewrap .lead{font-size:clamp(14px,.6vw + 12px,17px);line-height:1.6}
+  .slidewrap .pts{display:flex;flex-direction:column;gap:8px}
+  .slidewrap .pts div{display:flex;gap:10px;font-size:clamp(13.5px,.5vw + 11.5px,16px);line-height:1.55}
+  .slidewrap .pts .b{color:var(--accent);font-weight:800;flex:none}
+  .pull{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);
+        border-radius:8px;padding:11px 14px;font-family:Georgia,serif;
+        font-size:clamp(14px,.6vw + 12px,17.5px);line-height:1.5}
+  .pull span{display:block;font-family:'Segoe UI',sans-serif;font-size:11px;font-weight:800;
+             letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .srcline{font-size:12px;color:var(--muted);font-style:italic;margin-top:auto;padding-top:8px}
+  .slidenav{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .slidenav .sp{flex:1}
+  .pips{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+  .pip{width:26px;height:6px;border-radius:3px;background:var(--line);border:none;cursor:pointer;padding:0}
+  .pip.seen{background:var(--muted)}
+  .pip.now{background:var(--accent)}
+
+  body.present .container{max-width:100%;margin:0;border:none;border-radius:0;padding:10px}
+  body.present .slidewrap{min-height:calc(100dvh - 150px);justify-content:center}
+  body.present .hide-present{display:none !important}
+  body.present .slidewrap h2{font-size:clamp(28px,4.4vw,58px)}
+  body.present .slidewrap .lead{font-size:clamp(17px,1.7vw,28px)}
+  body.present .slidewrap .pts div{font-size:clamp(16px,1.5vw,25px)}
+  body.present .pull{font-size:clamp(17px,1.6vw,27px)}
+
+  .buildword{font-family:Georgia,serif;font-size:20px;text-align:center;margin-bottom:4px;color:var(--muted)}
+  .slots,.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0}
+  .slot{min-width:78px;min-height:46px;border:2px dashed var(--line);border-radius:8px;
+        display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;
+        padding:6px 10px;background:var(--bg)}
+  .slot.filled{border-style:solid;border-color:var(--correct);background:var(--okbg);color:var(--correct)}
+  .tile{padding:10px 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);
+        font-weight:700;font-size:16px;cursor:pointer;color:var(--ink)}
+  .tile:hover:not(:disabled){border-color:var(--accent)}
+  .tile:disabled{opacity:.32;cursor:default}
+  .tile.shake{animation:shake .3s;border-color:var(--wrong);color:var(--wrong)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  @media (prefers-reduced-motion:reduce){ .tile.shake{animation:none} }
+  .glosses{margin:10px auto;max-width:560px;font-size:13px;color:var(--muted);line-height:1.75;text-align:center}
+  .glosses b{color:var(--ink)}
+  .reveal{border:1px solid var(--correct);background:var(--okbg);border-radius:10px;padding:14px 16px;
+          margin:14px 0;font-size:14.5px;line-height:1.6;display:none}
+  .reveal.show{display:block}
+  .buildprog{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:14px}
+  .bdot{width:12px;height:12px;border-radius:50%;border:1px solid var(--line);background:var(--bg)}
+  .bdot.done{background:var(--correct);border-color:var(--correct)}
+  .bdot.now{border-color:var(--accent);background:var(--paper);box-shadow:0 0 0 2px rgba(91,45,134,.25)}
+
+  .vcard{border:1px solid var(--line-soft);border-radius:10px;padding:14px 16px;margin-bottom:10px;background:var(--paper)}
+  .vcard .w{font-family:Georgia,serif;font-size:17.5px;font-weight:700}
+  .vcard .pos{font-size:12px;color:var(--muted);font-style:italic;margin-left:6px}
+  .vcard .meaning{font-size:14px;margin:6px 0;line-height:1.5}
+  .vcard .morph{font-size:12.5px;color:var(--muted);line-height:1.6;border-top:1px dashed var(--line-soft);
+                padding-top:6px;margin-top:6px}
+  .vcard .morph b,.vcard .morph i{color:var(--ink)}
+  .vcard .morph code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:700;color:var(--accent)}
+
+  .prompt{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:8px}
+  .qtext{font-size:17px;line-height:1.6;margin-bottom:16px}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--paper);font-size:15px;
+       text-align:left;cursor:pointer;line-height:1.5;color:var(--ink)}
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default}
+  .opt.right{background:var(--okbg);border-color:var(--correct);color:var(--correct);font-weight:700}
+  .opt.wrongpick{background:var(--badbg);border-color:var(--wrong);color:var(--wrong)}
+  .numrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .numrow input{padding:11px 13px;border:1px solid var(--line);border-radius:8px;font-size:16px;
+                font-family:ui-monospace,Menlo,monospace;width:130px;background:var(--paper);color:var(--ink)}
+  .numrow .unit{font-size:14px;color:var(--muted);font-weight:600}
+  .feedback{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:14px;line-height:1.6;display:none}
+  .feedback.ok{display:block;background:var(--okbg);border:1px solid var(--correct)}
+  .feedback.bad{display:block;background:var(--badbg);border:1px solid var(--wrong)}
+  .nextrow{margin-top:16px;display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;align-items:center}
+
+  .sendback{border:1px solid var(--wrong);border-left:4px solid var(--wrong);background:var(--badbg);
+            border-radius:10px;padding:16px 18px;margin-top:14px}
+  .sendback .hd{font-weight:800;color:var(--wrong);font-size:14px;letter-spacing:.3px;
+                text-transform:uppercase;margin-bottom:8px}
+  .sendback .slidecopy{background:var(--paper);border:1px solid var(--line);border-radius:8px;
+                       padding:14px 16px;font-size:14.5px;line-height:1.6}
+  .sendback .slidecopy h4{font-family:Georgia,serif;font-size:16px;margin-bottom:8px}
+  .sendback .slidecopy .pts div{display:flex;gap:9px;margin-bottom:6px}
+  .sendback .slidecopy .pts .b{color:var(--accent);font-weight:800;flex:none}
+  .dwell{font-size:12.5px;color:var(--muted);margin-top:10px;font-weight:600}
+
+  .stagepath{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;justify-content:center}
+  .spip{font-size:11px;font-weight:700;letter-spacing:.3px;padding:4px 10px;border-radius:12px;
+        border:1px solid var(--line-soft);color:var(--muted);background:var(--bg)}
+  .spip.done{border-color:var(--correct);color:var(--correct);background:var(--okbg)}
+  .spip.now{border-color:var(--accent);color:var(--accent);background:var(--paper)}
+
+  .sumbox{border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0;text-align:center}
+  .sumbox .big{font-family:Georgia,serif;font-size:31px;font-weight:700}
+  .sumbox .big.good{color:var(--correct)} .sumbox .big.mid{color:var(--gold)} .sumbox .big.low{color:var(--wrong)}
+
+  /* decode step */
+  .decword{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--accent);text-align:center;margin:6px 0}
+  textarea.dec{width:100%;min-height:90px;padding:12px;border:1px solid var(--line);border-radius:8px;
+        font:inherit;font-size:15px;background:var(--paper);color:var(--ink);resize:vertical}
+  .crit{border:1px solid var(--line);border-left:4px solid var(--gold);background:var(--gold-soft);
+        border-radius:8px;padding:12px 15px;font-size:14px;line-height:1.6;margin-top:12px;display:none}
+  .crit.show{display:block}
+  .selfmark{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:14px;align-items:center}
+
+  .repgrid{width:100%;border-collapse:collapse;margin:12px 0}
+  .repgrid th,.repgrid td{border:1px solid var(--line);padding:8px 10px;font-size:13.5px;text-align:left}
+  .repgrid th{background:var(--bg);font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  .repgrid td.score{font-weight:700;white-space:nowrap}
+  .repgrid td.nf{color:var(--muted);font-style:italic}
+  .idrow{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  .idrow label{font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
+  .idrow input{padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:15px;
+               font-family:inherit;background:var(--paper);color:var(--ink)}
+  .vcode{font-family:ui-monospace,Menlo,monospace;font-size:13px;letter-spacing:2px}
+
+  .sheet{border:1px solid var(--line);border-radius:10px;padding:18px;background:var(--paper);margin-top:12px}
+  .sheet h3{margin-top:0}
+  .sheet .qline{border-bottom:1px solid var(--ink);height:30px;margin:8px 0}
+
+  .vc{background:var(--accent-soft);border-radius:8px;padding:12px 15px;font-size:13px;line-height:1.55;margin-top:12px}
+  .vc .hd{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:6px}
+  .vc li{margin:5px 0 5px 18px}
+  .vc em{color:var(--ink)}
+
+  details.tnote{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-top:16px}
+  details.tnote summary{cursor:pointer;font-weight:700;font-size:13.5px;color:var(--muted);letter-spacing:.02em}
+  details.tnote .in{margin-top:12px;font-size:13.5px;line-height:1.6}
+  details.tnote .in ol{margin:8px 0 0 20px}
+  details.tnote .in li{margin-bottom:6px}
+
+  @media print{
+    body{background:#fff;padding:0;display:block}
+    .container{border:none;box-shadow:none;max-width:100%;padding:6px;background:#fff}
+    .noprint{display:none !important}
+    .pagebreak{break-before:page;page-break-before:always}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+  @media (max-width:560px){
+    .container{padding:16px}
+    .step .tag{max-width:74px;font-size:10px}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ============ HOME ============ -->
+<div class="screen active" id="scr-home">
+  <h1>Purple Lab</h1>
+  <p class="subtitle">Work &amp; Life Education · Wear it Purple session · Year 10</p>
+  <div class="steps" id="home-steps"></div>
+  <p class="muted" style="text-align:center;max-width:640px;margin:0 auto">
+    Your <b>first attempt</b> at every question is what goes on your report. Get a briefing question wrong and you are
+    sent back to that slide before you can try again. Wrong answers keep coming back until you've mastered them —
+    but the report remembers the first try.
+  </p>
+  <div class="nextrow noprint" style="justify-content:center">
+    <button class="linkbtn" id="resetAllBtn" type="button">start over (clears everything)</button>
+    <a class="linkbtn" href="../sleep-lab/">Sleep Lab →</a>
+  </div>
+  <div class="vc">
+    <div class="hd">Victorian Curriculum F–10 Version 2.0 · alignment</div>
+    <ul>
+      <li><b>Personal and Social Capability, Levels 9–10</b> — students <em>evaluate how respect, empathy and
+        valuing diversity are expressed</em>, and analyse strategies for challenging disrespectful behaviour.</li>
+      <li><b>Health and Physical Education, Levels 9–10</b> — students <em>examine how societal norms, stereotypes
+        and expectations influence the way people think, feel and act</em>, and propose actions that make
+        communities more inclusive. Aligns with Respectful Relationships.</li>
+      <li><b>Civics and Citizenship / Ethical Capability</b> — the history slides trace how Australian law changed,
+        state by state, and the audit asks students to weigh evidence claims the way the sleep unit did.</li>
+    </ul>
+    <p class="muted" style="margin-top:8px">Descriptor wording paraphrased from VCAA. Confirm current alphanumeric
+      codes at <b>victoriancurriculum.vcaa.vic.edu.au</b> before pasting into a planning document.</p>
+  </div>
+</div>
+
+<!-- ============ STUDY ============ -->
+<div class="screen" id="scr-study">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">STEP 1 · WORD LIST</span>
+  </div>
+  <h2>Ten words you need before the briefing</h2>
+  <p class="muted" style="margin-bottom:14px">Read each one: its meaning, and the <b>morphemes</b> — the prefix, root
+    and suffix — that build that meaning. Almost every word in this topic is assembled from a small Greek and Latin
+    kit, and the word builders in Step 3 use near-miss decoy morphemes. One idea keeps everything straight:
+    <b>gender identity and attraction are two different axes</b> — <i>trans/cis</i> answer one question,
+    <i>homo/hetero/bi/pan/a</i> answer the other.</p>
+  <div id="study-list"></div>
+  <div class="nextrow noprint">
+    <button class="btn btn-primary" id="markStudiedBtn" type="button">I've read them all — go to the briefing &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDES ============ -->
+<div class="screen" id="scr-slides">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="slide-prog">STEP 2 · THE BRIEFING</span>
+  </div>
+  <div class="pips noprint" id="slide-pips"></div>
+  <div class="slidewrap" id="slide-body"></div>
+  <div class="slidenav noprint">
+    <button class="btn btn-ghost" id="slidePrev" type="button">&larr; Back</button>
+    <button class="btn btn-ghost" id="presentBtn" type="button">Present mode</button>
+    <button class="btn btn-ghost hide-present" id="slideToQ" type="button" hidden>Skip to the questions &rarr;</button>
+    <span class="sp"></span>
+    <button class="btn btn-primary" id="slideNext" type="button">Next &rarr;</button>
+  </div>
+  <p class="muted hide-present" style="margin-top:12px;text-align:center" id="slideFoot"></p>
+</div>
+
+<!-- ============ CHECKPOINTS ============ -->
+<div class="screen" id="scr-check">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="check-prog">STEP 2 · CHECKPOINTS</span>
+  </div>
+  <div id="check-body"></div>
+</div>
+
+<!-- ============ WORD BUILDERS ============ -->
+<div class="screen" id="scr-build">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="build-prog">STEP 3 · WORD BUILDERS</span>
+  </div>
+  <div id="build-body"></div>
+</div>
+
+<!-- ============ DECODE ============ -->
+<div class="screen" id="scr-decode">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">STEP 4 · DECODE AN UNSEEN WORD</span>
+  </div>
+  <div id="decode-body"></div>
+</div>
+
+<!-- ============ AUDIT ============ -->
+<div class="screen" id="scr-audit">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="audit-prog">STEP 5 · EVIDENCE AUDIT</span>
+  </div>
+  <div id="audit-body"></div>
+</div>
+
+<!-- ============ REPORT ============ -->
+<div class="screen" id="scr-report">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">REPORT</span>
+  </div>
+  <div id="report-body"></div>
+</div>
+
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   PURPLE LAB — Work & Life Education, Wear it Purple (Year 10)
+   Same engine as sleep-lab/ (Sleep Lab). Standalone; nothing
+   leaves the browser. Sequence:
+   STEP 1 · WORD LIST — ten words frontloaded with morphemes.
+   STEP 2 · THE BRIEFING — eight slides, checkpoint per slide,
+     wrong answer = sent back to the slide with a dwell.
+   STEP 3 · WORD BUILDERS — assemble words against decoys.
+   STEP 4 · DECODE — write the meaning of a word never taught,
+     then self-mark against stated criteria (honest interface:
+     the page cannot judge free writing and says so).
+   STEP 5 · EVIDENCE AUDIT — two sections, 80% gate, reteach
+     plus parallel set.
+   REPORT — name, student ID, verification code, print.
+   ============================================================ */
+
+/* ================= WORD LIST ================= */
+const WORDS = [
+  { w:"Transgender", pos:"adjective",
+    meaning:"Having a gender different from the sex presumed for you at birth.",
+    tiles:[["trans-","across, beyond"],["gender","social identity of being a man, woman, or neither"]],
+    decoys:[["cis-","on this side of"],["-ism","system or belief"]],
+    note:"The same <i>trans-</i> as <b>transport</b> and <b>translate</b> — something crossing over. It answers the identity question, not the attraction question: a trans person can be straight, gay, bi or anything else." },
+  { w:"Cisgender", pos:"adjective",
+    meaning:"Having a gender that matches the sex presumed for you at birth.",
+    tiles:[["cis-","on this side of"],["gender","social identity of being a man, woman, or neither"]],
+    decoys:[["trans-","across, beyond"],["circum-","all the way round"]],
+    note:"Chemists have used <i>cis-</i> and <i>trans-</i> as a matched pair for two centuries. <b>Cisgender</b> is not an insult — it is simply the other half of the pair, the way <i>heterosexual</i> pairs with <i>homosexual</i>." },
+  { w:"Heterosexual", pos:"adjective",
+    meaning:"Attracted to a different gender from your own.",
+    tiles:[["hetero-","different, other"],["sexual","of sexual attraction"]],
+    decoys:[["homeo-","same, steady"],["-ise","to make"]],
+    note:"Watch the decoy: <i>homeo-</i> means <b>same</b> — it builds <b>homeostasis</b> from the sleep unit. <i>Hetero-</i> is its opposite. Same kit, different units." },
+  { w:"Homophobia", pos:"noun",
+    meaning:"Hostility or aversion directed at gay, lesbian or bisexual people.",
+    tiles:[["homo-","same"],["phobia","fear, aversion"]],
+    decoys:[["homeo-","same, steady (a different Greek root)"],["-philia","love or fondness for"]],
+    note:"<i>-phobia</i> here means hostility and aversion, not literal terror. And note what the word is built on: <i>homo</i> (same) + fear — fear of sameness-of-attraction. Naming the mechanism is the first step to refusing it." },
+  { w:"Bisexual", pos:"adjective",
+    meaning:"Attracted to more than one gender.",
+    tiles:[["bi-","two"],["sexual","of sexual attraction"]],
+    decoys:[["bio-","life"],["-al","relating to"]],
+    note:"<i>Bi-</i> = two, as in <b>bicycle</b> and <b>bilingual</b>. In practice the word is used more broadly than 'exactly two' — many people use it to mean attraction to more than one gender." },
+  { w:"Pansexual", pos:"adjective",
+    meaning:"Experiencing attraction regardless of gender.",
+    tiles:[["pan-","all"],["sexual","of sexual attraction"]],
+    decoys:[["poly-","many"],["para-","beside"]],
+    note:"<i>Pan-</i> = all, as in <b>pandemic</b> (across all people) and <b>panorama</b> (a view of everything). The difference from <i>bi-</i> is emphasis: <i>pan-</i> says gender is not the deciding factor at all." },
+  { w:"Asexual", pos:"adjective",
+    meaning:"Experiencing little or no sexual attraction.",
+    tiles:[["a-","without, not"],["sexual","of sexual attraction"]],
+    decoys:[["anti-","against"],["ab-","away from"]],
+    note:"<i>A-</i> = without, as in <b>atypical</b> and <b>anonymous</b> (without a name). Not <i>anti-</i>: asexuality is not being against anything, and it is not 'hasn't met the right person yet'." },
+  { w:"Aromantic", pos:"adjective",
+    meaning:"Experiencing little or no romantic attraction.",
+    tiles:[["a-","without, not"],["romantic","of romantic attraction — who you fall for"]],
+    decoys:[["aero-","air"],["-ism","system or belief"]],
+    note:"<i>-romantic</i> and <i>-sexual</i> are different suffixes because they name <b>different kinds of attraction</b> — who you fall for versus who you desire. They can differ in one person: <i>biromantic asexual</i> is a meaningful, buildable phrase." },
+  { w:"Intersex", pos:"adjective",
+    meaning:"Born with physical sex characteristics that sit between typical definitions of male and female bodies.",
+    tiles:[["inter-","between"],["sex","physical sex characteristics"]],
+    decoys:[["intra-","within"],["infra-","below"]],
+    note:"<i>Inter-</i> = between, as in <b>international</b> (between nations) and <b>interval</b>. Intersex is about the <b>body</b>, not identity or attraction — a third axis again. Around 1.7% of people are estimated to have intersex variations." },
+  { w:"Decriminalise", pos:"verb",
+    meaning:"To change the law so something stops being a crime.",
+    tiles:[["de-","reverse, remove"],["crimin","crime, judgement (Latin crimen)"],["-alise","to make, to cause to be"]],
+    decoys:[["dis-","apart"],["-ify","to make (wrong suffix for this word)"]],
+    note:"Literally <b>to un-crime</b> something. You need this word for the history: being gay was a crime in every Australian state until South Australia decriminalised it in 1975 — and Tasmania held out until 1997." }
+];
+
+/* ================= SLIDES + CHECKPOINTS ================= */
+const SLIDES = [
+  { id:"p1", title:"Two questions, not one",
+    lead:"Almost every mistake people make with this vocabulary comes from mixing up two separate questions.",
+    pts:[
+      ["1","<b>What is your gender?</b> — answered by words like <i>trans</i>, <i>cis</i>, non-binary. This is identity."],
+      ["2","<b>Who are you attracted to?</b> — answered by words like <i>gay</i>, <i>straight</i>, <i>bi</i>, <i>pan</i>, <i>ace</i>. This is orientation."],
+      ["3","They are <b>independent axes</b>. Knowing someone's answer to one tells you nothing about their answer to the other."]
+    ],
+    pull:{ lbl:"The test case", t:"A trans woman attracted to men is straight. If that sentence surprises you, run the two questions separately: her gender is woman; she is attracted to a different gender. Both words are doing their own job." },
+    src:"Standard usage; consistent with the Victorian Department of Education's LGBTIQ+ terminology guidance.",
+    q:{ kind:"mcq",
+        q:"A student says: “He came out as trans, so that means he's gay now.” What has gone wrong in this sentence?",
+        opts:[
+          "Nothing — trans and gay mean roughly the same thing.",
+          "It answers the attraction question with an identity word: being trans says nothing about who someone is attracted to.",
+          "The word 'trans' is outdated and should be 'transgender'.",
+          "You cannot be trans and gay at the same time."
+        ],
+        a:1,
+        explain:"Gender identity and attraction are <b>separate axes</b>. Coming out as trans answers “what is my gender?” — it leaves “who am I attracted to?” exactly as unknown as before. (And D is wrong too: a trans man attracted to men is gay; the axes combine freely.)" } },
+
+  { id:"p2", title:"The acronym, letter by letter",
+    lead:"LGBTQIA+ is a coalition of groups with different situations, gathered under one banner. Each letter is doing a different job.",
+    pts:[
+      ["LGB","Lesbian, Gay, Bisexual — <b>attraction</b> words."],
+      ["T","Transgender — a <b>gender identity</b> word. Different axis from LGB."],
+      ["Q","Queer or Questioning — a reclaimed umbrella word, or still working it out. Working it out is a normal place to be."],
+      ["I","Intersex — about <b>the body</b>, physical sex characteristics. A third axis again."],
+      ["A","Asexual / Aromantic — experiencing little or no sexual or romantic attraction."],
+      ["+","Everyone the letters don't capture."]
+    ],
+    pull:{ lbl:"Why it matters that the letters differ", t:"An intersex person's concerns (often medical consent) are not a trans person's (often recognition), and neither is a gay person's (historically, the criminal law). The acronym is a coalition, not one experience." },
+    src:"Terminology consistent with Victorian government and eSafety guidance.",
+    q:{ kind:"mcq",
+        q:"Which letter of the acronym refers to physical sex characteristics rather than identity or attraction?",
+        opts:[
+          "Q — Queer",
+          "I — Intersex",
+          "A — Asexual",
+          "T — Transgender"
+        ],
+        a:1,
+        explain:"<b>Intersex</b> is about the body: sex characteristics that sit between typical definitions of male and female. It is neither an orientation nor a gender identity — a third axis. T is identity, A and Q relate to attraction and the umbrella." } },
+
+  { id:"p3", title:"It was a crime — recently",
+    lead:"For most of Australian history, sex between men was a criminal offence in every state. The law changed state by state, not all at once.",
+    pts:[
+      ["1975","<b>South Australia</b> becomes the first state to decriminalise. Victoria follows in 1980, NSW in 1984."],
+      ["1994","Tasmania still refuses. A Tasmanian, Nick Toonen, takes Australia to the <b>UN Human Rights Committee</b> — and wins. The federal government passes a law to override the Tasmanian one."],
+      ["1997","<b>Tasmania</b> finally repeals its law — the last state, 22 years after the first."]
+    ],
+    pull:{ lbl:"Do the maths on the dates", t:"1997 is within the lifetime of your teachers and possibly your parents. People at your school were alive while being gay was still a crime in part of Australia. This history is not distant." },
+    src:"State legislation dates; Toonen v Australia (UN Human Rights Committee, 1994).",
+    q:{ kind:"num",
+        q:"How many years passed between the first Australian state decriminalising homosexuality and the last one doing so?",
+        a:22, tol:0, unit:"years",
+        hint:"First: South Australia, 1975. Last: Tasmania, 1997.",
+        explain:"1997 − 1975 = <b>22 years</b>. That gap is the point: rights did not arrive as one event but as a two-decade, state-by-state fight — and the last step needed a UN ruling and federal intervention to force it." } },
+
+  { id:"p4", title:"From riot to street party",
+    lead:"The public face of the movement — marches, Pride, Mardi Gras — began as something much rougher.",
+    pts:[
+      ["1969","<b>Stonewall</b>, New York. Patrons of a gay bar — prominently trans women and drag performers — resist a police raid. The riots turn scattered activism into a movement."],
+      ["1978","The first <b>Sydney Mardi Gras</b> begins as a solidarity march. Police break it up; 53 people are arrested, and a newspaper publishes their names, outing many to employers and families."],
+      ["2016","The NSW Parliament and the newspaper formally <b>apologise</b> to the marchers, now honoured as the '78ers'."]
+    ],
+    pull:{ lbl:"Reading the arc", t:"The same event was treated as a public order problem in 1978 and receives a parliamentary apology in 2016. What changed was not the marchers — it was the society around them. Institutions can be wrong, and can say so." },
+    src:"Sydney Mardi Gras history; NSW parliamentary apology, 2016.",
+    q:{ kind:"mcq",
+        q:"In 1978, marchers were arrested and outed by a newspaper. In 2016, parliament and that newspaper apologised. What is the most defensible conclusion to draw from this pair of facts?",
+        opts:[
+          "The 1978 marchers broke the law, so the arrests were justified at the time.",
+          "Social and institutional judgements of the same act can change profoundly — which is a reason to examine today's judgements too.",
+          "Newspapers should never report on protests.",
+          "Apologies erase the harm that was done."
+        ],
+        a:1,
+        explain:"The event did not change; the judgement of it did. That is the transferable lesson — institutions confident they are right can later conclude they were wrong, which is exactly why days like Wear it Purple ask you to examine the norms you have inherited rather than assume them." } },
+
+  { id:"p5", title:"Off the illness lists",
+    lead:"Within living memory, being gay or trans was officially classified as a disorder. Both classifications were removed — decades apart.",
+    pts:[
+      ["1990","The <b>World Health Organization</b> removes homosexuality from its international classification of diseases. It was never an illness; the classification reflected the era's prejudice, not evidence."],
+      ["2013","Psychiatry's manual (the DSM) replaces <b>“gender identity disorder”</b> with <b>“gender dysphoria”</b> — naming the <i>distress</i> some people experience as the clinical concern, not the identity itself."],
+      ["Now","Major Australian medical bodies treat being LGBTQIA+ as a normal variation of human diversity. What needs treating, where anything does, is distress — much of it caused by how people are treated."]
+    ],
+    pull:{ lbl:"The precise distinction", t:"After 2013, being trans is not classified as a disorder. Gender dysphoria — distress at the mismatch — is what clinicians may diagnose and support. The identity is not the illness; the distress is the concern." },
+    src:"WHO ICD revision (1990); DSM-5 (2013).",
+    q:{ kind:"mcq",
+        q:"After the 2013 change, which statement correctly describes the clinical position?",
+        opts:[
+          "Being transgender is classified as a mental disorder.",
+          "Gender dysphoria — distress at a mismatch between gender and presumed sex — may be diagnosed and supported; the identity itself is not a disorder.",
+          "Neither trans identity nor any related distress is recognised by medicine at all.",
+          "The 2013 change made gender identity disorder a physical illness instead of a mental one."
+        ],
+        a:1,
+        explain:"The renaming was the substance of the change: the <b>distress</b> is the clinical concern, and treating it — including by affirming the person's gender — is the goal. Classifying the identity itself as disordered is exactly what was removed." } },
+
+  { id:"p6", title:"61.6% — and what a survey can't do",
+    lead:"Australia legalised same-sex marriage in 2017, after a voluntary national postal survey.",
+    pts:[
+      ["1","Nearly <b>8 in 10</b> eligible Australians took part — an extraordinary response for a voluntary survey."],
+      ["2","<b>61.6%</b> voted yes. Parliament amended the Marriage Act within a month."],
+      ["3","During the campaign, LGBTQIA+ Australians reported a measurable spike in distress — support services recorded sharply increased demand while the public debated their lives."]
+    ],
+    pull:{ lbl:"Both things are true", t:"The result was a clear majority and a genuine milestone — and the process itself was costly for the people it was about. History is allowed to be both. You lived through this one." },
+    src:"Australian Marriage Law Postal Survey, ABS 2017; Marriage Amendment Act 2017.",
+    q:{ kind:"num",
+        q:"In the 2017 postal survey, what percentage of respondents voted yes? (One decimal place.)",
+        a:61.6, tol:0.1, unit:"%",
+        hint:"It was a clear majority, but not a landslide — between 60 and 65.",
+        explain:"<b>61.6%</b> yes, 38.4% no, with about 79.5% of eligible voters taking part. Worth holding both facts at once: a decisive majority said yes, and nearly four in ten said no — the people this vote was about knew both numbers described their neighbours." } },
+
+  { id:"p7", title:"Started by students",
+    lead:"Wear it Purple Day is not a corporate campaign that reached schools. It started in one.",
+    pts:[
+      ["2010","Two Australian students, <b>Katherine Hudson and Scott Williams</b>, found Wear it Purple after several young LGBTQIA+ people take their own lives following bullying."],
+      ["The idea","One visible day where young people see, at school, that they have supporters — because the founders knew exactly what school could feel like without one."],
+      ["The data","In <i>Writing Themselves In 4</i> (La Trobe, ~6,400 young LGBTQIA+ Australians), only about <b>4 in 10</b> secondary students described their school as supportive — and those who did reported markedly better mental health."]
+    ],
+    pull:{ lbl:"Read the mechanism", t:"The survey doesn't just show a problem; it points at the lever. School support is the variable that tracks wellbeing — and school support is made of individual moments: what gets laughed at, what gets corrected, who says something." },
+    src:"Wear it Purple Foundation; Hill et al., Writing Themselves In 4, La Trobe University, 2021.",
+    q:{ kind:"mcq",
+        q:"The survey found students at supportive schools reported better mental health. Why can't we conclude from this alone that school support causes better mental health?",
+        opts:[
+          "Because the survey was too small to show anything.",
+          "Because it is an association from survey data — other differences between schools could contribute, and causation would need stronger designs to establish.",
+          "Because mental health cannot be measured.",
+          "We can conclude it — an association this large is proof of cause."
+        ],
+        a:1,
+        explain:"Same rule as the sleep unit: an <b>association</b>, however strong and plausible, is not yet a demonstrated cause — supportive schools may differ in many ways. It is still evidence worth acting on; you just state it accurately: <i>supported students report better mental health</i>, not <i>support guarantees it</i>." } },
+
+  { id:"p8", title:"What actually helps, day to day",
+    lead:"The research on peers and bystanders is consistent: what shifts a school's climate is not lectures — it is what ordinary students let pass.",
+    pts:[
+      ["1","<b>Small, visible responses work.</b> Not laughing, a quiet “not cool”, a correction made lightly — low-key responses from peers shift what feels normal more than dramatic confrontations."],
+      ["2","<b>Never out anyone.</b> Defending someone by revealing their identity — “careful, X is gay” — takes from them the one decision that is theirs."],
+      ["3","<b>Names and pronouns:</b> use the right ones consistently; if you slip, correct yourself briefly and keep going. A three-line apology makes the person comfort you."],
+      ["4","<b>In group chats, silence is public.</b> Everyone can see who said nothing. One visible “not funny” changes what the silent majority appears to think."]
+    ],
+    pull:{ lbl:"The near-miss to avoid", t:"“Ignore it, it's just a word” fails on the evidence: the people a slur lands on cannot ignore it, and to everyone watching, silence reads as agreement." },
+    src:"Bystander research; consistent with Department of Education Respectful Relationships materials.",
+    q:{ kind:"mcq",
+        q:"A classmate keeps using another student's old name. You can't tell if it's habit or deliberate. Applying this slide, what is the best first move?",
+        opts:[
+          "Wait until you're sure it's deliberate before doing anything.",
+          "Correct it lightly mid-conversation — “it's Sam” — and keep using the right name yourself.",
+          "Announce to the group that the classmate is being transphobic.",
+          "Tell the student being misnamed that they should speak up for themselves."
+        ],
+        a:1,
+        explain:"Habit and hostility sound <b>identical</b> to the person being misnamed, so waiting for proof of intent just extends the harm. A light correction plus consistent modelling fixes the habit case and quietly signals the norm in the deliberate case — no ceremony, no outing, no dramatics required." } }
+];
+
+/* ================= EVIDENCE AUDIT ================= */
+const AUDIT = [
+  { id:"b1", title:"Using the words precisely", core:true,
+    teach:`<b>What this section is testing.</b> Whether you can hold the three axes apart under pressure:
+      <ul>
+        <li><b>Identity</b> (trans, cis, non-binary) — what is your gender?</li>
+        <li><b>Attraction</b> (gay, straight, bi, pan, ace, aro) — who are you drawn to? And <i>-sexual</i> and
+            <i>-romantic</i> are different kinds of attraction.</li>
+        <li><b>Body</b> (intersex) — physical sex characteristics.</li>
+      </ul>
+      Every wrong option below mixes two axes, or misreads a morpheme.`,
+    reteach:`<b>Run the two questions separately, every time.</b>
+      <ul>
+        <li>Before judging any sentence, label each term: is it answering <i>what gender?</i>, <i>attracted to whom?</i>,
+            or <i>what body?</i> A sentence that uses an answer to one question as an answer to another is wrong.</li>
+        <li>Check the morphemes: <i>a-</i> = without (not against); <i>pan-</i> = all; <i>-romantic</i> = falling for,
+            <i>-sexual</i> = desire. They are separate suffixes because they are separate things.</li>
+        <li><i>Cis-</i> is the matched opposite of <i>trans-</i> — a descriptive pair, like hetero/homo.</li>
+      </ul>`,
+    itemsA:[
+      { id:"b1a1", kind:"mcq",
+        q:"Which sentence uses the three axes correctly?",
+        opts:["“She's intersex, so she must be attracted to both genders.”",
+              "“He's a trans man, and he's straight — he's attracted to women.”",
+              "“They're asexual, which means they're against relationships.”",
+              "“She's cisgender, so she can't be part of the LGBTQIA+ community.”"],
+        a:1,
+        explain:"A trans man's gender is man; attraction to women makes him straight — two axes, each answered by its own word. Intersex says nothing about attraction; <i>a-</i> means without, not against; and a cisgender person can be gay, bi, pan or ace." },
+      { id:"b1a2", kind:"mcq",
+        q:"A friend describes themselves as <i>biromantic asexual</i>. What are they telling you?",
+        opts:["They are attracted to two people at once.",
+              "They can fall for people of more than one gender, but experience little or no sexual attraction.",
+              "They are questioning whether they are bisexual.",
+              "The two words contradict each other, so the label is confused."],
+        a:1,
+        explain:"<i>-romantic</i> and <i>-sexual</i> name different kinds of attraction, so they can take different prefixes in one person: <i>bi-</i> (more than one gender) on the romantic axis, <i>a-</i> (without) on the sexual axis. The label is precise, not confused — that precision is what the morpheme kit buys you." },
+      { id:"b1a3", kind:"mcq",
+        q:"Why is “cisgender” a useful word rather than an insult?",
+        opts:["It isn't useful — 'normal' says the same thing.",
+              "It completes a descriptive pair with 'transgender', the way heterosexual pairs with homosexual — so neither identity is treated as the unmarked default.",
+              "It is a legal term required in official documents.",
+              "It is only used in chemistry."],
+        a:1,
+        explain:"Calling one group 'normal' and only naming the other builds the judgement into the language. A matched pair — cis/trans, hetero/homo, both from ordinary Latin and Greek — lets you describe without ranking. (The chemistry usage is real, and is why the pair was ready to hand.)" },
+      { id:"b1a4", kind:"mcq",
+        q:"Which option correctly separates what <i>intersex</i> describes from what <i>transgender</i> describes?",
+        opts:["Intersex is about physical sex characteristics; transgender is about gender identity differing from the sex presumed at birth.",
+              "They are two words for the same thing.",
+              "Intersex is about attraction; transgender is about the body.",
+              "Transgender is the medical term and intersex is the everyday term."],
+        a:0,
+        explain:"Body and identity are different axes. Most intersex people are not trans, and most trans people are not intersex — the words answer different questions, which is why the acronym needs both letters." },
+      { id:"b1a5", kind:"mcq",
+        q:"Using the morpheme kit, what must the (real) word <i>panromantic</i> mean?",
+        opts:["Attracted to everyone they meet.",
+              "Able to fall for people regardless of gender — pan (all) applied to the romantic axis.",
+              "In love with many people at the same time.",
+              "Experiencing no romantic attraction."],
+        a:1,
+        explain:"<i>Pan-</i> (all) + <i>-romantic</i> (falling for). It says gender isn't the deciding factor in who they fall for — not that they fall for everyone, which confuses <i>capacity</i> with <i>frequency</i>. Option D is <i>aromantic</i>." }
+    ],
+    itemsB:[
+      { id:"b1b1", kind:"mcq",
+        q:"Which sentence makes a category error between the axes?",
+        opts:["“He's gay and cisgender.”",
+              "“She's trans, so she's obviously into girls.”",
+              "“They're pansexual and non-binary.”",
+              "“He's straight and he's an ally.”"],
+        a:1,
+        explain:"'Trans' answers the gender question; 'into girls' is the attraction question. 'So' pretends one answers the other. The other three sentences each combine an identity word and an attraction (or stance) word legitimately." },
+      { id:"b1b2", kind:"mcq",
+        q:"What is the difference between <i>asexual</i> and <i>aromantic</i>?",
+        opts:["They are interchangeable.",
+              "Asexual = little or no sexual attraction; aromantic = little or no romantic attraction. One person can be either, both, or neither.",
+              "Asexual is the noun and aromantic is the adjective.",
+              "Aromantic people cannot have close relationships."],
+        a:1,
+        explain:"Same prefix (<i>a-</i>, without), different suffix — and the suffixes name different kinds of attraction. Aromantic people form deep friendships and partnerships; what the word describes is not falling in love, not the absence of closeness." },
+      { id:"b1b3", kind:"mcq",
+        q:"Someone argues: “Queer is a slur, so the Q shouldn't be in the acronym.” What is the most accurate response?",
+        opts:["They're right — the word is never acceptable.",
+              "The word was used as a slur and has been reclaimed by many in the community as an umbrella term; the respectful rule is to follow how a person describes themselves.",
+              "The Q only stands for Questioning, so the objection is irrelevant.",
+              "Words never change meaning, so it is still a slur."],
+        a:1,
+        explain:"Both histories are real: the slur and the reclamation. The workable rule is deference — use it for people and groups who use it for themselves; don't apply it to someone who doesn't. (Q covers Questioning too, but that doesn't dissolve the objection — the reclamation does.)" },
+      { id:"b1b4", kind:"mcq",
+        q:"Which statement about the acronym's letters is accurate?",
+        opts:["All the letters describe types of attraction.",
+              "The letters gather different things — attraction (LGB, A), gender identity (T), the body (I), and an umbrella (Q, +) — into one coalition.",
+              "The letters are ranked from most to least common.",
+              "The + means the acronym is incomplete and therefore wrong."],
+        a:1,
+        explain:"The acronym is a <b>coalition</b> of groups with different situations — legal, medical, social — under one banner. Reading it as one experience, or one axis, is the root of most confusions this section tests." },
+      { id:"b1b5", kind:"mcq",
+        q:"Using morphemes: <i>transphobia</i> most precisely means —",
+        opts:["Fear of change.",
+              "Hostility or aversion directed at trans people.",
+              "A medical condition trans people have.",
+              "Disagreement with any individual trans person."],
+        a:1,
+        explain:"<i>trans</i> + <i>-phobia</i> (aversion, hostility — as in homophobia, not literal terror). It names hostility toward people, which is why option D fails: disagreement with a person isn't transphobia; aversion to them for being trans is." }
+    ] },
+
+  { id:"b2", title:"Reading the history and the data", core:true,
+    teach:`<b>What this section is testing.</b> The same skills as the sleep audit, on this topic's evidence:
+      <ul>
+        <li><b>Association is not cause.</b> Survey findings about support and wellbeing are strong, consistent —
+            and correlational. State them accurately.</li>
+        <li><b>Scale and sequence matter.</b> Rights arrived state by state over decades, not in one event.
+            A date is an anchor for reasoning, not trivia.</li>
+        <li><b>Who says so, and what do they gain?</b> A health department, a hospital, a lobby group and a
+            random account are not equivalent sources.</li>
+      </ul>`,
+    reteach:`<b>Anchor to the timeline, then check the claim's strength.</b>
+      <ul>
+        <li>Key anchors: Stonewall 1969 · SA decriminalises 1975 · Mardi Gras 1978 · WHO declassifies 1990 ·
+            Toonen 1994 · Tasmania 1997 · Wear it Purple 2010 · DSM change 2013 · marriage equality 2017.</li>
+        <li>For any data claim, ask: measured or estimated? Association or experiment? Who was surveyed, how many,
+            and does the conclusion match?</li>
+        <li>“Consistently associated with” is defensible. “Proves” and “causes” need experimental designs that
+            survey data cannot provide.</li>
+      </ul>`,
+    itemsA:[
+      { id:"b2a1", kind:"mcq",
+        q:"“Homosexuality was removed from the WHO's disease classification in 1990 because new evidence showed it wasn't an illness.” What is the most accurate correction to this sentence?",
+        opts:["No correction needed — new evidence in 1990 made the difference.",
+              "The evidence had never supported classifying it as an illness; what changed by 1990 was the willingness of institutions to stop reflecting prejudice in their categories.",
+              "The WHO has never classified homosexuality as a disease.",
+              "The removal was reversed in 2013."],
+        a:1,
+        explain:"The classification was never evidence-based — it encoded the era's social judgement. The correction matters because it shows that official categories can be wrong for decades, which is the critical-reading habit this whole section is building." },
+      { id:"b2a2", kind:"num",
+        q:"Wear it Purple was founded in 2010. How many years after the first Sydney Mardi Gras (1978) is that?",
+        a:32, tol:0, unit:"years",
+        hint:"2010 minus 1978.",
+        explain:"<b>32 years</b> — a generation and a half. The 78ers were arrested and outed; the Wear it Purple founders organised openly, in schools. The distance between those two facts is what three decades of activism bought." },
+      { id:"b2a3", kind:"mcq",
+        q:"Writing Themselves In 4 surveyed ~6,400 LGBTQIA+ young people and found those at supportive schools reported better mental health. Which is the most defensible way to state this finding?",
+        opts:["“Supportive schools cause good mental health in LGBTQIA+ students.”",
+              "“In a large national survey, LGBTQIA+ students who described their school as supportive consistently reported better mental health.”",
+              "“School support has been proven to be the only factor in LGBTQIA+ wellbeing.”",
+              "“The survey shows nothing, because it relied on self-report.”"],
+        a:1,
+        explain:"Option B states the design (survey), the scale (large, national) and the relationship (consistent association) without upgrading it to proof. Option D over-corrects — self-report data has limits but a consistent pattern across 6,400 respondents is real evidence." },
+      { id:"b2a4", kind:"mcq",
+        q:"Why did Tasmania decriminalising in 1997 require more than a state parliament changing its mind?",
+        opts:["It didn't — Tasmania simply voted to change the law unprompted.",
+              "A UN Human Rights Committee ruling (Toonen, 1994) and a federal override law preceded it — external pressure forced the issue.",
+              "The High Court ordered it in 1975.",
+              "The 2017 postal survey required it."],
+        a:1,
+        explain:"Toonen v Australia established that the law breached Australia's international human rights obligations, and the Commonwealth legislated to override it. The sequence — individual complaint → international ruling → federal law → state repeal — is a working example of how rights are actually secured." },
+      { id:"b2a5", kind:"mcq",
+        q:"A social media post claims: “Schools talking about LGBTQIA+ topics makes more kids gay — look how many more identify that way now.” Which reasoning error is this?",
+        opts:["It confuses identity with attraction.",
+              "It reads a rise in reported identification as a change in underlying rates, ignoring that falling stigma makes honest reporting more likely — and infers cause from a correlation.",
+              "It uses a morpheme incorrectly.",
+              "There is no error; more identification proves the claim."],
+        a:1,
+        explain:"When the cost of honesty drops, reported numbers rise even if underlying rates don't move — the same reason left-handedness 'increased' when schools stopped punishing it. On top of that, the post turns a co-occurrence into a cause. Two errors, one sentence." }
+    ],
+    itemsB:[
+      { id:"b2b1", kind:"mcq",
+        q:"Which sequence is in the correct chronological order?",
+        opts:["Marriage equality → Stonewall → Wear it Purple founded",
+              "Stonewall → SA decriminalises → Tasmania decriminalises → marriage equality",
+              "Tasmania decriminalises → Stonewall → first Mardi Gras",
+              "DSM removes 'gender identity disorder' → WHO declassifies homosexuality → Stonewall"],
+        a:1,
+        explain:"1969 → 1975 → 1997 → 2017. The order carries the meaning: protest preceded legal change, decriminalisation took 22 years to complete, and marriage equality came a full generation after the criminal law fell." },
+      { id:"b2b2", kind:"num",
+        q:"Same-sex marriage became law in Australia in 2017. How many years is that after the WHO removed homosexuality from its disease classification (1990)?",
+        a:27, tol:0, unit:"years",
+        hint:"2017 minus 1990.",
+        explain:"<b>27 years</b> separated 'not a disease' from 'equal marriage'. Declassification removes an official judgement; equality takes decades more of argument. The gap is worth remembering whenever someone says change happened quickly." },
+      { id:"b2b3", kind:"mcq",
+        q:"During the 2017 postal survey campaign, support services reported sharply increased demand from LGBTQIA+ Australians. What is the most careful reading of this fact?",
+        opts:["The survey caused mental illness in everyone it concerned.",
+              "The public debate coincided with measurable increases in distress and help-seeking among the people being debated — a real cost to weigh, whatever one thinks of the outcome.",
+              "The increased demand proves the survey should never have happened.",
+              "Help-seeking numbers tell us nothing."],
+        a:1,
+        explain:"Option B states what was measured (demand for support), the relationship (coincided with the campaign) and its significance (a cost) without overclaiming a universal effect or smuggling in the policy conclusion. Careful language is not weak language — it is what makes the point stand up." },
+      { id:"b2b4", kind:"mcq",
+        q:"You want a reliable definition of gender affirmation to cite in an assignment. Which source should you reach for first?",
+        opts:["A viral post with 40,000 shares.",
+              "A state health department or major children's hospital resource page.",
+              "A company selling merchandise for awareness days.",
+              "An anonymous forum thread that sounds knowledgeable."],
+        a:1,
+        explain:"Same source-hierarchy as the sleep unit: institutional health sources are accountable for accuracy and have no product to sell you. Share counts measure spread, not reliability — and a merch seller profits from your attention either way." },
+      { id:"b2b5", kind:"mcq",
+        q:"“Only about 4 in 10 LGBTQIA+ secondary students called their school supportive.” Which follow-up question does the critical-reading toolkit say to ask FIRST?",
+        opts:["Who was surveyed, how many, and how was 'supportive' measured?",
+              "Which schools were the unsupportive ones, by name?",
+              "Whether the students were telling the truth.",
+              "Nothing — a specific number needs no scrutiny."],
+        a:0,
+        explain:"Source, sample and measurement come first — here: ~6,400 LGBTQIA+ young Australians, national survey, self-described school climate (Writing Themselves In 4, La Trobe, 2021). It survives the check; that is exactly why it is quotable. Precise-sounding numbers that dodge the check are the ones to distrust." }
+    ] }
+];
+
+/* ================= DECODE TASK (step 4) ================= */
+const DECODE = [
+  { w:"Panromantic",
+    crit:`<b>A strong answer does three things:</b> names <i>pan-</i> (all), names <i>-romantic</i> (romantic
+      attraction — who you fall for, distinct from sexual attraction), and puts them together: someone who can fall
+      for people regardless of gender. <b>The near-miss:</b> “likes everyone” — that confuses capacity with
+      frequency, and misses that the suffix is specifically about falling for people.` },
+  { w:"Interphobia",
+    crit:`<b>A strong answer does three things:</b> names <i>inter(sex)</i> (people born with sex characteristics
+      between typical male/female definitions), names <i>-phobia</i> (hostility and aversion, not literal fear),
+      and puts them together: hostility directed at intersex people. <b>The near-miss:</b> “fear of being between
+      things” — the morphemes are right but unassembled; the word targets people, and the -phobia words in this
+      family all name hostility, not fright.` }
+];
+
+/* ================= STATE ================= */
+const KEY = "purplelab.v1";
+let S = load();
+function blank(){
+  return { studied:false, slidesSeen:[], slidesDone:false,
+           first:{}, done:{}, sendbacks:0, checkDone:false,
+           buildDone:{}, buildFirst:{}, decode:{}, decodeDone:false,
+           reteach:{}, retryScores:{},
+           name:"", sid:"", startedAt:null, finishedAt:null };
+}
+function load(){ try{ const s=JSON.parse(localStorage.getItem(KEY)); return (s&&s.first)?s:blank(); }catch(e){ return blank(); } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+function el(id){ return document.getElementById(id); }
+/* Task shells share ids across screens; scope every lookup to its screen root
+   (same rationale as Sleep Lab — a part-finished screen leaves stale ids). */
+function scoped(rootId){
+  return function(sel){ const r = el(rootId); return r ? r.querySelector(sel) : null; };
+}
+const qc = scoped("check-body");
+const qb = scoped("build-body");
+const qa = scoped("audit-body");
+function esc(t){ const d=document.createElement("div"); d.textContent=t==null?"":String(t); return d.innerHTML; }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function go(name){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  el("scr-"+name).classList.add("active");
+  window.scrollTo(0,0);
+  if(name==="home"){ setPresent(false); renderHome(); }
+  if(name==="study") renderStudy();
+  if(name==="report") renderReport();
+}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+
+/* ================= HOME ================= */
+function checkFirstCount(){ return SLIDES.filter(s=>S.first[s.id]===true).length; }
+function buildCount(){ return WORDS.filter(w=>S.buildDone[w.w]).length; }
+function buildFirstCount(){ return WORDS.filter(w=>S.buildFirst[w.w]===true).length; }
+function auditItems(){ return AUDIT.flatMap(sec=>sec.itemsA); }
+function auditFirstCount(){ return auditItems().filter(it=>S.first[it.id]===true).length; }
+function decodeCount(){ return DECODE.filter(d=>S.decode[d.w] && S.decode[d.w].text && S.decode[d.w].text.trim().length>=20).length; }
+
+function renderHome(){
+  const wrap = el("home-steps"); wrap.innerHTML="";
+  const steps = [
+    { t:"The word list",
+      d:"Ten words — meanings plus the prefix, root and suffix that build each one. Read before the briefing.",
+      done:S.studied, locked:false, fn:()=>go("study"), tag:S.studied?"READ":"" },
+    { t:"The briefing",
+      d:"Eight slides your teacher will walk through — the two axes, the acronym, and the history from Stonewall to marriage equality — then one checkpoint question per slide.",
+      done:S.checkDone, locked:!S.studied, fn:()=>startSlides(),
+      tag:S.checkDone ? `${checkFirstCount()}/${SLIDES.length} FIRST TRY`
+        : (S.slidesDone ? "SLIDES SEEN" : "") },
+    { t:"Word builders",
+      d:"Assemble each of the ten words from its real morphemes. The tile bank includes near-miss decoys that belong to different words.",
+      done:S.done.build, locked:!S.checkDone, fn:()=>startBuild(),
+      tag:S.done.build ? `${buildFirstCount()}/${WORDS.length} CLEAN`
+        : (buildCount() ? `${buildCount()}/${WORDS.length}` : "") },
+    { t:"Decode an unseen word",
+      d:"Two real words this page never taught. Write what each must mean using only the kit, then mark your own answer against the criteria.",
+      done:S.decodeDone, locked:!S.done.build, fn:()=>startDecode(),
+      tag:S.decodeDone ? "WRITTEN" : (decodeCount()? `${decodeCount()}/${DECODE.length}` : "") },
+    { t:"Evidence audit",
+      d:"Two harder sections: using the words precisely, then reading the history and the data. Under 80% on a section means a reteach and a fresh set of questions.",
+      done:S.done.audit, locked:!S.decodeDone, fn:()=>startAudit(),
+      tag:S.done.audit ? `${auditFirstCount()}/${auditItems().length} FIRST TRY` : "" },
+    { t:"Report",
+      d:"Enter your name and student ID, and print or show your report — first attempts, send-backs and your decode answers, with a verification code.",
+      done:false, locked:false, fn:()=>go("report"), tag:"ANY TIME" }
+  ];
+  steps.forEach((st,i)=>{
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="step"+(st.done?" done":"");
+    b.disabled=st.locked;
+    b.innerHTML=`<span class="num">${st.done?"✓":i+1}</span>`+
+      `<span><span class="t">${st.t}</span><br><span class="d">${st.d}</span></span>`+
+      `<span class="tag">${st.locked?"LOCKED":st.tag}</span>`;
+    b.addEventListener("click",st.fn);
+    wrap.appendChild(b);
+  });
+}
+
+el("resetAllBtn").addEventListener("click",()=>{
+  if(confirm("Wipe all your progress and scores?")){ S=blank(); save(); go("home"); }
+});
+
+/* ================= STEP 1 · STUDY ================= */
+function renderStudy(){
+  const wrap = el("study-list"); wrap.innerHTML="";
+  WORDS.forEach(v=>{
+    const parts = v.tiles.map(t=>`<code>${esc(t[0])}</code> <i>${esc(t[1])}</i>`).join(" + ");
+    const d=document.createElement("div"); d.className="vcard";
+    d.innerHTML = `<span class="w">${esc(v.w)}</span><span class="pos">${esc(v.pos)}</span>`+
+      `<div class="meaning">${esc(v.meaning)}</div>`+
+      `<div class="morph">${parts}<br>${v.note}</div>`;
+    wrap.appendChild(d);
+  });
+}
+el("markStudiedBtn").addEventListener("click",()=>{
+  S.studied=true; if(!S.startedAt) S.startedAt=Date.now(); save(); startSlides();
+});
+
+/* ================= STEP 2 · SLIDES ================= */
+let curSlide = 0;
+
+function setPresent(on){
+  document.body.classList.toggle("present", !!on);
+  el("presentBtn").textContent = on ? "Exit present mode" : "Present mode";
+}
+el("presentBtn").addEventListener("click",()=>setPresent(!document.body.classList.contains("present")));
+
+function slideHTML(sl, i){
+  return `<div class="of">Slide ${i+1} of ${SLIDES.length}</div>
+    <h2>${sl.title}</h2>
+    <p class="lead">${sl.lead}</p>
+    <div class="pts">${sl.pts.map(p=>`<div><span class="b">${esc(p[0])}</span><span>${p[1]}</span></div>`).join("")}</div>
+    ${sl.pull?`<div class="pull"><span>${esc(sl.pull.lbl)}</span>${sl.pull.t}</div>`:""}
+    <p class="srcline">${esc(sl.src)}</p>`;
+}
+
+function startSlides(){
+  if(!S.startedAt){ S.startedAt=Date.now(); save(); }
+  if(!S.checkDone && S.slidesDone && confirmSkip()){ startCheck(); return; }
+  curSlide = 0; go("slides"); renderSlide();
+}
+function confirmSkip(){
+  return confirm("You've already been through the slides. Go straight to the checkpoint questions?\n\nOK = go to questions.  Cancel = read the slides again.");
+}
+
+function renderSlide(){
+  const sl = SLIDES[curSlide];
+  el("slide-body").innerHTML = slideHTML(sl, curSlide);
+  el("slide-prog").textContent = `STEP 2 · SLIDE ${curSlide+1}/${SLIDES.length}`;
+  if(!S.slidesSeen.includes(sl.id)){ S.slidesSeen.push(sl.id); save(); }
+  const pips = el("slide-pips"); pips.innerHTML="";
+  SLIDES.forEach((s,i)=>{
+    const p=document.createElement("button");
+    p.type="button";
+    p.className="pip"+(S.slidesSeen.includes(s.id)?" seen":"")+(i===curSlide?" now":"");
+    p.title = `Slide ${i+1}: ${s.title}`;
+    p.setAttribute("aria-label", `Go to slide ${i+1}: ${s.title}`);
+    p.addEventListener("click",()=>{ curSlide=i; renderSlide(); });
+    pips.appendChild(p);
+  });
+  el("slidePrev").disabled = curSlide===0;
+  const last = curSlide===SLIDES.length-1;
+  el("slideNext").textContent = last
+    ? (S.checkDone ? "Back to the checkpoint summary →" : "Start the checkpoint questions →")
+    : "Next →";
+  const skip = el("slideToQ");
+  skip.hidden = !(S.slidesDone || S.checkDone);
+  skip.textContent = S.checkDone ? "Checkpoint summary →" : "Skip to the questions →";
+  el("slideFoot").textContent = S.checkDone
+    ? "You've cleared these questions. The slides stay here for revision and for presenting to the class."
+    : (last
+      ? "Eight checkpoint questions follow — one per slide. A wrong answer sends you back to that slide."
+      : "Your teacher will talk through these. Present mode scales the slide for the projector.");
+}
+el("slideToQ").addEventListener("click",()=>{ S.slidesDone=true; save(); setPresent(false); startCheck(); });
+el("slidePrev").addEventListener("click",()=>{ if(curSlide>0){ curSlide--; renderSlide(); } });
+el("slideNext").addEventListener("click",()=>{
+  if(curSlide < SLIDES.length-1){ curSlide++; renderSlide(); }
+  else { S.slidesDone=true; save(); setPresent(false); startCheck(); }
+});
+document.addEventListener("keydown",(e)=>{
+  if(!el("scr-slides").classList.contains("active")) return;
+  if(e.key==="ArrowRight"){ el("slideNext").click(); }
+  if(e.key==="ArrowLeft"){ el("slidePrev").click(); }
+  if(e.key==="Escape" && document.body.classList.contains("present")) setPresent(false);
+});
+
+/* ---------- checkpoints ---------- */
+function startCheck(){
+  go("check");
+  const queue = SLIDES.filter(s=>!S.done[s.id]);
+  if(!queue.length){ finishCheck(); return; }
+  checkNext(queue.slice());
+}
+function checkProgress(){
+  const done = SLIDES.filter(s=>S.done[s.id]).length;
+  el("check-prog").textContent = `STEP 2 · CHECKPOINTS · cleared ${done}/${SLIDES.length}`;
+}
+
+function checkNext(queue){
+  checkProgress();
+  if(!queue.length){ finishCheck(); return; }
+  const sl = queue.shift();
+  const i = SLIDES.indexOf(sl);
+  const body = el("check-body");
+  const q = sl.q;
+  const isFirst = S.first[sl.id]===undefined;
+
+  body.innerHTML =
+    `<div class="stagepath">${SLIDES.map(s=>
+      `<span class="spip${S.done[s.id]?" done":""}${s.id===sl.id?" now":""}">${SLIDES.indexOf(s)+1}</span>`).join("")}</div>
+     <p class="prompt">Checkpoint · slide ${i+1} · ${esc(sl.title)}</p>
+     <p class="qtext">${q.q}</p>
+     <div id="ansarea"></div>
+     <div class="feedback" id="fb"></div>
+     <div id="sbarea"></div>
+     <div class="nextrow noprint" id="nextrow"></div>`;
+
+  const ansarea = qc("#ansarea");
+  if(q.kind==="mcq"){
+    const order = shuffle(q.opts.map((t,idx)=>({t,idx})));
+    ansarea.className="opts";
+    order.forEach(o=>{
+      const b=document.createElement("button");
+      b.type="button"; b.className="opt"; b.innerHTML=o.t;
+      b.addEventListener("click",()=>judge(o.idx===q.a, b, order, q, sl, queue, isFirst, i));
+      ansarea.appendChild(b);
+    });
+  } else {
+    ansarea.className="numrow";
+    ansarea.innerHTML =
+      `<input type="text" inputmode="decimal" id="numin" placeholder="?" autocomplete="off">
+       <span class="unit">${esc(q.unit||"")}</span>
+       <button class="btn btn-primary" id="numgo" type="button">Check</button>
+       ${q.hint?`<div class="muted" style="flex-basis:100%;margin-top:6px">Hint: ${esc(q.hint)}</div>`:""}`;
+    const submit = ()=>{
+      const raw = qc("#numin").value.trim();
+      if(raw==="") return;
+      const v = parseFloat(raw.replace(/[^\d.\-]/g,""));
+      const ok = !isNaN(v) && Math.abs(v - q.a) <= (q.tol!=null?q.tol:0.001);
+      qc("#numin").disabled = true; qc("#numgo").disabled = true;
+      judge(ok, null, null, q, sl, queue, isFirst, i);
+    };
+    qc("#numgo").addEventListener("click",submit);
+    qc("#numin").addEventListener("keydown",(e)=>{ if(e.key==="Enter") submit(); });
+    setTimeout(()=>{ const n=qc("#numin"); if(n) n.focus(); },40);
+  }
+}
+
+function judge(correct, btn, order, q, sl, queue, isFirst, slideIndex){
+  if(isFirst){ S.first[sl.id] = correct; }
+  const fb = qc("#fb");
+  const nextrow = qc("#nextrow");
+
+  if(q.kind==="mcq"){
+    const opts = [...qc("#ansarea").querySelectorAll(".opt")];
+    opts.forEach((b,pos)=>{
+      b.disabled = true;
+      if(order[pos].idx === q.a) b.classList.add("right");
+      if(b===btn && !correct) b.classList.add("wrongpick");
+    });
+  }
+
+  if(correct){
+    S.done[sl.id] = true; save();
+    fb.className = "feedback ok";
+    fb.innerHTML = `<b>Correct.</b> ${q.explain}`;
+    const b=document.createElement("button");
+    b.type="button"; b.className="btn btn-primary"; b.textContent="Next →";
+    b.addEventListener("click",()=>checkNext(queue));
+    nextrow.appendChild(b);
+    checkProgress();
+  } else {
+    S.sendbacks = (S.sendbacks||0)+1; save();
+    fb.className = "feedback bad";
+    fb.innerHTML = `<b>Not right.</b> ${q.explain}`;
+    queue.push(sl);
+    renderSendback(sl, slideIndex, queue);
+  }
+}
+
+function renderSendback(sl, i, queue){
+  const DWELL = 8;
+  const area = qc("#sbarea");
+  area.innerHTML =
+    `<div class="sendback">
+       <div class="hd">Back to slide ${i+1} — read it again</div>
+       <div class="slidecopy">
+         <h4>${esc(sl.title)}</h4>
+         <p style="margin-bottom:8px">${sl.lead}</p>
+         <div class="pts">${sl.pts.map(p=>`<div><span class="b">${esc(p[0])}</span><span>${p[1]}</span></div>`).join("")}</div>
+         ${sl.pull?`<div class="pull" style="margin-top:10px"><span>${esc(sl.pull.lbl)}</span>${sl.pull.t}</div>`:""}
+       </div>
+       <p class="dwell" id="dwelltxt">You can continue in ${DWELL} seconds.</p>
+     </div>`;
+  const nextrow = qc("#nextrow");
+  const b=document.createElement("button");
+  b.type="button"; b.className="btn btn-primary"; b.disabled=true;
+  b.textContent = "I've re-read it — the question comes back later";
+  nextrow.appendChild(b);
+  let left = DWELL;
+  const t = setInterval(()=>{
+    left--;
+    const d = qc("#dwelltxt");
+    if(left<=0){
+      clearInterval(t);
+      if(d) d.textContent = "Re-read done. This question will come back before the section is finished.";
+      b.disabled = false;
+    } else if(d){ d.textContent = `You can continue in ${left} second${left===1?"":"s"}.`; }
+  },1000);
+  b.addEventListener("click",()=>checkNext(queue));
+}
+
+function finishCheck(){
+  S.checkDone = true; save();
+  const got = checkFirstCount(), tot = SLIDES.length;
+  const pct = Math.round(100*got/tot);
+  const cls = pct>=80?"good":(pct>=60?"mid":"low");
+  el("check-body").innerHTML =
+    `<div class="sumbox"><div class="big ${cls}">${got}/${tot}</div>
+      <p class="muted">first-attempt on the briefing checkpoints · ${pct}%</p>
+      <p class="muted" style="margin-top:8px">You were sent back to a slide
+        <b>${S.sendbacks||0}</b> time${(S.sendbacks||0)===1?"":"s"}. Every question has now been cleared.</p></div>
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" data-go2="home" type="button">Home</button>
+       <button class="btn btn-ghost" id="reviewSlides" type="button">Review the slides</button>
+       <button class="btn btn-primary" id="toBuild" type="button">On to the word builders →</button>
+     </div>`;
+  el("check-body").querySelector("[data-go2]").addEventListener("click",()=>go("home"));
+  qc("#reviewSlides").addEventListener("click",()=>{ curSlide=0; go("slides"); renderSlide(); });
+  qc("#toBuild").addEventListener("click",()=>startBuild());
+}
+
+/* ================= STEP 3 · WORD BUILDERS ================= */
+function buildDots(curW){
+  return `<div class="buildprog">`+WORDS.map(w=>
+    `<span class="bdot${S.buildDone[w.w]?" done":""}${w.w===curW?" now":""}"></span>`).join("")+`</div>`;
+}
+function startBuild(){
+  go("build");
+  const queue = WORDS.filter(w=>!S.buildDone[w.w]);
+  if(!queue.length){ finishBuild(); return; }
+  buildNext(shuffle(queue));
+}
+function buildNext(queue){
+  el("build-prog").textContent = `STEP 3 · WORD BUILDERS · built ${buildCount()}/${WORDS.length}`;
+  if(!queue.length){ finishBuild(); return; }
+  const b = queue.shift();
+  renderBuild(b, queue);
+}
+
+function renderBuild(b, queue){
+  const body = el("build-body");
+  const bank = shuffle(b.tiles.concat(b.decoys));
+  let pos = 0;
+  let clean = true;
+
+  body.innerHTML =
+    buildDots(b.w)+
+    `<p class="prompt">Build the word from its morphemes</p>
+     <p class="buildword">${esc(b.meaning)}</p>
+     <p class="muted" style="text-align:center;margin-bottom:6px">${esc(b.pos)} · ${b.tiles.length} morpheme${b.tiles.length===1?"":"s"} · the bank contains decoys that belong to other words</p>
+     <div class="slots" id="slots">${b.tiles.map((_,i)=>`<div class="slot" id="slot${i}">${i+1}</div>`).join("")}</div>
+     <div class="bank" id="bank"></div>
+     <div class="glosses" id="glosses"></div>
+     <div class="reveal" id="reveal"></div>
+     <div class="nextrow noprint" id="nextrow"></div>`;
+
+  const bankEl = qb("#bank");
+  bank.forEach(t=>{
+    const btn=document.createElement("button");
+    btn.type="button"; btn.className="tile"; btn.textContent=t[0];
+    btn.title = t[1];
+    btn.addEventListener("click",()=>{
+      if(pos >= b.tiles.length) return;
+      if(t[0] === b.tiles[pos][0]){
+        const slot = qb("#slot"+pos);
+        slot.textContent = t[0];
+        slot.classList.add("filled");
+        btn.disabled = true;
+        const g = qb("#glosses");
+        g.innerHTML += `<div><b>${esc(t[0])}</b> — ${esc(t[1])}</div>`;
+        pos++;
+        if(pos === b.tiles.length) revealBuild(b, queue, clean);
+      } else {
+        clean = false;
+        btn.classList.add("shake");
+        setTimeout(()=>btn.classList.remove("shake"),320);
+        const g = qb("#glosses");
+        if(!g.dataset.warned){
+          g.dataset.warned = "1";
+          g.innerHTML = `<div style="color:var(--wrong)"><b>Not that piece.</b> Morphemes go in order: what comes first in the word?</div>` + g.innerHTML;
+        }
+      }
+    });
+    bankEl.appendChild(btn);
+  });
+}
+
+function revealBuild(b, queue, clean){
+  if(S.buildFirst[b.w]===undefined) S.buildFirst[b.w] = clean;
+  S.buildDone[b.w] = true; save();
+  const r = qb("#reveal");
+  r.className = "reveal show";
+  r.innerHTML = `<b style="font-family:Georgia,serif;font-size:17px">${esc(b.w)}</b><br>${b.note}`;
+  const nextrow = qb("#nextrow");
+  const btn=document.createElement("button");
+  btn.type="button"; btn.className="btn btn-primary";
+  btn.textContent = queue.length ? "Next word →" : "Finish →";
+  btn.addEventListener("click",()=>buildNext(queue));
+  nextrow.appendChild(btn);
+  el("build-prog").textContent = `STEP 3 · WORD BUILDERS · built ${buildCount()}/${WORDS.length}`;
+}
+
+function finishBuild(){
+  S.done.build = true; save();
+  const cleanN = buildFirstCount();
+  const pct = Math.round(100*cleanN/WORDS.length);
+  const cls = pct>=80?"good":(pct>=60?"mid":"low");
+  el("build-body").innerHTML =
+    `<div class="sumbox"><div class="big ${cls}">${cleanN}/${WORDS.length}</div>
+      <p class="muted">words built with no wrong tile on the first pass · ${pct}%</p>
+      <p class="muted" style="margin-top:8px">All ten words are now assembled. The decoy morphemes you rejected
+        belong to real words — <i>homeostasis</i>, <i>circumference</i>, <i>biology</i>, <i>polygon</i>,
+        <i>antonym</i>, <i>intranet</i>.</p></div>
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="bHome" type="button">Home</button>
+       <button class="btn btn-primary" id="toDecode" type="button">Decode an unseen word →</button>
+     </div>`;
+  el("bHome").addEventListener("click",()=>go("home"));
+  el("toDecode").addEventListener("click",()=>startDecode());
+}
+
+/* ================= STEP 4 · DECODE ================= */
+function startDecode(){
+  go("decode");
+  const body = el("decode-body");
+  body.innerHTML =
+    `<div class="teach">
+       <b>The whole point of the kit.</b> These two words were never taught on this page — but every piece of each
+       one was. Write what each word <i>must</i> mean, naming the morphemes as you go. Then open the criteria and
+       mark your own answer. <b>This page cannot judge your writing and will not pretend to</b> — your honest
+       self-marking goes on the report, labelled as self-marking.
+     </div>
+     ${DECODE.map((d,i)=>{
+        const st = S.decode[d.w]||{};
+        return `<div class="decword">${esc(d.w)}</div>
+        <textarea class="dec" id="dec${i}" placeholder="Name each morpheme and put them together...">${esc(st.text||"")}</textarea>
+        <div class="nextrow noprint" style="justify-content:flex-start">
+          <button class="btn btn-ghost" id="decBtn${i}" type="button">Show the criteria</button>
+        </div>
+        <div class="crit" id="crit${i}">${d.crit}
+          <div class="selfmark noprint">
+            <label><input type="radio" name="sm${i}" value="hit" ${st.mark==="hit"?"checked":""}> My answer did all three things</label>
+            <label><input type="radio" name="sm${i}" value="part" ${st.mark==="part"?"checked":""}> Partly — I missed a piece</label>
+            <label><input type="radio" name="sm${i}" value="miss" ${st.mark==="miss"?"checked":""}> Mine was the near-miss</label>
+          </div>
+        </div>`;
+     }).join("")}
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="decHome" type="button">Home</button>
+       <button class="btn btn-primary" id="decFinish" type="button">Finish this step →</button>
+     </div>`;
+
+  DECODE.forEach((d,i)=>{
+    const ta = el("dec"+i);
+    ta.addEventListener("input",()=>{
+      S.decode[d.w] = S.decode[d.w]||{};
+      S.decode[d.w].text = ta.value; save();
+    });
+    const btn = el("decBtn"+i);
+    const openCrit = ()=>{
+      if(ta.value.trim().length < 20){
+        ta.focus();
+        ta.placeholder = "Write your answer first — at least a sentence naming both morphemes.";
+        return;
+      }
+      el("crit"+i).classList.add("show");
+      btn.disabled = true;
+    };
+    btn.addEventListener("click",openCrit);
+    if((S.decode[d.w]||{}).mark){ el("crit"+i).classList.add("show"); btn.disabled=true; }
+    document.querySelectorAll(`input[name="sm${i}"]`).forEach(r=>{
+      r.addEventListener("change",()=>{
+        S.decode[d.w] = S.decode[d.w]||{};
+        S.decode[d.w].mark = r.value; save();
+      });
+    });
+  });
+  el("decHome").addEventListener("click",()=>go("home"));
+  el("decFinish").addEventListener("click",()=>{
+    const missing = DECODE.find((d,i)=>{
+      const st = S.decode[d.w]||{};
+      return !(st.text && st.text.trim().length>=20 && st.mark);
+    });
+    if(missing){
+      alert("For each word: write your answer (a real sentence), open the criteria, and mark yourself.");
+      return;
+    }
+    S.decodeDone = true; save(); startAudit();
+  });
+}
+
+/* ================= STEP 5 · AUDIT ================= */
+function auditStage(idx){
+  if(idx >= AUDIT.length){ finishAudit(); return; }
+  const sec = AUDIT[idx];
+  runAuditSet(sec, false, idx);
+}
+function startAudit(){
+  go("audit");
+  const nextIdx = AUDIT.findIndex(sec=>!S.done["sec_"+sec.id]);
+  auditStage(nextIdx === -1 ? AUDIT.length : nextIdx);
+}
+function auditProgress(sec, cleared, total){
+  el("audit-prog").textContent = `STEP 5 · ${sec.title.toUpperCase()} · cleared ${cleared}/${total}`;
+}
+
+function runAuditSet(sec, isRetry, idx){
+  const items = isRetry ? sec.itemsB : sec.itemsA;
+  const shadow = {};
+  let queue = shuffle(items.slice());
+  let cleared = 0;
+  const total = items.length;
+  const body = el("audit-body");
+
+  function showTeach(){
+    body.innerHTML =
+      `<div class="stagepath">${AUDIT.map(s=>
+        `<span class="spip${S.done["sec_"+s.id]?" done":""}${s.id===sec.id?" now":""}">${esc(s.title)}</span>`).join("")}</div>
+       <h2>${esc(sec.title)}${isRetry?" — second set":""}</h2>
+       <div class="teach">${isRetry?sec.reteach:sec.teach}</div>
+       <p class="muted">${total} questions. Your <b>first attempt</b> on each is what the report records; anything you
+         get wrong comes back until you clear it.</p>
+       <div class="nextrow noprint"><button class="btn btn-primary" id="auStart" type="button">Start →</button></div>`;
+    el("auStart").addEventListener("click",()=>next());
+  }
+
+  function next(){
+    auditProgress(sec, cleared, total);
+    if(!queue.length){ done(); return; }
+    const it = queue.shift();
+    const isFirstOverall = S.first[it.id]===undefined;
+    const isFirstInSet   = shadow[it.id]===undefined;
+
+    body.innerHTML =
+      `<div class="stagepath">${AUDIT.map(s=>
+        `<span class="spip${S.done["sec_"+s.id]?" done":""}${s.id===sec.id?" now":""}">${esc(s.title)}</span>`).join("")}</div>
+       <p class="prompt">${esc(sec.title)}${isRetry?" · second set":""} · cleared ${cleared}/${total}</p>
+       <p class="qtext">${it.q}</p>
+       <div id="ansarea"></div>
+       <div class="feedback" id="fb"></div>
+       <div class="nextrow noprint" id="nextrow"></div>`;
+
+    const ansarea = qa("#ansarea");
+
+    function settle(ok){
+      if(isFirstOverall) S.first[it.id] = ok;
+      if(isFirstInSet)   shadow[it.id] = ok;
+      save();
+      const fb = qa("#fb");
+      fb.className = "feedback " + (ok?"ok":"bad");
+      fb.innerHTML = `<b>${ok?"Correct.":"Not right."}</b> ${it.explain}`;
+      if(ok) cleared++; else queue.push(it);
+      const b=document.createElement("button");
+      b.type="button"; b.className="btn btn-primary";
+      b.textContent = (queue.length||!ok) ? "Next →" : "Finish the section →";
+      b.addEventListener("click",()=>next());
+      qa("#nextrow").appendChild(b);
+      auditProgress(sec, cleared, total);
+    }
+
+    if(it.kind==="mcq"){
+      const order = shuffle(it.opts.map((t,i)=>({t,i})));
+      ansarea.className="opts";
+      order.forEach(o=>{
+        const b=document.createElement("button");
+        b.type="button"; b.className="opt"; b.innerHTML=o.t;
+        b.addEventListener("click",()=>{
+          const ok = o.i===it.a;
+          [...ansarea.querySelectorAll(".opt")].forEach((x,pos)=>{
+            x.disabled=true;
+            if(order[pos].i===it.a) x.classList.add("right");
+            if(x===b && !ok) x.classList.add("wrongpick");
+          });
+          settle(ok);
+        });
+        ansarea.appendChild(b);
+      });
+    } else {
+      ansarea.className="numrow";
+      ansarea.innerHTML =
+        `<input type="text" inputmode="decimal" id="numin" placeholder="?" autocomplete="off">
+         <span class="unit">${esc(it.unit||"")}</span>
+         <button class="btn btn-primary" id="numgo" type="button">Check</button>
+         ${it.hint?`<div class="muted" style="flex-basis:100%;margin-top:6px">Hint: ${esc(it.hint)}</div>`:""}`;
+      const submit = ()=>{
+        const raw = qa("#numin").value.trim();
+        if(raw==="") return;
+        const v = parseFloat(raw.replace(/[^\d.\-]/g,""));
+        const ok = !isNaN(v) && Math.abs(v - it.a) <= (it.tol!=null?it.tol:0.001);
+        qa("#numin").disabled=true; qa("#numgo").disabled=true;
+        settle(ok);
+      };
+      qa("#numgo").addEventListener("click",submit);
+      qa("#numin").addEventListener("keydown",(e)=>{ if(e.key==="Enter") submit(); });
+      setTimeout(()=>{ const n=qa("#numin"); if(n) n.focus(); },40);
+    }
+  }
+
+  function done(){
+    const got = items.filter(it=>shadow[it.id]===true).length;
+    const passed = got >= Math.ceil(total*0.8);
+    const pct = Math.round(100*got/total);
+    const cls = pct>=80?"good":(pct>=60?"mid":"low");
+
+    if(isRetry){ S.retryScores[sec.id] = got; }
+
+    if(!passed && !isRetry){
+      S.reteach[sec.id] = true; save();
+      body.innerHTML =
+        `<div class="sumbox"><div class="big ${cls}">${got}/${total}</div>
+          <p class="muted">first attempts on this set · ${pct}% — below the 80% you need to move on</p></div>
+         <div class="teach"><b>Reteach.</b> ${sec.reteach}</div>
+         <p class="muted">A <b>fresh set</b> of ${sec.itemsB.length} questions on the same skills follows. Your original
+           score stays on the report; this second attempt is recorded beside it.</p>
+         <div class="nextrow noprint">
+           <button class="btn btn-primary" id="auRetry" type="button">Start the fresh set →</button></div>`;
+      el("auRetry").addEventListener("click",()=>runAuditSet(sec, true, idx));
+      return;
+    }
+
+    S.done["sec_"+sec.id] = true; save();
+    const last = idx >= AUDIT.length-1;
+    body.innerHTML =
+      `<div class="sumbox"><div class="big ${cls}">${got}/${total}</div>
+        <p class="muted">first attempts on ${isRetry?"the fresh set":"this section"} · ${pct}%</p>
+        ${isRetry?`<p class="muted" style="margin-top:8px">Both scores go on your report — the original and this one.</p>`:""}</div>
+       <div class="nextrow noprint">
+         <button class="btn btn-ghost" id="auHome" type="button">Home</button>
+         <button class="btn btn-primary" id="auNext" type="button">${last?"Go to my report →":"Next section →"}</button>
+       </div>`;
+    el("auHome").addEventListener("click",()=>go("home"));
+    el("auNext").addEventListener("click",()=>{ last ? finishAudit() : auditStage(idx+1); });
+  }
+
+  showTeach();
+}
+
+function finishAudit(){
+  S.done.audit = true; S.finishedAt = Date.now(); save();
+  go("report");
+}
+
+/* ================= REPORT ================= */
+function vcode(str){
+  let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h+str.charCodeAt(i))|0; }
+  return Math.abs(h).toString(36).toUpperCase().padStart(6,"0").slice(0,6);
+}
+const MARKLBL = { hit:"met all three criteria (self-marked)", part:"partly met the criteria (self-marked)", miss:"was the near-miss (self-marked)" };
+
+function renderReport(){
+  const rows = [];
+
+  rows.push(S.studied
+    ? `<tr><td>Word list read</td><td class="score">✓</td><td>Ten words frontloaded with their morphemes</td></tr>`
+    : `<tr><td>Word list read</td><td class="nf">not yet</td><td class="nf">—</td></tr>`);
+
+  if(S.checkDone || Object.keys(S.first).some(k=>SLIDES.find(s=>s.id===k))){
+    const got = checkFirstCount();
+    const attempted = SLIDES.filter(s=>S.first[s.id]!==undefined).length;
+    rows.push(`<tr><td>Briefing checkpoints</td><td class="score">${got}/${attempted||SLIDES.length}</td>
+      <td>${S.checkDone?"Complete":"NOT FINISHED"} · first attempts · sent back to a slide
+      <b>${S.sendbacks||0}</b> time${(S.sendbacks||0)===1?"":"s"}</td></tr>`);
+  } else {
+    rows.push(`<tr><td>Briefing checkpoints</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+  }
+
+  if(buildCount()){
+    rows.push(`<tr><td>Word builders</td><td class="score">${buildFirstCount()}/${WORDS.length}</td>
+      <td>${S.done.build?"Complete":"NOT FINISHED — "+buildCount()+" of "+WORDS.length+" built"}
+      · built with no wrong tile on the first pass</td></tr>`);
+  } else {
+    rows.push(`<tr><td>Word builders</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+  }
+
+  DECODE.forEach(d=>{
+    const st = S.decode[d.w];
+    if(st && st.mark){
+      rows.push(`<tr><td>Decode — ${esc(d.w)}</td><td class="score">${st.mark==="hit"?"✓":(st.mark==="part"?"◐":"✗")}</td>
+        <td>${MARKLBL[st.mark]}</td></tr>`);
+    } else {
+      rows.push(`<tr><td>Decode — ${esc(d.w)}</td><td class="nf">not done</td><td class="nf">—</td></tr>`);
+    }
+  });
+
+  AUDIT.forEach(sec=>{
+    const items = sec.itemsA;
+    const att = items.filter(it=>S.first[it.id]!==undefined);
+    if(!att.length){
+      rows.push(`<tr><td>Audit — ${esc(sec.title)}</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+      return;
+    }
+    const got = items.filter(it=>S.first[it.id]===true).length;
+    const note = S.reteach[sec.id]
+      ? `Below 80% — reteach given, fresh set scored ${S.retryScores[sec.id]!==undefined?S.retryScores[sec.id]+"/"+sec.itemsB.length:"—"}`
+      : (S.done["sec_"+sec.id] ? "Passed first time" : "NOT FINISHED");
+    rows.push(`<tr><td>Audit — ${esc(sec.title)}</td><td class="score">${got}/${items.length}</td><td>${note}</td></tr>`);
+  });
+
+  const allItems = auditItems();
+  const attempted = allItems.filter(it=>S.first[it.id]!==undefined);
+  const totGot = attempted.filter(it=>S.first[it.id]===true).length;
+  const slideAtt = SLIDES.filter(s=>S.first[s.id]!==undefined);
+  const slideGot = slideAtt.filter(s=>S.first[s.id]===true).length;
+  const grandAtt = attempted.length + slideAtt.length;
+  const grandGot = totGot + slideGot;
+
+  const decTexts = DECODE.map(d=>{
+    const st=S.decode[d.w];
+    return st&&st.text?`<p style="margin:6px 0"><b>${esc(d.w)}:</b> ${esc(st.text)}</p>`:"";
+  }).join("");
+
+  el("report-body").innerHTML =
+    `<h2>My report</h2>
+     <div class="idrow noprint">
+       <div><label for="rName">Name</label><input id="rName" value="${esc(S.name)}" placeholder="Your name"></div>
+       <div><label for="rSid">Student ID</label><input id="rSid" value="${esc(S.sid)}" placeholder="ID"></div>
+     </div>
+     <p style="font-size:14px;margin:8px 0"><b>${esc(S.name)||"__________________"}</b>
+        &nbsp;·&nbsp; ID ${esc(S.sid)||"____________"}
+        &nbsp;·&nbsp; Purple Lab · Work &amp; Life Education · Wear it Purple session</p>
+
+     <table class="repgrid">
+       <thead><tr><th>Task</th><th>Score</th><th>Notes</th></tr></thead>
+       <tbody>
+         ${rows.join("")}
+         <tr><td><b>All scored questions</b></td>
+             <td class="score"><b>${grandAtt?`${grandGot}/${grandAtt}`:"—"}</b></td>
+             <td>${grandAtt?`<b>${Math.round(100*grandGot/grandAtt)}%</b> on first attempts — every attempted question was then cleared through the retry loop`:"Nothing attempted yet"}</td></tr>
+       </tbody>
+     </table>
+     <p class="muted">Verification code <span class="vcode">${vcode(`${S.name}|${S.sid}|${grandGot}|${grandAtt}|${S.sendbacks||0}|${buildFirstCount()}`)}</span>
+       · Scores are <b>first attempts</b>; wrong answers looped until mastered. Decode answers are the student's own
+       writing, self-marked against stated criteria — the page does not judge free writing.
+       ${Object.keys(S.reteach).length?" A reteach and fresh question set were used.":""}</p>
+
+     ${decTexts?`<div class="sheet"><h3>Decode answers (verbatim)</h3>${decTexts}</div>`:""}
+
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="rHome" type="button">Home</button>
+       <button class="btn btn-primary" id="rPrint" type="button">Print report</button>
+     </div>
+
+     <details class="tnote noprint">
+       <summary>For teachers — running this session</summary>
+       <div class="in">
+         <ol>
+           <li><b>5 min · Step 1.</b> Students read the word list. It is a read-gate: the briefing stays locked until they mark it read.</li>
+           <li><b>20 min · Step 2 slides.</b> Hit <i>Present mode</i> and drive the eight slides from the front. Arrow keys work; Esc exits. Slides 1, 4 and 8 are the ones worth pausing on. School-specific content (Wear it Purple date, clubs, policies) belongs in your own PowerPoint alongside this.</li>
+           <li><b>15 min · Step 2 checkpoints.</b> One question per slide on students' own devices. A wrong answer reprints the slide with an eight-second forced re-read and re-queues the question. The report counts send-backs.</li>
+           <li><b>10 min · Step 3.</b> Word builders. Decoy morphemes come from real neighbouring words (several from the Sleep Lab list), so guessing by shape fails.</li>
+           <li><b>5 min · Step 4.</b> The decode task is the transfer test — and the honest-interface point: the page does not auto-judge writing; students self-mark against stated criteria and the report labels it as self-marked. Collect a few answers aloud.</li>
+           <li><b>20 min · Step 5.</b> The audit. Under 80% on a section triggers a reteach and a parallel set; both scores appear on the report.</li>
+           <li><b>Wrap.</b> Students print or show the report. Verification code changes if name, ID or scores change.</li>
+         </ol>
+         <p style="margin-top:10px"><b>Ground rules for the room.</b> Nobody is asked to identify themselves or share
+           personal experience; every task is about words, history and evidence. If discussion surfaces something
+           personal, take it to the wellbeing team, not the whole class.</p>
+         <p style="margin-top:10px"><b>Data.</b> Nothing leaves the browser. No account, no upload, no class
+           dashboard — the report is printed or shown, and clearing browser data deletes it.</p>
+       </div>
+     </details>
+
+     <p class="muted" style="margin-top:18px">Sources: Hill et al., <i>Writing Themselves In 4</i>, La Trobe University
+       2021; ABS Australian Marriage Law Postal Survey 2017; Toonen v Australia (UNHRC 1994); WHO ICD revision 1990;
+       DSM-5 2013; Wear it Purple Foundation; state legislation dates. If anything in this session raises something
+       for you: your Connect teacher or wellbeing team, QLife 1800 184 527 (3pm–midnight), Kids Helpline 1800 55 1800,
+       headspace.org.au.</p>`;
+
+  el("rName").addEventListener("input",e=>{ S.name=e.target.value; save(); });
+  el("rSid").addEventListener("input",e=>{ S.sid=e.target.value; save(); });
+  el("rHome").addEventListener("click",()=>go("home"));
+  el("rPrint").addEventListener("click",()=>window.print());
+}
+
+/* ================= BOOT ================= */
+renderHome();
+</script>
+
+</body>
+</html>
