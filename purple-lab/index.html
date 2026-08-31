@@ -6,8 +6,9 @@
 <meta name="description" content="Purple Lab - Work &amp; Life Education, Wear it Purple session. Word list with morphemes, briefing slides with checkpoints, word builders, a decoding task, an evidence audit and a printed report.">
 <title>Purple Lab</title>
 <style>
-  /* Same shell as Sleep Lab (sleep-lab/) so the suite reads as one.
-     The accent shifts to purple — this is the Wear it Purple unit. */
+  /* Paper ground, Georgia headings and step-card shell — the same visual
+     language used across the Work & Life Education interactive units.
+     The accent is purple for the Wear it Purple unit. */
   :root{
     --bg:#f4efe6; --paper:#fbf7ee; --band:#f5f0e6; --ink:#1f1f1f; --muted:#6b6256;
     --line:#d8cfbb; --line-soft:#e8e0cd;
@@ -267,7 +268,6 @@
   </p>
   <div class="nextrow noprint" style="justify-content:center">
     <button class="linkbtn" id="resetAllBtn" type="button">start over (clears everything)</button>
-    <a class="linkbtn" href="../sleep-lab/">Sleep Lab →</a>
   </div>
   <div class="vc">
     <div class="hd">Victorian Curriculum F–10 Version 2.0 · alignment</div>
@@ -372,8 +372,7 @@
 "use strict";
 /* ============================================================
    PURPLE LAB — Work & Life Education, Wear it Purple (Year 10)
-   Same engine as sleep-lab/ (Sleep Lab). Standalone; nothing
-   leaves the browser. Sequence:
+   Standalone; nothing leaves the browser. Sequence:
    STEP 1 · WORD LIST — ten words frontloaded with morphemes.
    STEP 2 · THE BRIEFING — eight slides, checkpoint per slide,
      wrong answer = sent back to the slide with a dwell.
@@ -830,7 +829,8 @@ function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} 
 
 function el(id){ return document.getElementById(id); }
 /* Task shells share ids across screens; scope every lookup to its screen root
-   (same rationale as Sleep Lab — a part-finished screen leaves stale ids). */
+   (a part-finished screen can leave stale ids behind, so every lookup
+   is scoped rather than global). */
 function scoped(rootId){
   return function(sel){ const r = el(rootId); return r ? r.querySelector(sel) : null; };
 }
@@ -1585,7 +1585,7 @@ function renderReport(){
            <li><b>5 min · Step 1.</b> Students read the word list. It is a read-gate: the briefing stays locked until they mark it read.</li>
            <li><b>20 min · Step 2 slides.</b> Hit <i>Present mode</i> and drive the eight slides from the front. Arrow keys work; Esc exits. Slides 1, 4 and 8 are the ones worth pausing on. School-specific content (Wear it Purple date, clubs, policies) belongs in your own PowerPoint alongside this.</li>
            <li><b>15 min · Step 2 checkpoints.</b> One question per slide on students' own devices. A wrong answer reprints the slide with an eight-second forced re-read and re-queues the question. The report counts send-backs.</li>
-           <li><b>10 min · Step 3.</b> Word builders. Decoy morphemes come from real neighbouring words (several from the Sleep Lab list), so guessing by shape fails.</li>
+           <li><b>10 min · Step 3.</b> Word builders. Decoy morphemes come from real neighbouring words, so guessing by shape fails.</li>
            <li><b>5 min · Step 4.</b> The decode task is the transfer test — and the honest-interface point: the page does not auto-judge writing; students self-mark against stated criteria and the report labels it as self-marked. Collect a few answers aloud.</li>
            <li><b>20 min · Step 5.</b> The audit. Under 80% on a section triggers a reteach and a parallel set; both scores appear on the report.</li>
            <li><b>Wrap.</b> Students print or show the report. Verification code changes if name, ID or scores change.</li>
