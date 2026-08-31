@@ -14,6 +14,7 @@
     --accent:#5b2d86; --accent-deep:#46226b; --accent-soft:#ece4f4;
     --gold:#8b681e; --gold-soft:#f6e7c2;
     --correct:#2f6a3e; --wrong:#a83232; --okbg:#eef5ee; --badbg:#f7ecec;
+    --m-pre:#2d5fa8; --m-root:#a8442e; --m-suf:#2e7a57;
     --shadow:0 1px 2px rgba(31,31,31,.05),0 4px 14px rgba(31,31,31,.06);
   }
   @media (prefers-color-scheme:dark){
@@ -23,6 +24,7 @@
       --accent:#b48ae0; --accent-deep:#c6a5ec; --accent-soft:#2c2340;
       --gold:#dcb355; --gold-soft:#372c11;
       --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
+      --m-pre:#8fb4ee; --m-root:#eb9a7e; --m-suf:#83cba6;
       --shadow:0 1px 2px rgba(0,0,0,.45);
     }
   }
@@ -134,13 +136,18 @@
   .bdot.now{border-color:var(--accent);background:var(--paper);box-shadow:0 0 0 2px rgba(91,45,134,.25)}
 
   .vcard{border:1px solid var(--line-soft);border-radius:10px;padding:14px 16px;margin-bottom:10px;background:var(--paper)}
-  .vcard .w{font-family:Georgia,serif;font-size:17.5px;font-weight:700}
+  .vcard .w{font-family:Georgia,serif;font-size:23px;font-weight:700}
+  .vcard .w .mp{color:var(--m-pre)} .vcard .w .mr{color:var(--m-root)} .vcard .w .ms{color:var(--m-suf)}
   .vcard .pos{font-size:12px;color:var(--muted);font-style:italic;margin-left:6px}
   .vcard .meaning{font-size:14px;margin:6px 0;line-height:1.5}
-  .vcard .morph{font-size:12.5px;color:var(--muted);line-height:1.6;border-top:1px dashed var(--line-soft);
+  .vcard .morph{font-size:13.5px;color:var(--muted);line-height:1.7;border-top:1px dashed var(--line-soft);
                 padding-top:6px;margin-top:6px}
   .vcard .morph b,.vcard .morph i{color:var(--ink)}
-  .vcard .morph code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:700;color:var(--accent)}
+  .vcard .morph code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:700;font-size:16px}
+  .vcard .morph code.mp{color:var(--m-pre)} .vcard .morph code.mr{color:var(--m-root)} .vcard .morph code.ms{color:var(--m-suf)}
+  .mlegend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;font-weight:700;margin:0 0 12px;
+           border:1px solid var(--line-soft);border-radius:8px;padding:10px 14px;background:var(--bg)}
+  .mlegend .mp{color:var(--m-pre)} .mlegend .mr{color:var(--m-root)} .mlegend .ms{color:var(--m-suf)}
 
   .prompt{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:8px}
   .qtext{font-size:17px;line-height:1.6;margin-bottom:16px}
@@ -231,6 +238,22 @@
 </head>
 <body>
 <div class="container">
+
+<!-- ============ INTRO GATE ============ -->
+<div class="screen" id="scr-intro">
+  <h1>Purple Lab</h1>
+  <p class="subtitle">Work &amp; Life Education · Wear it Purple session · Year 10</p>
+  <div class="teach" style="max-width:640px;margin:0 auto 14px">
+    <b>Before anything else.</b> Write what you think <b>LGBTQIA+</b> stands for and means — letter by letter,
+    as far as you can get. Guesses are the point: this is your before-photo, and it comes back on your report
+    next to what you know by the end. It is never marked.
+  </div>
+  <textarea class="dec" id="introTxt" style="max-width:640px;display:block;margin:0 auto"
+    placeholder="L stands for... G stands for... (as far as you can get)"></textarea>
+  <div class="nextrow noprint" style="justify-content:center">
+    <button class="btn btn-primary" id="introGo" type="button">That's my best guess — start &rarr;</button>
+  </div>
+</div>
 
 <!-- ============ HOME ============ -->
 <div class="screen active" id="scr-home">
@@ -384,7 +407,7 @@ const WORDS = [
     meaning:"Hostility or aversion directed at gay, lesbian or bisexual people.",
     tiles:[["homo-","same"],["phobia","fear, aversion"]],
     decoys:[["homeo-","same, steady (a different Greek root)"],["-philia","love or fondness for"]],
-    note:"<i>-phobia</i> here means hostility and aversion, not literal terror. And note what the word is built on: <i>homo</i> (same) + fear — fear of sameness-of-attraction. Naming the mechanism is the first step to refusing it." },
+    note:"<i>-phobia</i> here means hostility and aversion, not literal terror. And note what the word is built on: <i>homo</i> (same) + fear — fear of sameness-of-attraction." },
   { w:"Bisexual", pos:"adjective",
     meaning:"Attracted to more than one gender.",
     tiles:[["bi-","two"],["sexual","of sexual attraction"]],
@@ -419,14 +442,14 @@ const WORDS = [
 
 /* ================= SLIDES + CHECKPOINTS ================= */
 const SLIDES = [
-  { id:"p1", title:"Two questions, not one",
+  { id:"p1", title:"Two separate questions",
     lead:"Almost every mistake people make with this vocabulary comes from mixing up two separate questions.",
     pts:[
       ["1","<b>What is your gender?</b> — answered by words like <i>trans</i>, <i>cis</i>, non-binary. This is identity."],
       ["2","<b>Who are you attracted to?</b> — answered by words like <i>gay</i>, <i>straight</i>, <i>bi</i>, <i>pan</i>, <i>ace</i>. This is orientation."],
       ["3","They are <b>independent axes</b>. Knowing someone's answer to one tells you nothing about their answer to the other."]
     ],
-    pull:{ lbl:"The test case", t:"A trans woman attracted to men is straight. If that sentence surprises you, run the two questions separately: her gender is woman; she is attracted to a different gender. Both words are doing their own job." },
+    pull:{ lbl:"The test case", t:"A trans woman attracted to men is straight: her gender is woman, and her attraction is to a different gender. Each word answers its own question." },
     src:"Standard usage; consistent with the Victorian Department of Education's LGBTIQ+ terminology guidance.",
     q:{ kind:"mcq",
         q:"A student says: “He came out as trans, so that means he's gay now.” What has gone wrong in this sentence?",
@@ -439,7 +462,7 @@ const SLIDES = [
         a:1,
         explain:"Gender identity and attraction are <b>separate axes</b>. Coming out as trans answers “what is my gender?” — it leaves “who am I attracted to?” exactly as unknown as before. (And D is wrong too: a trans man attracted to men is gay; the axes combine freely.)" } },
 
-  { id:"p2", title:"The acronym, letter by letter",
+  { id:"p2", title:"What the letters mean",
     lead:"LGBTQIA+ is a coalition of groups with different situations, gathered under one banner. Each letter is doing a different job.",
     pts:[
       ["LGB","Lesbian, Gay, Bisexual — <b>attraction</b> words."],
@@ -449,7 +472,7 @@ const SLIDES = [
       ["A","Asexual / Aromantic — experiencing little or no sexual or romantic attraction."],
       ["+","Everyone the letters don't capture."]
     ],
-    pull:{ lbl:"Why it matters that the letters differ", t:"An intersex person's concerns (often medical consent) are not a trans person's (often recognition), and neither is a gay person's (historically, the criminal law). The acronym is a coalition, not one experience." },
+    pull:{ lbl:"Why it matters that the letters differ", t:"An intersex person's concerns (often medical consent) are not a trans person's (often recognition), and neither is a gay person's (historically, the criminal law). The acronym gathers those different experiences into one coalition." },
     src:"Terminology consistent with Victorian government and eSafety guidance.",
     q:{ kind:"mcq",
         q:"Which letter of the acronym refers to physical sex characteristics rather than identity or attraction?",
@@ -462,29 +485,29 @@ const SLIDES = [
         a:1,
         explain:"<b>Intersex</b> is about the body: sex characteristics that sit between typical definitions of male and female. It is neither an orientation nor a gender identity — a third axis. T is identity, A and Q relate to attraction and the umbrella." } },
 
-  { id:"p3", title:"It was a crime — recently",
+  { id:"p3", title:"When it was a crime",
     lead:"For most of Australian history, sex between men was a criminal offence in every state. The law changed state by state, not all at once.",
     pts:[
       ["1975","<b>South Australia</b> becomes the first state to decriminalise. Victoria follows in 1980, NSW in 1984."],
       ["1994","Tasmania still refuses. A Tasmanian, Nick Toonen, takes Australia to the <b>UN Human Rights Committee</b> — and wins. The federal government passes a law to override the Tasmanian one."],
       ["1997","<b>Tasmania</b> finally repeals its law — the last state, 22 years after the first."]
     ],
-    pull:{ lbl:"Do the maths on the dates", t:"1997 is within the lifetime of your teachers and possibly your parents. People at your school were alive while being gay was still a crime in part of Australia. This history is not distant." },
+    pull:{ lbl:"Do the maths on the dates", t:"1997 is within the lifetime of your teachers and possibly your parents. People at your school were alive while being gay was still a crime in part of Australia." },
     src:"State legislation dates; Toonen v Australia (UN Human Rights Committee, 1994).",
     q:{ kind:"num",
         q:"How many years passed between the first Australian state decriminalising homosexuality and the last one doing so?",
         a:22, tol:0, unit:"years",
         hint:"First: South Australia, 1975. Last: Tasmania, 1997.",
-        explain:"1997 − 1975 = <b>22 years</b>. That gap is the point: rights did not arrive as one event but as a two-decade, state-by-state fight — and the last step needed a UN ruling and federal intervention to force it." } },
+        explain:"1997 − 1975 = <b>22 years</b>. Rights did not arrive as one event: it was a two-decade, state-by-state fight — and the last step needed a UN ruling and federal intervention to force it." } },
 
-  { id:"p4", title:"From riot to street party",
+  { id:"p4", title:"Stonewall and the 78ers",
     lead:"The public face of the movement — marches, Pride, Mardi Gras — began as something much rougher.",
     pts:[
       ["1969","<b>Stonewall</b>, New York. Patrons of a gay bar — prominently trans women and drag performers — resist a police raid. The riots turn scattered activism into a movement."],
       ["1978","The first <b>Sydney Mardi Gras</b> begins as a solidarity march. Police break it up; 53 people are arrested, and a newspaper publishes their names, outing many to employers and families."],
       ["2016","The NSW Parliament and the newspaper formally <b>apologise</b> to the marchers, now honoured as the '78ers'."]
     ],
-    pull:{ lbl:"Reading the arc", t:"The same event was treated as a public order problem in 1978 and receives a parliamentary apology in 2016. What changed was not the marchers — it was the society around them. Institutions can be wrong, and can say so." },
+    pull:{ lbl:"Reading the arc", t:"The same event was treated as a public order problem in 1978 and receives a parliamentary apology in 2016. The marchers did not change; the society around them did." },
     src:"Sydney Mardi Gras history; NSW parliamentary apology, 2016.",
     q:{ kind:"mcq",
         q:"In 1978, marchers were arrested and outed by a newspaper. In 2016, parliament and that newspaper apologised. What is the most defensible conclusion to draw from this pair of facts?",
@@ -497,7 +520,7 @@ const SLIDES = [
         a:1,
         explain:"The event did not change; the judgement of it did. That is the transferable lesson — institutions confident they are right can later conclude they were wrong, which is exactly why days like Wear it Purple ask you to examine the norms you have inherited rather than assume them." } },
 
-  { id:"p5", title:"Off the illness lists",
+  { id:"p5", title:"Removed from the illness lists",
     lead:"Within living memory, being gay or trans was officially classified as a disorder. Both classifications were removed — decades apart.",
     pts:[
       ["1990","The <b>World Health Organization</b> removes homosexuality from its international classification of diseases. It was never an illness; the classification reflected the era's prejudice, not evidence."],
@@ -517,14 +540,14 @@ const SLIDES = [
         a:1,
         explain:"The renaming was the substance of the change: the <b>distress</b> is the clinical concern, and treating it — including by affirming the person's gender — is the goal. Classifying the identity itself as disordered is exactly what was removed." } },
 
-  { id:"p6", title:"61.6% — and what a survey can't do",
+  { id:"p6", title:"The 2017 postal survey",
     lead:"Australia legalised same-sex marriage in 2017, after a voluntary national postal survey.",
     pts:[
       ["1","Nearly <b>8 in 10</b> eligible Australians took part — an extraordinary response for a voluntary survey."],
       ["2","<b>61.6%</b> voted yes. Parliament amended the Marriage Act within a month."],
       ["3","During the campaign, LGBTQIA+ Australians reported a measurable spike in distress — support services recorded sharply increased demand while the public debated their lives."]
     ],
-    pull:{ lbl:"Both things are true", t:"The result was a clear majority and a genuine milestone — and the process itself was costly for the people it was about. History is allowed to be both. You lived through this one." },
+    pull:{ lbl:"Both things are true", t:"The result was a milestone, and the process was hard on the people it was about. Both facts belong in the record — and you lived through this one." },
     src:"Australian Marriage Law Postal Survey, ABS 2017; Marriage Amendment Act 2017.",
     q:{ kind:"num",
         q:"In the 2017 postal survey, what percentage of respondents voted yes? (One decimal place.)",
@@ -539,7 +562,7 @@ const SLIDES = [
       ["The idea","One visible day where young people see, at school, that they have supporters — because the founders knew exactly what school could feel like without one."],
       ["The data","In <i>Writing Themselves In 4</i> (La Trobe, ~6,400 young LGBTQIA+ Australians), only about <b>4 in 10</b> secondary students described their school as supportive — and those who did reported markedly better mental health."]
     ],
-    pull:{ lbl:"Read the mechanism", t:"The survey doesn't just show a problem; it points at the lever. School support is the variable that tracks wellbeing — and school support is made of individual moments: what gets laughed at, what gets corrected, who says something." },
+    pull:{ lbl:"Read the mechanism", t:"The survey also points at the lever: school support is the variable that tracks wellbeing, and school support is made of individual moments: what gets laughed at, what gets corrected, who says something." },
     src:"Wear it Purple Foundation; Hill et al., Writing Themselves In 4, La Trobe University, 2021.",
     q:{ kind:"mcq",
         q:"The survey found students at supportive schools reported better mental health. Why can't we conclude from this alone that school support causes better mental health?",
@@ -552,8 +575,8 @@ const SLIDES = [
         a:1,
         explain:"Same rule as the sleep unit: an <b>association</b>, however strong and plausible, is not yet a demonstrated cause — supportive schools may differ in many ways. It is still evidence worth acting on; you just state it accurately: <i>supported students report better mental health</i>, not <i>support guarantees it</i>." } },
 
-  { id:"p8", title:"What actually helps, day to day",
-    lead:"The research on peers and bystanders is consistent: what shifts a school's climate is not lectures — it is what ordinary students let pass.",
+  { id:"p8", title:"What helps day to day",
+    lead:"The research on peers and bystanders is consistent: a school's climate comes down to what ordinary students let pass, more than to any lecture.",
     pts:[
       ["1","<b>Small, visible responses work.</b> Not laughing, a quiet “not cool”, a correction made lightly — low-key responses from peers shift what feels normal more than dramatic confrontations."],
       ["2","<b>Never out anyone.</b> Defending someone by revealing their identity — “careful, X is gay” — takes from them the one decision that is theirs."],
@@ -609,7 +632,7 @@ const AUDIT = [
               "They are questioning whether they are bisexual.",
               "The two words contradict each other, so the label is confused."],
         a:1,
-        explain:"<i>-romantic</i> and <i>-sexual</i> name different kinds of attraction, so they can take different prefixes in one person: <i>bi-</i> (more than one gender) on the romantic axis, <i>a-</i> (without) on the sexual axis. The label is precise, not confused — that precision is what the morpheme kit buys you." },
+        explain:"<i>-romantic</i> and <i>-sexual</i> name different kinds of attraction, so they can take different prefixes in one person: <i>bi-</i> (more than one gender) on the romantic axis, <i>a-</i> (without) on the sexual axis. The label is precise, and the morpheme kit is what lets you read it." },
       { id:"b1a3", kind:"mcq",
         q:"Why is “cisgender” a useful word rather than an insult?",
         opts:["It isn't useful — 'normal' says the same thing.",
@@ -710,7 +733,7 @@ const AUDIT = [
         q:"Wear it Purple was founded in 2010. How many years after the first Sydney Mardi Gras (1978) is that?",
         a:32, tol:0, unit:"years",
         hint:"2010 minus 1978.",
-        explain:"<b>32 years</b> — a generation and a half. The 78ers were arrested and outed; the Wear it Purple founders organised openly, in schools. The distance between those two facts is what three decades of activism bought." },
+        explain:"<b>32 years</b> — a generation and a half. The 78ers were arrested and outed; the Wear it Purple founders organised openly, in schools. Three decades of activism separate those two facts." },
       { id:"b2a3", kind:"mcq",
         q:"Writing Themselves In 4 surveyed ~6,400 LGBTQIA+ young people and found those at supportive schools reported better mental health. Which is the most defensible way to state this finding?",
         opts:["“Supportive schools cause good mental health in LGBTQIA+ students.”",
@@ -757,7 +780,7 @@ const AUDIT = [
               "The increased demand proves the survey should never have happened.",
               "Help-seeking numbers tell us nothing."],
         a:1,
-        explain:"Option B states what was measured (demand for support), the relationship (coincided with the campaign) and its significance (a cost) without overclaiming a universal effect or smuggling in the policy conclusion. Careful language is not weak language — it is what makes the point stand up." },
+        explain:"Option B states what was measured (demand for support), the relationship (coincided with the campaign) and its significance (a cost) without overclaiming a universal effect or smuggling in the policy conclusion. Careful wording is what makes the point stand up." },
       { id:"b2b4", kind:"mcq",
         q:"You want a reliable definition of gender affirmation to cite in an assignment. Which source should you reach for first?",
         opts:["A viral post with 40,000 shares.",
@@ -796,7 +819,7 @@ const DECODE = [
 const KEY = "purplelab.v1";
 let S = load();
 function blank(){
-  return { studied:false, slidesSeen:[], slidesDone:false,
+  return { intro:false, introText:"", studied:false, slidesSeen:[], slidesDone:false,
            first:{}, done:{}, sendbacks:0, checkDone:false,
            buildDone:{}, buildFirst:{}, decode:{}, decodeDone:false,
            reteach:{}, retryScores:{},
@@ -881,12 +904,30 @@ el("resetAllBtn").addEventListener("click",()=>{
 });
 
 /* ================= STEP 1 · STUDY ================= */
+/* Colour is a taxonomy: prefix / root / suffix, one colour each, legend shown.
+   A tile ending in "-" is a prefix, one starting with "-" is a suffix. */
+function morphClass(t,i){ return t.endsWith("-") ? "mp" : (t.startsWith("-") ? "ms" : "mr"); }
+function colourWord(v){
+  // rebuild the headword from its tiles so each part takes its category colour
+  let out="", rest=v.w;
+  for(const [t] of v.tiles){
+    const piece = t.replace(/-/g,"");
+    const idx = rest.toLowerCase().indexOf(piece.toLowerCase());
+    if(idx===-1){ return esc(v.w); }
+    out += esc(rest.slice(0,idx)) + `<span class="${morphClass(t)}">${esc(rest.slice(idx,idx+piece.length))}</span>`;
+    rest = rest.slice(idx+piece.length);
+  }
+  return out + esc(rest);
+}
 function renderStudy(){
   const wrap = el("study-list"); wrap.innerHTML="";
+  wrap.insertAdjacentHTML("beforeend",
+    `<div class="mlegend"><span class="mp">prefix</span><span class="mr">root</span><span class="ms">suffix</span>
+     <span style="font-weight:400;color:var(--muted)">— the same colours mark each word's parts below</span></div>`);
   WORDS.forEach(v=>{
-    const parts = v.tiles.map(t=>`<code>${esc(t[0])}</code> <i>${esc(t[1])}</i>`).join(" + ");
+    const parts = v.tiles.map(t=>`<code class="${morphClass(t[0])}">${esc(t[0])}</code> <i>${esc(t[1])}</i>`).join(" + ");
     const d=document.createElement("div"); d.className="vcard";
-    d.innerHTML = `<span class="w">${esc(v.w)}</span><span class="pos">${esc(v.pos)}</span>`+
+    d.innerHTML = `<span class="w">${colourWord(v)}</span><span class="pos">${esc(v.pos)}</span>`+
       `<div class="meaning">${esc(v.meaning)}</div>`+
       `<div class="morph">${parts}<br>${v.note}</div>`;
     wrap.appendChild(d);
@@ -1442,6 +1483,10 @@ const MARKLBL = { hit:"met all three criteria (self-marked)", part:"partly met t
 function renderReport(){
   const rows = [];
 
+  rows.push(S.intro
+    ? `<tr><td>Before the session</td><td class="score">✓</td><td>Wrote a first guess at the acronym — printed below</td></tr>`
+    : `<tr><td>Before the session</td><td class="nf">not done</td><td class="nf">—</td></tr>`);
+
   rows.push(S.studied
     ? `<tr><td>Word list read</td><td class="score">✓</td><td>Ten words frontloaded with their morphemes</td></tr>`
     : `<tr><td>Word list read</td><td class="nf">not yet</td><td class="nf">—</td></tr>`);
@@ -1525,6 +1570,7 @@ function renderReport(){
        writing, self-marked against stated criteria — the page does not judge free writing.
        ${Object.keys(S.reteach).length?" A reteach and fresh question set were used.":""}</p>
 
+     ${S.introText?`<div class="sheet"><h3>Before the session (verbatim)</h3><p style="margin:6px 0">${esc(S.introText)}</p></div>`:""}
      ${decTexts?`<div class="sheet"><h3>Decode answers (verbatim)</h3>${decTexts}</div>`:""}
 
      <div class="nextrow noprint">
@@ -1565,7 +1611,23 @@ function renderReport(){
 }
 
 /* ================= BOOT ================= */
-renderHome();
+el("introGo").addEventListener("click",()=>{
+  const t = el("introTxt").value.trim();
+  if(t.length < 15){
+    el("introTxt").placeholder = "Write at least a line — a wrong guess is worth more than a blank.";
+    el("introTxt").focus();
+    return;
+  }
+  S.intro = true; S.introText = t; save(); go("home");
+});
+el("introTxt").addEventListener("input",()=>{ S.introText = el("introTxt").value; save(); });
+if(!S.intro){
+  el("introTxt").value = S.introText||"";
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  el("scr-intro").classList.add("active");
+} else {
+  renderHome();
+}
 </script>
 
 </body>
