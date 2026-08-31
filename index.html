@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Work & Life Education — interactive units index.">
+<title>Work &amp; Life Education</title>
+<style>
+  :root{
+    --bg:#f4efe6; --paper:#fbf7ee; --ink:#1f1f1f; --muted:#6b6256;
+    --line:#d8cfbb; --line-soft:#e8e0cd;
+    --shadow:0 1px 2px rgba(31,31,31,.05),0 4px 14px rgba(31,31,31,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#12140f; --paper:#1b1e1a; --ink:#eae5db; --muted:#a2988a;
+      --line:#3a4036; --line-soft:#2e332b;
+      --shadow:0 1px 2px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12140f; --paper:#1b1e1a; --ink:#eae5db; --muted:#a2988a;
+    --line:#3a4036; --line-soft:#2e332b;
+    --shadow:0 1px 2px rgba(0,0,0,.45);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif;background:var(--bg);
+       color:var(--ink);min-height:100vh;padding:16px;display:flex;justify-content:center;align-items:flex-start}
+  .container{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+       max-width:720px;width:100%;padding:28px;margin-top:12px;box-shadow:var(--shadow)}
+  h1{text-align:center;font-size:24px;font-family:Georgia,'Times New Roman',serif;letter-spacing:.4px}
+  .subtitle{color:var(--muted);text-align:center;margin:6px 0 22px;font-size:13px}
+  .units{display:flex;flex-direction:column;gap:12px}
+  .unit{display:block;border:1px solid var(--line-soft);border-radius:10px;padding:16px 18px;
+        background:var(--paper);text-decoration:none;color:inherit}
+  .unit:hover{border-color:var(--ink)}
+  .unit .t{font-weight:700;font-size:16px;font-family:Georgia,serif}
+  .unit .d{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.5}
+  .swatch{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Work &amp; Life Education</h1>
+  <p class="subtitle">Interactive units — Year 10</p>
+  <div class="units">
+    <a class="unit" href="sleep-lab/">
+      <span class="t"><span class="swatch" style="background:#39407e"></span>Sleep Lab</span>
+      <div class="d">Word list, briefing slides with checkpoints, word builders, a target bedtime calculator and a printable seven-night sleep diary.</div>
+    </a>
+    <a class="unit" href="purple-lab/">
+      <span class="t"><span class="swatch" style="background:#5b2d86"></span>Purple Lab</span>
+      <div class="d">Word list, briefing slides with checkpoints, word builders, a decoding task and an evidence audit.</div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
