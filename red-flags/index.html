@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Red Flag, Red Light - Work & Life Education, healthy relationships session. Teacher-led projector page: class agreement, a whole-class red flag / green flag sort, the ReachOut article as look-alike pairs, the video with pause-and-predict stops, a printable reflection sheet and where to get help.">
+<title>Red Flag, Red Light</title>
+<style>
+  /* Paper ground and Georgia headings match the other Work & Life Education
+     pages. This one is a teacher-driven projector page, so the whole shell is
+     sized to the viewport and every size hangs off one unit (--u).
+     Colour is a taxonomy here: the four verdict colours below each mean one
+     category, always shown with their text label. The accent is a neutral
+     slate so it never competes with them. */
+  :root{
+    --bg:#f4efe6; --paper:#fbf7ee; --band:#f5f0e6; --ink:#1f1f1f; --muted:#6b6256;
+    --line:#d8cfbb; --line-soft:#e8e0cd;
+    --accent:#223f43; --accent-soft:#e2eaeb; --on-accent:#fbf7ee;
+    --v-green:#2f6a3e;  --v-green-soft:#e6f1e7;
+    --v-false:#6b6256;  --v-false-soft:#ece7de;
+    --v-flag:#b45309;   --v-flag-soft:#fbead6;
+    --v-light:#a32424;  --v-light-soft:#f8e1df;
+    --shadow:0 1px 2px rgba(31,31,31,.05),0 4px 14px rgba(31,31,31,.06);
+    --u:clamp(11px, .72vw + .62vh, 26px);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#12140f; --paper:#1b1e1a; --band:#232722; --ink:#eae5db; --muted:#a2988a;
+      --line:#3a4036; --line-soft:#2e332b;
+      --accent:#a9cfd3; --accent-soft:#1f2c2e; --on-accent:#12140f;
+      --v-green:#6cc389;  --v-green-soft:#16301f;
+      --v-false:#b3a99a;  --v-false-soft:#2b2a26;
+      --v-flag:#f0a65a;   --v-flag-soft:#3a2711;
+      --v-light:#f08a80;  --v-light-soft:#3c1b19;
+      --shadow:0 1px 2px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12140f; --paper:#1b1e1a; --band:#232722; --ink:#eae5db; --muted:#a2988a;
+    --line:#3a4036; --line-soft:#2e332b;
+    --accent:#a9cfd3; --accent-soft:#1f2c2e; --on-accent:#12140f;
+    --v-green:#6cc389;  --v-green-soft:#16301f;
+    --v-false:#b3a99a;  --v-false-soft:#2b2a26;
+    --v-flag:#f0a65a;   --v-flag-soft:#3a2711;
+    --v-light:#f08a80;  --v-light-soft:#3c1b19;
+    --shadow:0 1px 2px rgba(0,0,0,.45);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif;background:var(--bg);color:var(--ink);
+       font-size:var(--u);line-height:1.45;overflow:hidden}
+  button{font:inherit;color:inherit;cursor:pointer}
+  a{color:var(--accent)}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .serif{font-family:Georgia,'Times New Roman',serif}
+
+  /* ---------- shell: one view, no page scroll ---------- */
+  .app{height:100dvh;display:grid;grid-template-rows:auto 1fr auto;gap:.6em;padding:.6em .9em}
+  .bar{display:flex;align-items:center;gap:.6em;flex-wrap:wrap}
+  .title{font-family:Georgia,serif;font-weight:700;font-size:1.25em;white-space:nowrap}
+  .title small{display:block;font-family:'Segoe UI',sans-serif;font-size:.5em;font-weight:800;letter-spacing:.14em;
+               text-transform:uppercase;color:var(--muted)}
+  .tabs{display:flex;gap:.25em;flex-wrap:wrap;margin-left:auto}
+  .tabs button{border:1px solid var(--line);background:var(--paper);border-radius:2em;padding:.3em .85em;
+               font-size:.78em;font-weight:700;color:var(--muted)}
+  .tabs button .n{color:var(--accent);margin-right:.35em}
+  .tabs button[aria-current="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+  .tabs button[aria-current="true"] .n{color:var(--on-accent)}
+  .tools{display:flex;gap:.25em}
+  .tools button{border:1px solid var(--line);background:var(--paper);border-radius:.5em;padding:.3em .7em;
+                font-size:.78em;font-weight:700;color:var(--muted)}
+  .tools button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+
+  .stage{min-height:0;position:relative;display:grid;grid-template-columns:1fr auto;gap:.6em}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:.7em;box-shadow:var(--shadow);
+         min-height:0;overflow:hidden;display:flex;flex-direction:column;padding:1em 1.3em}
+  .notes{width:min(30vw,420px);background:var(--band);border:1px solid var(--line);border-radius:.7em;
+         padding:.9em 1em;overflow:auto;font-size:.8em;line-height:1.55;display:none}
+  .notes.show{display:block}
+  .notes h4{font-size:.78em;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 .5em}
+  .notes p,.notes li{margin-bottom:.5em}
+  .notes ul,.notes ol{margin-left:1.2em}
+
+  .foot{display:flex;align-items:center;gap:.6em}
+  .foot .where{font-size:.72em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .foot .sp{flex:1}
+  .nav{border:1px solid var(--line);background:var(--paper);border-radius:.5em;padding:.4em 1em;font-size:.85em;font-weight:700}
+  .nav.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+  .nav:disabled{opacity:.4;cursor:default}
+
+  .eyebrow{font-size:.7em;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  h2.big{font-family:Georgia,serif;font-size:2.4em;line-height:1.08;margin:.15em 0 .45em;text-wrap:balance}
+  .src{font-size:.68em;color:var(--muted);font-style:italic;margin-top:auto;padding-top:.6em}
+
+  /* ---------- agreement ---------- */
+  .agree{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1em 2em;margin-top:.3em;flex:1;align-content:center}
+  .agree div{display:flex;gap:.7em;align-items:flex-start;font-size:1.55em;line-height:1.3}
+  .agree .k{flex:none;width:1.9em;height:1.9em;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+            display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8em;margin-top:.1em}
+  .agree b{font-family:Georgia,serif}
+
+  /* ---------- verdict taxonomy ---------- */
+  .legend{display:flex;gap:.5em;flex-wrap:wrap}
+  .vtag{display:inline-flex;align-items:center;gap:.35em;font-size:.68em;font-weight:800;letter-spacing:.06em;
+        text-transform:uppercase;padding:.2em .6em;border-radius:2em;border:1.5px solid currentColor;white-space:nowrap}
+  .vtag::before{content:"";width:.6em;height:.6em;border-radius:50%;background:currentColor}
+  .v-green{color:var(--v-green);background:var(--v-green-soft)}
+  .v-false{color:var(--v-false);background:var(--v-false-soft)}
+  .v-flag {color:var(--v-flag); background:var(--v-flag-soft)}
+  .v-light{color:var(--v-light);background:var(--v-light-soft)}
+  .v-light::before{border-radius:0}  /* square marker: red light is a stop, not a flag */
+
+  /* ---------- sort ---------- */
+  .sort{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1fr);gap:.8em;flex:1;min-height:0}
+  .col{border:2px dashed var(--line);border-radius:.7em;padding:.6em;display:flex;flex-direction:column;gap:.4em;min-height:0}
+  .col h3{font-family:Georgia,serif;font-size:1.2em;display:flex;align-items:center;gap:.4em}
+  .col.green{border-color:var(--v-green)} .col.green h3{color:var(--v-green)}
+  .col.red{border-color:var(--v-light)}   .col.red h3{color:var(--v-light)}
+  .col .chips{display:flex;flex-direction:column;gap:.35em;overflow:auto;min-height:0;flex:1}
+  .chip{text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:.5em;padding:.35em .6em;
+        font-size:.78em;line-height:1.3;display:flex;flex-direction:column;gap:.25em}
+  .chip:hover{border-color:var(--accent)}
+  .chip.on{outline:3px solid var(--accent);outline-offset:1px}
+  .chip .who{font-weight:700}
+  .centre{display:flex;flex-direction:column;gap:.7em;min-height:0}
+  .card{flex:1;border:1px solid var(--line);border-radius:.8em;background:var(--band);padding:1.1em 1.3em;
+        display:flex;flex-direction:column;gap:.6em;min-height:0;overflow:auto}
+  .card .who{font-size:.72em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .card .story{font-family:Georgia,serif;font-size:1.75em;line-height:1.38;text-wrap:pretty}
+  .card .why{border-top:1px dashed var(--line);padding-top:.6em;font-size:.95em;line-height:1.45}
+  .card .why .s{display:block;font-size:.75em;color:var(--muted);font-style:italic;margin-top:.3em}
+  .card.empty{align-items:center;justify-content:center;text-align:center;color:var(--muted)}
+  .place{display:grid;grid-template-columns:1fr 1fr;gap:.6em}
+  .place button{border-radius:.6em;padding:.55em;font-size:1.05em;font-weight:800;border:2px solid}
+  .place .g{color:var(--v-green);border-color:var(--v-green);background:var(--v-green-soft)}
+  .place .r{color:var(--v-light);border-color:var(--v-light);background:var(--v-light-soft)}
+  .place button:disabled{opacity:.35;cursor:default}
+  .sortbar{display:flex;align-items:center;gap:.6em;flex-wrap:wrap;font-size:.8em}
+  .sortbar .sp{flex:1}
+  .sortbar .count{font-weight:700;color:var(--muted)}
+  .sortbar button{border:1px solid var(--line);background:var(--paper);border-radius:.5em;padding:.3em .8em;font-weight:700}
+  .sortbar button.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+
+  /* ---------- article pairs ---------- */
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:.8em;margin-top:.2em}
+  .side{border:2px solid;border-radius:.7em;padding:.8em 1em;display:flex;flex-direction:column;gap:.4em}
+  .side.ok{border-color:var(--v-green);background:var(--v-green-soft)}
+  .side.no{border-color:var(--v-flag);background:var(--v-flag-soft)}
+  .side .lbl{font-size:.7em;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+  .side.ok .lbl{color:var(--v-green)} .side.no .lbl{color:var(--v-flag)}
+  .side .txt{font-family:Georgia,serif;font-size:1.8em;line-height:1.3}
+  .diff{margin-top:.8em;border:1px solid var(--line);border-left:.3em solid var(--accent);border-radius:.6em;
+        background:var(--band);padding:.8em 1.1em;font-size:1.4em;line-height:1.4}
+  .diff .lbl{display:block;font-size:.66em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.2em}
+  .diff.hidden{display:flex;align-items:center;justify-content:space-between;gap:1em;color:var(--muted)}
+  .diff.hidden button{border:1px solid var(--line);background:var(--paper);border-radius:.5em;padding:.3em .9em;font-weight:700;font-size:.85em}
+  .redline{margin-top:.7em;border:2px solid var(--v-light);background:var(--v-light-soft);border-radius:.6em;padding:.6em 1em;font-size:1.25em}
+  .redline b{color:var(--v-light)}
+  .bullets{display:flex;flex-direction:column;gap:.55em;margin-top:.2em}
+  .bullets div{display:flex;gap:.7em;font-size:1.45em;line-height:1.35}
+  .bullets .k{flex:none;color:var(--accent);font-weight:800}
+  .feelings{display:flex;gap:.45em;flex-wrap:wrap;margin:.3em 0 .1em}
+  .feelings span{font-family:Georgia,serif;font-size:1.45em;border:1px solid var(--line);border-radius:2em;padding:.15em .7em;background:var(--band)}
+  .apips{display:flex;gap:.25em;margin-left:auto}
+  .apips i{width:1.5em;height:.32em;border-radius:.2em;background:var(--line)}
+  .apips i.now{background:var(--accent)}
+
+  /* ---------- video ---------- */
+  .vid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:.9em;flex:1;min-height:0}
+  .frame{position:relative;background:#000;border-radius:.6em;overflow:hidden;align-self:start;width:100%;aspect-ratio:16/9;max-height:100%}
+  .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .frame .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#cfc7b8;
+             font-size:.95em;text-align:center;padding:1em}
+  .stops{display:flex;flex-direction:column;gap:.4em;min-height:0;overflow:auto}
+  .stop{border:1px solid var(--line);background:var(--paper);border-radius:.6em;padding:.45em .7em;text-align:left;display:flex;flex-direction:column;gap:.2em}
+  .stop .tm{font-size:.7em;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+  .stop .q{font-size:.85em;line-height:1.35;display:none}
+  .stop.on{border-color:var(--accent);box-shadow:inset .25em 0 0 var(--accent)}
+  .stop.on .q,.stop.done .q{display:block}
+  .stop.on .q{font-family:Georgia,serif;font-size:1em}
+  .stop .yt{font-size:.7em;font-weight:700}
+  .vidmeta{font-size:.7em;color:var(--muted);margin-top:.4em}
+
+  /* ---------- reflection ---------- */
+  .refl{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:1.1em;flex:1;min-height:0}
+  .scen{border:1px solid var(--line);border-radius:.7em;background:var(--band);padding:.9em 1.1em;font-family:Georgia,serif;font-size:1.35em;line-height:1.45;overflow:auto}
+  .qs{display:flex;flex-direction:column;gap:.6em;overflow:auto}
+  .qs div{display:flex;gap:.6em;font-size:1.2em;line-height:1.38}
+  .qs .k{flex:none;font-weight:800;color:var(--accent)}
+  .printbtn{align-self:flex-start;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);border-radius:.5em;padding:.4em 1em;font-weight:700;font-size:.85em;margin-top:.4em}
+
+  /* ---------- help ---------- */
+  .help{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8em;margin-top:.3em}
+  .svc{border:1px solid var(--line);border-radius:.7em;background:var(--band);padding:.8em 1em;display:flex;flex-direction:column;gap:.25em}
+  .svc .nm{font-family:Georgia,serif;font-weight:700;font-size:1.35em}
+  .svc .num{font-size:1.8em;font-weight:800;letter-spacing:.02em;color:var(--accent);font-variant-numeric:tabular-nums}
+  .svc .d{font-size:.95em;color:var(--muted);line-height:1.4}
+  .svc.urgent{border:2px solid var(--v-light);background:var(--v-light-soft)}
+  .svc.urgent .num{color:var(--v-light)}
+
+  /* ---------- printable worksheet (hidden on screen) ---------- */
+  #sheet{display:none}
+  @media print{
+    @page{size:A4;margin:14mm}
+    html,body{height:auto;overflow:visible;background:#fff;color:#000;font-size:11pt}
+    .app{display:none !important}
+    #sheet{display:block}
+    #sheet h1{font-family:Georgia,serif;font-size:17pt;margin-bottom:2pt}
+    #sheet .sub{font-size:9pt;color:#555;margin-bottom:10pt}
+    #sheet .nm{display:flex;gap:18pt;font-size:10pt;margin-bottom:10pt}
+    #sheet .nm span{flex:1;border-bottom:1px solid #000;padding-bottom:2pt}
+    #sheet .sc{border:1px solid #999;border-radius:6pt;padding:8pt 10pt;font-family:Georgia,serif;font-size:11pt;line-height:1.45;margin-bottom:10pt}
+    #sheet .q{margin-top:9pt;font-size:10.5pt;line-height:1.4;break-inside:avoid}
+    #sheet .q b{margin-right:4pt}
+    #sheet .ln{border-bottom:1px solid #444;height:21pt}
+    #sheet .two{display:grid;grid-template-columns:1fr 1fr;gap:12pt}
+    #sheet .two .h{font-size:9.5pt;font-weight:700;margin-top:4pt}
+    #sheet .priv{border:1px dashed #777;border-radius:6pt;padding:6pt 10pt;margin-top:12pt}
+    #sheet .src{font-size:8pt;color:#555;margin-top:10pt;font-style:normal}
+  }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important} }
+  @media (max-width:760px){
+    body{overflow:auto}
+    .app{height:auto;min-height:100dvh}
+    .stage{grid-template-columns:1fr}
+    .notes{width:auto}
+    .sort,.vid,.refl,.pair,.agree,.help{grid-template-columns:1fr}
+    .panel{overflow:visible}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="bar">
+    <div class="title">Red Flag, Red Light<small>Work &amp; Life Education · Healthy relationships</small></div>
+    <nav class="tabs" id="tabs" aria-label="Sections"></nav>
+    <div class="tools">
+      <button id="notesBtn" type="button" aria-pressed="false" title="Teacher notes (N)">Notes</button>
+      <button id="fsBtn" type="button" title="Full screen (F)">Full screen</button>
+    </div>
+  </div>
+  <div class="stage">
+    <section class="panel" id="panel" aria-live="polite"></section>
+    <aside class="notes" id="notes" aria-label="Teacher notes"></aside>
+  </div>
+  <div class="foot">
+    <button class="nav" id="prev" type="button">&larr; Back</button>
+    <span class="where" id="where"></span>
+    <span class="sp"></span>
+    <a class="where" href="../" style="text-decoration:none">Work &amp; Life Education</a>
+    <button class="nav primary" id="next" type="button">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- printable reflection sheet: filled from REFLECT below so screen and paper never drift -->
+<div id="sheet"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   RED FLAG, RED LIGHT — Work & Life Education, healthy relationships
+   Teacher-driven projector page. Nothing is locked; ← → move through
+   the lesson, the tabs jump. N = teacher notes, F = full screen.
+
+   Sources:
+   - ReachOut Australia, "Are you in a toxic relationship?" (updated
+     8 April 2026), au.reachout.com — paraphrased as look-alike pairs,
+     short phrases quoted and attributed.
+   - YouTube NkLM8HTYY1g — on red flags vs red lights; clips are
+     played from timestamps with pause-and-predict stops.
+
+   The four verdicts are the lesson's taxonomy, taken from the video and
+   mapped onto the article:
+     green  = the healthy version          (article: the okay side)
+     false  = not a warning sign at all     (video: false red flags)
+     flag   = look closer — could be innocent, watch the pattern
+     light  = a line crossed — get help     (video: red lights;
+              article: abuse, adult + under-18 secrecy)
+   ============================================================ */
+
+const VERDICT = {
+  green:{ lbl:"Green flag",      cls:"v-green" },
+  false:{ lbl:"False red flag",  cls:"v-false" },
+  flag: { lbl:"Red flag — look closer", cls:"v-flag" },
+  light:{ lbl:"Red light — line crossed", cls:"v-light" }
+};
+
+/* ---------- sort cards: named, specific, all fictional ---------- */
+const CARDS = [
+  { id:"c1", who:"Priya & Josh", short:"Netball nights",
+    story:"Priya plays netball every Tuesday and Thursday night. Her boyfriend Josh doesn't come along — he has band practice — and they catch up on the weekend.",
+    v:"green",
+    why:"Having your own friends, hobbies and time apart is a sign the relationship is adding to your life, not replacing it.",
+    src:"ReachOut — relying on each other too much" },
+  { id:"c2", who:"Sam & Ellie", short:"“I need an hour”",
+    story:"After an argument about a missed call, Sam says to Ellie, “I need an hour to calm down. Can we talk after dinner?” At 7pm Sam messages to talk it through.",
+    v:"green",
+    why:"Taking time to cool off is fine when it's said out loud and you come back to talk. It's not the silent treatment — that's silence used to punish.",
+    src:"ReachOut — communicating in an unhealthy way" },
+  { id:"c3", who:"Noah & Leo", short:"“Can we slow down?”",
+    story:"Three weeks in, Noah asks Leo if they can slow things down a bit. Leo says, “Yeah, all good, no rush,” and keeps hanging out with Noah the same as before.",
+    v:"green",
+    why:"How someone reacts when you slow things down is one of the best tests there is. Leo respects the pace and nothing changes.",
+    src:"Video — the moment Isak asks to take it slow" },
+  { id:"c4", who:"Amira & Tom", short:"Only child",
+    story:"Amira finds out the guy she likes, Tom, is an only child. Her friend says, “Only child? That's a red flag.”",
+    v:"false",
+    why:"Being an only child says nothing about how someone treats people. A trait you just don't like isn't a warning sign.",
+    src:"Video — false red flags come from prejudice or personal preference" },
+  { id:"c5", who:"Jack & Mei", short:"Paying for themselves",
+    story:"On their first date at the movies, Jack and Mei each pay for their own ticket and snacks.",
+    v:"false",
+    why:"Who pays is a preference, not a sign of how someone will treat you. The video lists it as a classic false red flag.",
+    src:"Video — false red flags" },
+  { id:"c6", who:"Kai & Zoe", short:"“Good morning beautiful”",
+    story:"From the first week, Kai messages Zoe “good morning beautiful” every single day and tells her he's never met anyone like her.",
+    v:"flag",
+    why:"Could be someone who's genuinely keen. Could be love bombing — a flood of attention that rushes you into trusting them. One week can't tell you which. Watch what happens over time.",
+    src:"Video — love bombing" },
+  { id:"c7", who:"Ruby & Aiden", short:"“Same, same, same”",
+    story:"Ruby mentions she loves Billie Eilish, sushi and wants to go to Japan one day. Aiden says same, same, same — it's his dream trip too.",
+    v:"flag",
+    why:"You might really have loads in common. Or it might be mirroring — copying your likes to make the connection feel instant. Notice it, then keep watching.",
+    src:"Video — mirroring" },
+  { id:"c8", who:"Chloe & Maddie", short:"Keeping it secret",
+    story:"Chloe asks Maddie to keep their relationship secret from everyone at school. When Maddie asks why, Chloe won't say.",
+    v:"flag",
+    why:"There can be a real reason — someone might not be out yet. But you have a right to ask why and to hear the truth. Refusing to explain is what makes this one worth a closer look.",
+    src:"ReachOut — keeping the relationship a secret" },
+  { id:"c9", who:"Ben & Sophie", short:"“If you actually cared…”",
+    story:"Ben tells Sophie, “If you actually cared about me, you wouldn't go to Hannah's party without me.”",
+    v:"flag",
+    why:"That's guilt-tripping — using guilt to get what you want. Once is a red flag to raise. If it keeps happening, and Sophie's friends start dropping away, it's isolation.",
+    src:"ReachOut — being possessive and jealous; guilt-tripping" },
+  { id:"c10", who:"Jordan & Alex", short:"Location 24/7",
+    story:"Jordan makes Alex share her location all the time and checks her phone every night. If Alex says no, Jordan won't speak to her for days.",
+    v:"light",
+    why:"Monitoring someone and punishing them with silence when they push back is control. That's past “look closer” — it's a line crossed.",
+    src:"Video — coercive, controlling behaviour is a red light" },
+  { id:"c11", who:"Mason & Ethan", short:"The threat",
+    story:"When Ethan says he wants to break up, Mason threatens to share Ethan's private messages and photos with the whole year level.",
+    v:"light",
+    why:"Threats are a red light, every time. Sharing or threatening to share someone's private images can also be a crime, and eSafety can help get them taken down.",
+    src:"Video — threats are red lights; eSafety Commissioner" },
+  { id:"c12", who:"Lily, 15", short:"An adult and a secret",
+    story:"Lily is 15. A 20-year-old she met through her part-time job wants to start seeing her, and tells her to keep it secret from her parents.",
+    v:"light",
+    why:"An adult asking someone under 18 to keep a relationship secret goes beyond toxic. It isn't okay and isn't a judgement call — tell a trusted adult.",
+    src:"ReachOut — keeping the relationship a secret" }
+];
+
+/* ---------- article: the look-alike pairs ---------- */
+const ARTICLE = [
+  { kind:"intro" },
+  { kind:"pair", title:"Communicating",
+    ok:"Needing time and space to think after a disagreement.",
+    no:"A long, deliberate silence that punishes the other person.",
+    diff:"Same silence, different job. Space is for calming down and coming back. The silent treatment is used to make someone pay." },
+  { kind:"pair", title:"Effort and respect",
+    ok:"Both people make plans, start conversations and turn up.",
+    no:"One person keeps ditching, changing plans last minute or leaving the other on read.",
+    diff:"Equal effort. When it's always one person doing the work, it says something about how the other values their time and feelings." },
+  { kind:"pair", title:"Jealousy and friends",
+    ok:"Your partner is also your friend.",
+    no:"Your partner is your only friend — and you feel guilty for seeing anyone else.",
+    diff:"Does the relationship add to your life, or replace it? ReachOut says deliberately cutting someone off from friends and family is “bordering on abuse”." },
+  { kind:"pair", title:"Relying on each other",
+    ok:"Caring about each other and wanting each other to be happy.",
+    no:"Not being able to cope without each other. They're your only source of happiness.",
+    diff:"Each person keeps their own friends, their own interests and their own ways of feeling okay." },
+  { kind:"pair", title:"Put-downs",
+    ok:"Banter you both enjoy and both join in on.",
+    no:"Casual negative comments that slowly chip away at you.",
+    diff:"Who's laughing, and how you feel afterwards. ReachOut: your partner doesn't decide your worth." },
+  { kind:"pair", title:"Secrets",
+    ok:"Keeping it private for a real reason — for example, someone isn't out yet.",
+    no:"Keeping it secret for a reason they won't explain.",
+    diff:"You have a right to ask why, and to hear the truth.",
+    redline:"<b>Not a judgement call:</b> an adult asking someone under 18 to keep a relationship secret goes beyond toxic. It isn't okay." },
+  { kind:"pair", title:"Disagreeing",
+    ok:"Disagreeing sometimes, and working it out.",
+    no:"Arguing every day, or every small thing turning into a huge fight.",
+    diff:"A healthy disagreement has no yelling, no lying, no guilt-tripping, no talking over each other — and never violence or abuse." },
+  { kind:"what" }
+];
+
+/* ---------- video stops ---------- */
+const VIDEO_ID = "NkLM8HTYY1g";
+const STOPS = [
+  { a:33,  b:577,  q:"Isak thinks he ruined everything by asking Devon to slow down. Did he? What should he have been watching for?" },
+  { a:577, b:731,  q:"Isak says, “Let's take it slow.” What would someone who's genuinely keen do next? What would a manipulator do?" },
+  { a:731, b:819,  q:"Devon has gone cold and silent. Red flag or red light now? What changed?" },
+  { a:819, b:982,  q:"Devon is back. He says he's changed and wants to be friends. What do you think is going on?" },
+  { a:982, b:1116, q:"“Benign actors can stand close inspection.” What does that mean for how you'd tell someone genuine from someone who isn't?" }
+];
+
+/* ---------- reflection: screen and print share this ---------- */
+const REFLECT = {
+  scenario:"Tess (15) and Rory (16) met at a friend's birthday. For the first three weeks Rory messages Tess every morning, says they have everything in common, and asks lots of questions about her friends and family. Then Rory asks Tess to skip her best friend Gab's 16th to hang out instead. Tess says she'd rather go to Gab's party and catch up with Rory on Sunday.",
+  qs:[
+    "From the first three weeks alone, is Rory just keen, or is it a red flag? What would you need to see before you could tell?",
+    "Write Rory's reply to Tess two ways: one from someone who's just keen, and one that's a red flag or a red light. What's the one difference between them?",
+    "If a toxic person and a genuinely nice person can act the same at the start, how can you tell them apart? Use one idea from the article and one from the video."
+  ],
+  priv:"Private — not handed in. One behaviour from today that you'd want to watch for in yourself."
+};
+
+/* ---------- teacher notes, per section ---------- */
+const NOTES = {
+  agree:`<h4>Agreement · ~3 min</h4>
+    <p>Read it through, ask for a show of hands or a thumbs-up, and leave it up while students settle.</p>
+    <p><b>Protective interrupting:</b> if a student starts a personal story, stop it kindly before details come out — "Thanks, can we talk after class?" — then follow up privately.</p>
+    <p>Don't promise confidentiality. If a student discloses harm, follow your school's child-safety procedures and the Victorian PROTECT reporting obligations.</p>`,
+  sort:`<h4>Sort · ~10 min</h4>
+    <ol><li>Read each card aloud. Class votes green or red with a show of hands, then you (or a student at the board) place it. Keys: <b>G</b> / <b>R</b>.</li>
+    <li>Don't discuss yet — keep the pace up. Click any placed card to bring it back and change its column.</li>
+    <li>When all 12 are placed, press <b>Reveal</b>. Click a card to show its verdict and reason.</li></ol>
+    <p>The point of the reveal: two columns aren't enough. Four cards (Kai, Ruby, Chloe, Ben) are <i>red flags</i> in the video's sense — worth a closer look but possibly innocent. Two are <i>false</i> red flags. That tension is what the article and video resolve.</p>`,
+  article:`<h4>Article · ~12 min</h4>
+    <p>Each pair is a behaviour and the healthy look-alike it gets confused with. Ask the class for the difference <i>before</i> you reveal it (<b>Space</b> or the button).</p>
+    <p>Keep coming back to the article's own test: does it leave someone feeling upset, anxious, exhausted, angry or belittled?</p>
+    <p>On the secrets slide, say the red line out loud. It's the only point in the lesson that isn't a judgement call.</p>
+    <p>Source: ReachOut Australia, "Are you in a toxic relationship?", updated 8 April 2026.</p>`,
+  video:`<h4>Video · ~25 min</h4>
+    <p>Play each clip, and when it stops, put the question to the class. Have students write a one-line prediction before you play the next clip — commit first, then watch.</p>
+    <p>The case study is adult (the people in it live together and travel overseas). Bridge it back: the video says the same tactics show up in friendship groups and with online scammers.</p>
+    <p>If the embedded player is blocked at school, use the "Open on YouTube" link on each stop — it starts at the right time.</p>
+    <p>Check the clip yourself before class. The video names who made it at the start; credit them on the board.</p>`,
+  reflect:`<h4>Reflection · ~8 min in class, finish at home if needed</h4>
+    <p>Print one sheet per student (the Print button prints the sheet only, A4).</p>
+    <p><b>What a strong answer to Q3 does:</b> not just lists red flags, but names what evidence over time, or what reaction to a boundary, would tell the two apart. The near-miss is a list of warning signs with no "how to tell".</p>
+    <p>The private box is not collected. Tell students to fold it under or keep it.</p>`,
+  help:`<h4>Help · ~2 min</h4>
+    <p>Read the numbers aloud and leave this slide up as students leave.</p>
+    <p>Name your own school's wellbeing staff and where to find them. Offer a private check-in to anyone who wants one.</p>
+    <p>Youth Law Australia's site covers the law on relationships and age by state — students choose Victoria.</p>`
+};
+
+/* ================= state ================= */
+const KEY = "redflags.v1";
+const SECTIONS = [
+  { id:"agree",   lbl:"Agreement" },
+  { id:"sort",    lbl:"Sort" },
+  { id:"article", lbl:"Article" },
+  { id:"video",   lbl:"Video" },
+  { id:"reflect", lbl:"Reflection" },
+  { id:"help",    lbl:"Help" }
+];
+/* one flat list of steps so ← → walk the whole lesson */
+const STEPS = [];
+SECTIONS.forEach(s=>{
+  if(s.id==="article") ARTICLE.forEach((_,i)=>STEPS.push({sec:"article", i}));
+  else STEPS.push({sec:s.id});
+});
+
+function blankSort(){
+  return { order: shuffle(CARDS.map(c=>c.id)), place:{}, revealed:false, sel:null };
+}
+function load(){
+  try{
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if(s && s.sort && Array.isArray(s.sort.order)) return s;
+  }catch(e){}
+  return { step:0, sort:blankSort(), diffs:{}, stop:null, notes:false };
+}
+let S = load();
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+function el(id){ return document.getElementById(id); }
+function esc(t){ const d=document.createElement("div"); d.textContent=t==null?"":String(t); return d.innerHTML; }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function card(id){ return CARDS.find(c=>c.id===id); }
+function mmss(t){ return Math.floor(t/60)+":"+String(t%60).padStart(2,"0"); }
+
+/* ================= shell ================= */
+function renderTabs(){
+  const cur = STEPS[S.step].sec;
+  el("tabs").innerHTML = SECTIONS.map((s,i)=>
+    `<button type="button" data-sec="${s.id}" aria-current="${s.id===cur}"><span class="n">${i}</span>${esc(s.lbl)}</button>`).join("");
+  el("tabs").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+    goStep(STEPS.findIndex(st=>st.sec===b.dataset.sec));
+  }));
+}
+function goStep(i){
+  S.step = Math.max(0, Math.min(STEPS.length-1, i));
+  save(); render();
+}
+function render(){
+  const st = STEPS[S.step];
+  renderTabs();
+  const p = el("panel");
+  if(st.sec==="agree")   renderAgree(p);
+  if(st.sec==="sort")    renderSort(p);
+  if(st.sec==="article") renderArticle(p, st.i);
+  if(st.sec==="video")   renderVideo(p);
+  if(st.sec==="reflect") renderReflect(p);
+  if(st.sec==="help")    renderHelp(p);
+  el("notes").innerHTML = NOTES[st.sec];
+  el("notes").classList.toggle("show", !!S.notes);
+  el("notesBtn").setAttribute("aria-pressed", String(!!S.notes));
+  el("prev").disabled = S.step===0;
+  el("next").disabled = S.step===STEPS.length-1;
+  const secIdx = SECTIONS.findIndex(s=>s.id===st.sec);
+  el("where").textContent = SECTIONS[secIdx].lbl + (st.sec==="article" ? ` · ${st.i+1} of ${ARTICLE.length}` : "");
+}
+el("prev").addEventListener("click",()=>goStep(S.step-1));
+el("next").addEventListener("click",()=>goStep(S.step+1));
+el("notesBtn").addEventListener("click",()=>{ S.notes=!S.notes; save(); render(); });
+el("fsBtn").addEventListener("click",toggleFs);
+function toggleFs(){
+  if(!document.fullscreenElement){ document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(()=>{}); }
+  else { document.exitFullscreen && document.exitFullscreen(); }
+}
+
+/* ================= 0 · agreement ================= */
+function renderAgree(p){
+  const items = [
+    ["We talk about the people in the scenarios", "— not people we know."],
+    ["No real names, no real stories", "— ours, our friends', or anyone else's."],
+    ["You can pass", "on any question, any time."],
+    ["Challenge the idea, not the person", "who said it."],
+    ["What people say in here stays in here.", "Don't repeat it outside class."],
+    ["If something hits close to home, talk to me after class.", "If someone isn't safe, I have to help — that's a promise to act, not to keep a secret."]
+  ];
+  p.innerHTML =
+    `<p class="eyebrow">Before we start</p>
+     <h2 class="big">Our agreement for this topic</h2>
+     <div class="agree">${items.map((it,i)=>`<div><span class="k">${i+1}</span><span><b>${esc(it[0])}</b> ${esc(it[1])}</span></div>`).join("")}</div>`;
+}
+
+/* ================= 1 · sort ================= */
+function renderSort(p){
+  const so = S.sort;
+  const pile = so.order.filter(id=>!so.place[id]);
+  const current = so.sel || pile[0] || null;
+  const inCol = col => so.order.filter(id=>so.place[id]===col);
+  const chip = id => {
+    const c = card(id);
+    const v = VERDICT[c.v];
+    return `<button type="button" class="chip${current===id?" on":""}" data-id="${id}">
+      <span><span class="who">${esc(c.who)}</span> · ${esc(c.short)}</span>
+      ${so.revealed?`<span class="vtag ${v.cls}">${esc(v.lbl)}</span>`:""}</button>`;
+  };
+  let centre;
+  if(current){
+    const c = card(current), v = VERDICT[c.v];
+    centre = `<div class="card">
+        <span class="who">${esc(c.who)}</span>
+        <p class="story">${esc(c.story)}</p>
+        ${so.revealed?`<div class="why"><span class="vtag ${v.cls}">${esc(v.lbl)}</span>
+           <p style="margin-top:.45em">${esc(c.why)}</p><span class="s">${esc(c.src)}</span></div>`:""}
+      </div>
+      <div class="place">
+        <button type="button" class="g" id="putG">Green flag <small>(G)</small></button>
+        <button type="button" class="r" id="putR">Red flag <small>(R)</small></button>
+      </div>`;
+  } else {
+    centre = `<div class="card empty"><p class="serif" style="font-size:1.4em">All twelve placed.</p>
+      ${so.revealed?`<p style="margin-top:.4em">Click any card to see why.</p>`:""}</div>`;
+  }
+  const counts = {}; CARDS.forEach(c=>counts[c.v]=(counts[c.v]||0)+1);
+  p.innerHTML =
+    `<div class="sortbar">
+       <span class="eyebrow">Green flag or red flag?</span>
+       <span class="count">${pile.length} of ${CARDS.length} left</span>
+       <span class="sp"></span>
+       ${so.revealed
+         ? `<span class="legend">${Object.keys(VERDICT).map(k=>`<span class="vtag ${VERDICT[k].cls}">${esc(VERDICT[k].lbl)} · ${counts[k]}</span>`).join("")}</span>
+            <button type="button" id="hideV">Hide verdicts</button>`
+         : `<button type="button" class="primary" id="reveal">Reveal</button>`}
+       <button type="button" id="resetSort">Reset</button>
+     </div>
+     <div class="sort" style="margin-top:.6em">
+       <div class="col green"><h3>Green flag</h3><div class="chips">${inCol("green").map(chip).join("")}</div></div>
+       <div class="centre">${centre}</div>
+       <div class="col red"><h3>Red flag</h3><div class="chips">${inCol("red").map(chip).join("")}</div></div>
+     </div>`;
+
+  p.querySelectorAll(".chip").forEach(b=>b.addEventListener("click",()=>{
+    so.sel = (so.sel===b.dataset.id) ? null : b.dataset.id; save(); render();
+  }));
+  const put = col => { if(!current) return; so.place[current]=col; so.sel=null; save(); render(); };
+  if(el("putG")) el("putG").addEventListener("click",()=>put("green"));
+  if(el("putR")) el("putR").addEventListener("click",()=>put("red"));
+  if(el("reveal")) el("reveal").addEventListener("click",()=>{ so.revealed=true; so.sel=null; save(); render(); });
+  if(el("hideV"))  el("hideV").addEventListener("click",()=>{ so.revealed=false; save(); render(); });
+  el("resetSort").addEventListener("click",()=>{
+    if(confirm("Clear the sort and reshuffle the cards for a new class?")){ S.sort=blankSort(); save(); render(); }
+  });
+}
+
+/* ================= 2 · article ================= */
+function renderArticle(p, i){
+  const a = ARTICLE[i];
+  const pips = `<span class="apips">${ARTICLE.map((_,j)=>`<i class="${j===i?"now":""}"></i>`).join("")}</span>`;
+  const src = `<p class="src">ReachOut Australia, “Are you in a toxic relationship?” (updated 8 April 2026) · au.reachout.com</p>`;
+  if(a.kind==="intro"){
+    p.innerHTML =
+      `<div style="display:flex;align-items:center"><span class="eyebrow">What the article says</span>${pips}</div>
+       <h2 class="big">“Toxic” is a behaviour, not a label</h2>
+       <div class="bullets">
+         <div><span class="k">1</span><span>There's no single definition. A toxic relationship is one where someone in it is <b>behaving</b> in a toxic way.</span></div>
+         <div><span class="k">2</span><span>There's no clean line between toxic and abusive. Many toxic behaviours could be considered abuse.</span></div>
+         <div><span class="k">3</span><span>The bottom line: a relationship that regularly leaves you feeling</span></div>
+       </div>
+       <div class="feelings"><span>upset</span><span>anxious</span><span>exhausted</span><span>angry</span><span>belittled</span></div>
+       <p style="font-size:1.45em;margin-top:.2em">isn't a healthy one.</p>
+       ${src}`;
+    return;
+  }
+  if(a.kind==="what"){
+    p.innerHTML =
+      `<div style="display:flex;align-items:center"><span class="eyebrow">What the article says to do</span>${pips}</div>
+       <h2 class="big">Raise it — then watch what happens</h2>
+       <div class="bullets">
+         <div><span class="k">1</span><span><b>Talk about the behaviour, not the label.</b> Not “you're toxic” — “when you do this, I feel this”. Have an example ready.</span></div>
+         <div><span class="k">2</span><span><b>Give them time</b> to think. Don't push for an answer on the spot.</span></div>
+         <div><span class="k">3</span><span><b>If talking won't help,</b> it's okay to end it. Everyone deserves to feel loved, valued and respected.</span></div>
+         <div><span class="k">4</span><span><b>Check yourself too.</b> Any of these behaviours can be yours.</span></div>
+       </div>
+       <div class="diff" style="margin-top:1em"><span class="lbl">Into the video</span>How someone responds when you raise it, or ask to slow down, is evidence. Watch what Devon does when Isak asks.</div>
+       ${src}`;
+    return;
+  }
+  const shown = !!S.diffs[i];
+  p.innerHTML =
+    `<div style="display:flex;align-items:center"><span class="eyebrow">Look-alikes · ${esc(a.title)}</span>${pips}</div>
+     <h2 class="big">What's the difference?</h2>
+     <div class="pair">
+       <div class="side ok"><span class="lbl">Healthy</span><span class="txt">${esc(a.ok)}</span></div>
+       <div class="side no"><span class="lbl">Red flag</span><span class="txt">${esc(a.no)}</span></div>
+     </div>
+     ${shown
+       ? `<div class="diff"><span class="lbl">The difference</span>${esc(a.diff)}</div>`
+       : `<div class="diff hidden"><span>Ask the class first.</span><button type="button" id="showDiff">Show the difference (Space)</button></div>`}
+     ${a.redline && shown ? `<div class="redline">${a.redline}</div>` : ""}
+     ${src}`;
+  if(el("showDiff")) el("showDiff").addEventListener("click",()=>{ S.diffs[i]=true; save(); render(); });
+}
+
+/* ================= 3 · video ================= */
+function renderVideo(p){
+  const on = S.stop;
+  const ytLink = t => `https://www.youtube.com/watch?v=${VIDEO_ID}&t=${t}s`;
+  p.innerHTML =
+    `<div style="display:flex;align-items:baseline;gap:.8em"><span class="eyebrow">The video · red flags vs red lights</span></div>
+     <div class="vid" style="margin-top:.5em">
+       <div>
+         <div class="frame" id="frame">${on==null
+           ? `<div class="ph">Choose a clip on the right to play it.</div>`
+           : `<iframe src="https://www.youtube.com/embed/${VIDEO_ID}?start=${STOPS[on].a}&end=${STOPS[on].b}&autoplay=1&rel=0"
+                title="Clip ${on+1}" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>`}</div>
+         <p class="vidmeta">Each clip stops on its own. Play the next one when the class has answered.</p>
+       </div>
+       <div class="stops">${STOPS.map((s,i)=>`
+         <div class="stop${on===i?" on":""}${on!=null&&i<on?" done":""}">
+           <button type="button" data-stop="${i}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;gap:.15em">
+             <span class="tm">CLIP ${i+1} · ${mmss(s.a)}–${mmss(s.b)}</span>
+             <span class="q">${esc(s.q)}</span>
+           </button>
+           <a class="yt" href="${ytLink(s.a)}" target="_blank" rel="noopener">Open on YouTube at ${mmss(s.a)}</a>
+         </div>`).join("")}</div>
+     </div>`;
+  p.querySelectorAll("[data-stop]").forEach(b=>b.addEventListener("click",()=>{
+    S.stop = +b.dataset.stop; save(); render();
+  }));
+}
+
+/* ================= 4 · reflection ================= */
+function renderReflect(p){
+  p.innerHTML =
+    `<span class="eyebrow">On paper · on your own</span>
+     <h2 class="big">How would you tell?</h2>
+     <div class="refl">
+       <div class="scen">${esc(REFLECT.scenario)}</div>
+       <div class="qs">
+         ${REFLECT.qs.map((q,i)=>`<div><span class="k">${i+1}</span><span>${esc(q)}</span></div>`).join("")}
+         <button type="button" class="printbtn" id="printSheet">Print the sheet</button>
+       </div>
+     </div>`;
+  el("printSheet").addEventListener("click",()=>window.print());
+}
+function buildSheet(){
+  const lines = n => Array.from({length:n},()=>`<div class="ln"></div>`).join("");
+  el("sheet").innerHTML =
+    `<h1>How would you tell?</h1>
+     <div class="sub">Work &amp; Life Education · Healthy relationships</div>
+     <div class="nm"><span>Name</span><span>Class</span></div>
+     <div class="sc">${esc(REFLECT.scenario)}</div>
+     <div class="q"><b>1</b>${esc(REFLECT.qs[0])}${lines(4)}</div>
+     <div class="q"><b>2</b>${esc(REFLECT.qs[1])}
+       <div class="two"><div><div class="h">Just keen</div>${lines(3)}</div><div><div class="h">Red flag or red light</div>${lines(3)}</div></div>
+       <div class="h" style="font-size:9.5pt;font-weight:700;margin-top:6pt">The one difference</div>${lines(1)}</div>
+     <div class="q"><b>3</b>${esc(REFLECT.qs[2])}${lines(7)}</div>
+     <div class="priv q">${esc(REFLECT.priv)}${lines(2)}</div>
+     <p class="src">Sources: ReachOut Australia, “Are you in a toxic relationship?” (2026); video, youtube.com/watch?v=${VIDEO_ID}. All people in the scenarios are fictional.</p>`;
+}
+
+/* ================= 5 · help ================= */
+function renderHelp(p){
+  p.innerHTML =
+    `<span class="eyebrow">If you're worried — about you or a friend</span>
+     <h2 class="big">Where to go for help</h2>
+     <div class="help">
+       <div class="svc"><span class="nm">1800RESPECT</span><span class="num">1800 737 732</span>
+         <span class="d">Free, confidential counselling about relationships, abuse and violence. 24/7.</span></div>
+       <div class="svc"><span class="nm">Kids Helpline</span><span class="num">1800 55 1800</span>
+         <span class="d">For young people, about anything. Phone or webchat, 24/7.</span></div>
+       <div class="svc"><span class="nm">ReachOut PeerChat</span><span class="num" style="font-size:1.05em">au.reachout.com/peerchat</span>
+         <span class="d">Book a one-on-one text or video chat with a trained peer worker.</span></div>
+       <div class="svc"><span class="nm">At school</span><span class="num" style="font-size:1.05em">Wellbeing team</span>
+         <span class="d">Your teacher, coordinator or wellbeing staff. You can ask for a private chat.</span></div>
+       <div class="svc"><span class="nm">eSafety Commissioner</span><span class="num" style="font-size:1.05em">esafety.gov.au/report</span>
+         <span class="d">If someone shares, or threatens to share, private images or messages.</span></div>
+       <div class="svc urgent"><span class="nm">In danger right now</span><span class="num">000</span>
+         <span class="d">Call emergency services.</span></div>
+     </div>
+     <div class="redline" style="margin-top:.8em"><b>Not a judgement call:</b> if an adult asks someone under 18 to keep a relationship secret, tell a trusted adult.
+       Youth Law Australia (yla.org.au — choose Victoria) explains the law on relationships and age.</div>`;
+}
+
+/* ================= keys ================= */
+document.addEventListener("keydown",e=>{
+  if(e.target.closest && e.target.closest("input,textarea,select")) return;
+  if(e.metaKey||e.ctrlKey||e.altKey) return;
+  const st = STEPS[S.step];
+  if(e.key==="ArrowRight"){ e.preventDefault(); goStep(S.step+1); }
+  else if(e.key==="ArrowLeft"){ e.preventDefault(); goStep(S.step-1); }
+  else if(e.key==="n"||e.key==="N"){ S.notes=!S.notes; save(); render(); }
+  else if(e.key==="f"||e.key==="F"){ toggleFs(); }
+  else if(st.sec==="sort" && (e.key==="g"||e.key==="G") && el("putG")){ el("putG").click(); }
+  else if(st.sec==="sort" && (e.key==="r"||e.key==="R") && el("putR")){ el("putR").click(); }
+  else if(st.sec==="article" && e.key===" " && el("showDiff")){ e.preventDefault(); el("showDiff").click(); }
+});
+
+buildSheet();
+render();
+</script>
+</body>
+</html>
