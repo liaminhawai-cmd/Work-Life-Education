@@ -281,161 +281,160 @@
    ============================================================ */
 
 const VERDICT = {
-  green:{ lbl:"Green flag",      cls:"v-green" },
-  false:{ lbl:"False red flag",  cls:"v-false" },
-  flag: { lbl:"Red flag — look closer", cls:"v-flag" },
-  light:{ lbl:"Red light — line crossed", cls:"v-light" }
+  green:{ lbl:"Green flag",     cls:"v-green" },
+  false:{ lbl:"False red flag", cls:"v-false" },
+  flag: { lbl:"Red flag",       cls:"v-flag" },
+  light:{ lbl:"Red light",      cls:"v-light" }
 };
 
 /* ---------- sort cards: named, specific, all fictional ---------- */
 const CARDS = [
   { id:"c1", who:"Priya & Josh", short:"Netball nights",
-    story:"Priya plays netball every Tuesday and Thursday night. Her boyfriend Josh doesn't come along — he has band practice — and they catch up on the weekend.",
+    story:"Priya plays netball every Tuesday and Thursday night. Her boyfriend Josh doesn't come along because he has band practice. They catch up on the weekend.",
     v:"green",
-    why:"Having your own friends, hobbies and time apart is a sign the relationship is adding to your life, not replacing it.",
-    src:"ReachOut — relying on each other too much" },
+    why:"Spending time apart on your own things is normal and healthy. They still make time for each other.",
+    src:"ReachOut: relying on each other too much" },
   { id:"c2", who:"Sam & Ellie", short:"“I need an hour”",
     story:"After an argument about a missed call, Sam says to Ellie, “I need an hour to calm down. Can we talk after dinner?” At 7pm Sam messages to talk it through.",
     v:"green",
-    why:"Taking time to cool off is fine when it's said out loud and you come back to talk. It's not the silent treatment — that's silence used to punish.",
-    src:"ReachOut — communicating in an unhealthy way" },
+    why:"Sam says what they need and comes back to talk. That's different from the silent treatment, where someone goes quiet to punish you.",
+    src:"ReachOut: communicating in an unhealthy way" },
   { id:"c3", who:"Noah & Leo", short:"“Can we slow down?”",
-    story:"Three weeks in, Noah asks Leo if they can slow things down a bit. Leo says, “Yeah, all good, no rush,” and keeps hanging out with Noah the same as before.",
+    story:"Three weeks in, Noah asks Leo if they can slow things down a bit. Leo says, “Yeah, all good, no rush,” and keeps hanging out with Noah like before.",
     v:"green",
-    why:"How someone reacts when you slow things down is one of the best tests there is. Leo respects the pace and nothing changes.",
-    src:"Video — the moment Isak asks to take it slow" },
+    why:"Leo is fine with going slower and treats Noah the same. How someone reacts when you slow things down tells you a lot.",
+    src:"Video: Isak asks Devon to take it slow" },
   { id:"c4", who:"Amira & Tom", short:"Only child",
     story:"Amira finds out the guy she likes, Tom, is an only child. Her friend says, “Only child? That's a red flag.”",
     v:"false",
-    why:"Being an only child says nothing about how someone treats people. A trait you just don't like isn't a warning sign.",
-    src:"Video — false red flags come from prejudice or personal preference" },
+    why:"Being an only child doesn't tell you anything about how someone will treat you. The video calls this a false red flag.",
+    src:"Video: false red flags" },
   { id:"c5", who:"Jack & Mei", short:"Paying for themselves",
     story:"On their first date at the movies, Jack and Mei each pay for their own ticket and snacks.",
     v:"false",
-    why:"Who pays is a preference, not a sign of how someone will treat you. The video lists it as a classic false red flag.",
-    src:"Video — false red flags" },
+    why:"Who pays on a date is just a preference. It isn't a warning sign.",
+    src:"Video: false red flags" },
   { id:"c6", who:"Kai & Zoe", short:"“Good morning beautiful”",
-    story:"From the first week, Kai messages Zoe “good morning beautiful” every single day and tells her he's never met anyone like her.",
+    story:"From the first week, Kai messages Zoe “good morning beautiful” every day and tells her he's never met anyone like her.",
     v:"flag",
-    why:"Could be someone who's genuinely keen. Could be love bombing — a flood of attention that rushes you into trusting them. One week can't tell you which. Watch what happens over time.",
-    src:"Video — love bombing" },
+    why:"Kai might just be really keen. It could also be love bombing, where someone floods you with attention so you trust them quickly. After one week you can't tell which, so keep watching.",
+    src:"Video: love bombing" },
   { id:"c7", who:"Ruby & Aiden", short:"“Same, same, same”",
-    story:"Ruby mentions she loves Billie Eilish, sushi and wants to go to Japan one day. Aiden says same, same, same — it's his dream trip too.",
+    story:"Ruby says she loves Billie Eilish and sushi and wants to go to Japan one day. Aiden says he loves all of those too, and Japan is his dream trip as well.",
     v:"flag",
-    why:"You might really have loads in common. Or it might be mirroring — copying your likes to make the connection feel instant. Notice it, then keep watching.",
-    src:"Video — mirroring" },
+    why:"They might really have a lot in common. It could also be mirroring, where someone copies your likes so you feel close quickly. Worth noticing.",
+    src:"Video: mirroring" },
   { id:"c8", who:"Chloe & Maddie", short:"Keeping it secret",
     story:"Chloe asks Maddie to keep their relationship secret from everyone at school. When Maddie asks why, Chloe won't say.",
     v:"flag",
-    why:"There can be a real reason — someone might not be out yet. But you have a right to ask why and to hear the truth. Refusing to explain is what makes this one worth a closer look.",
-    src:"ReachOut — keeping the relationship a secret" },
+    why:"There can be a good reason, like someone not being out yet. But Maddie is allowed to ask why and get a real answer. Chloe refusing to explain is the worrying part.",
+    src:"ReachOut: keeping the relationship a secret" },
   { id:"c9", who:"Ben & Sophie", short:"“If you actually cared…”",
     story:"Ben tells Sophie, “If you actually cared about me, you wouldn't go to Hannah's party without me.”",
     v:"flag",
-    why:"That's guilt-tripping — using guilt to get what you want. Once is a red flag to raise. If it keeps happening, and Sophie's friends start dropping away, it's isolation.",
-    src:"ReachOut — being possessive and jealous; guilt-tripping" },
+    why:"Ben is using guilt to stop Sophie going. If it keeps happening and she stops seeing her friends, it's getting more serious.",
+    src:"ReachOut: guilt-tripping; being possessive and jealous" },
   { id:"c10", who:"Jordan & Alex", short:"Location 24/7",
     story:"Jordan makes Alex share her location all the time and checks her phone every night. If Alex says no, Jordan won't speak to her for days.",
     v:"light",
-    why:"Monitoring someone and punishing them with silence when they push back is control. That's past “look closer” — it's a line crossed.",
-    src:"Video — coercive, controlling behaviour is a red light" },
+    why:"Tracking Alex and checking her phone is controlling. Ignoring her for days when she says no is punishing her for it.",
+    src:"Video: controlling behaviour is a red light" },
   { id:"c11", who:"Mason & Ethan", short:"The threat",
     story:"When Ethan says he wants to break up, Mason threatens to share Ethan's private messages and photos with the whole year level.",
     v:"light",
-    why:"Threats are a red light, every time. Sharing or threatening to share someone's private images can also be a crime, and eSafety can help get them taken down.",
-    src:"Video — threats are red lights; eSafety Commissioner" },
+    why:"This is a threat. Sharing someone's private photos, or threatening to, can be a crime. eSafety can help get them taken down.",
+    src:"Video: threats are red lights; eSafety Commissioner" },
   { id:"c12", who:"Lily, 15", short:"An adult and a secret",
-    story:"Lily is 15. A 20-year-old she met through her part-time job wants to start seeing her, and tells her to keep it secret from her parents.",
+    story:"Lily is 15. A 20-year-old she met through her part-time job wants to go out with her, and tells her to keep it secret from her parents.",
     v:"light",
-    why:"An adult asking someone under 18 to keep a relationship secret goes beyond toxic. It isn't okay and isn't a judgement call — tell a trusted adult.",
-    src:"ReachOut — keeping the relationship a secret" }
+    why:"An adult asking someone under 18 to keep a relationship secret is never okay. Lily should tell a trusted adult.",
+    src:"ReachOut: keeping the relationship a secret" }
 ];
 
 /* ---------- article: the look-alike pairs ---------- */
 const ARTICLE = [
   { kind:"intro" },
   { kind:"pair", title:"Communicating",
-    ok:"Needing time and space to think after a disagreement.",
-    no:"A long, deliberate silence that punishes the other person.",
-    diff:"Same silence, different job. Space is for calming down and coming back. The silent treatment is used to make someone pay." },
+    ok:"Needing time to think after a disagreement.",
+    no:"Going silent for a long time to punish the other person.",
+    diff:"Taking space to calm down and then coming back to talk is fine. Staying silent to make the other person feel bad is not." },
   { kind:"pair", title:"Effort and respect",
     ok:"Both people make plans, start conversations and turn up.",
-    no:"One person keeps ditching, changing plans last minute or leaving the other on read.",
-    diff:"Equal effort. When it's always one person doing the work, it says something about how the other values their time and feelings." },
+    no:"One person keeps cancelling, changing plans at the last minute or leaving the other on read.",
+    diff:"Both people should put in effort. If one person always does the work, it can feel like the other doesn't care." },
   { kind:"pair", title:"Jealousy and friends",
     ok:"Your partner is also your friend.",
-    no:"Your partner is your only friend — and you feel guilty for seeing anyone else.",
-    diff:"Does the relationship add to your life, or replace it? ReachOut says deliberately cutting someone off from friends and family is “bordering on abuse”." },
+    no:"Your partner is your only friend, and you feel guilty for seeing anyone else.",
+    diff:"You should still have other friends and see them without feeling guilty. ReachOut says cutting someone off from friends and family is “bordering on abuse”." },
   { kind:"pair", title:"Relying on each other",
     ok:"Caring about each other and wanting each other to be happy.",
     no:"Not being able to cope without each other. They're your only source of happiness.",
-    diff:"Each person keeps their own friends, their own interests and their own ways of feeling okay." },
+    diff:"Each person should still have their own friends, their own interests and other things that make them happy." },
   { kind:"pair", title:"Put-downs",
     ok:"Banter you both enjoy and both join in on.",
-    no:"Casual negative comments that slowly chip away at you.",
-    diff:"Who's laughing, and how you feel afterwards. ReachOut: your partner doesn't decide your worth." },
+    no:"Small negative comments that slowly make you feel worse about yourself.",
+    diff:"If only one person is laughing, or the comments make you feel worse about yourself, it isn't banter. ReachOut says your partner doesn't decide your worth." },
   { kind:"pair", title:"Secrets",
-    ok:"Keeping it private for a real reason — for example, someone isn't out yet.",
+    ok:"Keeping it private for a good reason, for example someone isn't out yet.",
     no:"Keeping it secret for a reason they won't explain.",
-    diff:"You have a right to ask why, and to hear the truth.",
-    redline:"<b>Not a judgement call:</b> an adult asking someone under 18 to keep a relationship secret goes beyond toxic. It isn't okay." },
+    diff:"You're allowed to ask why, and you should get an honest answer.",
+    redline:"<b>Under 18:</b> an adult asking you to keep a relationship secret is never okay." },
   { kind:"pair", title:"Disagreeing",
-    ok:"Disagreeing sometimes, and working it out.",
-    no:"Arguing every day, or every small thing turning into a huge fight.",
-    diff:"A healthy disagreement has no yelling, no lying, no guilt-tripping, no talking over each other — and never violence or abuse." },
+    ok:"Disagreeing sometimes, and sorting it out.",
+    no:"Arguing every day, or small things always turning into big fights.",
+    diff:"In a healthy disagreement nobody yells, lies, guilt-trips or talks over the other person, and there's never any violence." },
   { kind:"what" }
 ];
 
 /* ---------- video stops ---------- */
 const VIDEO_ID = "NkLM8HTYY1g";
 const STOPS = [
-  { a:33,  b:577,  q:"Isak thinks he ruined everything by asking Devon to slow down. Did he? What should he have been watching for?" },
-  { a:577, b:731,  q:"Isak says, “Let's take it slow.” What would someone who's genuinely keen do next? What would a manipulator do?" },
-  { a:731, b:819,  q:"Devon has gone cold and silent. Red flag or red light now? What changed?" },
-  { a:819, b:982,  q:"Devon is back. He says he's changed and wants to be friends. What do you think is going on?" },
-  { a:982, b:1116, q:"“Benign actors can stand close inspection.” What does that mean for how you'd tell someone genuine from someone who isn't?" }
+  { a:33,  b:577,  q:"Isak thinks he ruined things by asking Devon to slow down. Did he? What should he have been looking out for?" },
+  { a:577, b:731,  q:"Isak asks to take it slow. What would someone who's just keen do next? What would someone manipulative do?" },
+  { a:731, b:819,  q:"Devon has gone cold and quiet. Is this a red flag or a red light now? What's changed?" },
+  { a:819, b:982,  q:"Devon says he's changed and wants to be friends. What do you think is going on?" },
+  { a:982, b:1116, q:"The video says genuine people “can stand close inspection”. What does that mean?" }
 ];
 
 /* ---------- reflection: screen and print share this ---------- */
 const REFLECT = {
-  scenario:"Tess (15) and Rory (16) met at a friend's birthday. For the first three weeks Rory messages Tess every morning, says they have everything in common, and asks lots of questions about her friends and family. Then Rory asks Tess to skip her best friend Gab's 16th to hang out instead. Tess says she'd rather go to Gab's party and catch up with Rory on Sunday.",
+  scenario:"Tess (15) and Rory (16) met at a friend's birthday. For the first three weeks Rory messages Tess every morning, says they have everything in common, and asks lots of questions about her friends and family. Then Rory asks Tess to skip her best friend Gab's 16th to hang out instead. Tess says she'd rather go to Gab's party and see Rory on Sunday.",
   qs:[
-    "From the first three weeks alone, is Rory just keen, or is it a red flag? What would you need to see before you could tell?",
-    "Write Rory's reply to Tess two ways: one from someone who's just keen, and one that's a red flag or a red light. What's the one difference between them?",
-    "If a toxic person and a genuinely nice person can act the same at the start, how can you tell them apart? Use one idea from the article and one from the video."
+    "From the first three weeks, is Rory just keen, or is it a red flag? What would you need to see before you could tell?",
+    "Write two possible replies from Rory: one from someone who's just keen, and one that's a red flag or red light. What's the main difference?",
+    "A toxic person and a genuinely nice person can act the same at the start. How can you tell them apart? Use one idea from the article and one from the video."
   ],
-  priv:"Private — not handed in. One behaviour from today that you'd want to watch for in yourself."
+  priv:"Private, not handed in. One behaviour from today you want to watch for in yourself."
 };
 
 /* ---------- teacher notes, per section ---------- */
 const NOTES = {
-  agree:`<h4>Agreement · ~3 min</h4>
-    <p>Read it through, ask for a show of hands or a thumbs-up, and leave it up while students settle.</p>
-    <p><b>Protective interrupting:</b> if a student starts a personal story, stop it kindly before details come out — "Thanks, can we talk after class?" — then follow up privately.</p>
-    <p>Don't promise confidentiality. If a student discloses harm, follow your school's child-safety procedures and the Victorian PROTECT reporting obligations.</p>`,
-  sort:`<h4>Sort · ~10 min</h4>
-    <ol><li>Read each card aloud. Class votes green or red with a show of hands, then you (or a student at the board) place it. Keys: <b>G</b> / <b>R</b>.</li>
-    <li>Don't discuss yet — keep the pace up. Click any placed card to bring it back and change its column.</li>
-    <li>When all 12 are placed, press <b>Reveal</b>. Click a card to show its verdict and reason.</li></ol>
-    <p>The point of the reveal: two columns aren't enough. Four cards (Kai, Ruby, Chloe, Ben) are <i>red flags</i> in the video's sense — worth a closer look but possibly innocent. Two are <i>false</i> red flags. That tension is what the article and video resolve.</p>`,
-  article:`<h4>Article · ~12 min</h4>
-    <p>Each pair is a behaviour and the healthy look-alike it gets confused with. Ask the class for the difference <i>before</i> you reveal it (<b>Space</b> or the button).</p>
-    <p>Keep coming back to the article's own test: does it leave someone feeling upset, anxious, exhausted, angry or belittled?</p>
-    <p>On the secrets slide, say the red line out loud. It's the only point in the lesson that isn't a judgement call.</p>
+  agree:`<h4>Agreement · about 3 min</h4>
+    <p>Read it out and get a show of hands. Leave it up while students settle.</p>
+    <p>If a student starts telling a personal story, stop them kindly before the details come out ("Thanks, can we chat after class?") and follow up privately.</p>
+    <p>Don't promise to keep things confidential. If a student tells you about harm, follow your school's child safety procedures and the PROTECT reporting requirements.</p>`,
+  sort:`<h4>Sort · about 10 min</h4>
+    <ol><li>Read each card out. The class votes green or red, then you place it (G or R keys work).</li>
+    <li>Keep it moving and save the discussion for the reveal. Click a placed card to move it.</li>
+    <li>When all 12 are placed, press Reveal and click cards to go through them.</li></ol>
+    <p>The reveal uses four groups instead of two. Kai, Ruby, Chloe and Ben are red flags: worth a closer look, but they could be innocent. Amira and Jack are false red flags. Two columns aren't enough, and the article and video explain why.</p>`,
+  article:`<h4>Article · about 12 min</h4>
+    <p>Each slide pairs a healthy behaviour with an unhealthy one that looks similar. Ask the class what the difference is before you show it (Space bar or the button).</p>
+    <p>Keep coming back to the article's test: does it leave someone feeling upset, anxious, exhausted, angry or belittled?</p>
+    <p>On the Secrets slide, say the under-18 rule out loud. It's the one thing in the lesson that isn't open to judgement.</p>
     <p>Source: ReachOut Australia, "Are you in a toxic relationship?", updated 8 April 2026.</p>`,
-  video:`<h4>Video · ~25 min</h4>
-    <p>Play each clip, and when it stops, put the question to the class. Have students write a one-line prediction before you play the next clip — commit first, then watch.</p>
-    <p>The case study is adult (the people in it live together and travel overseas). Bridge it back: the video says the same tactics show up in friendship groups and with online scammers.</p>
-    <p>If the embedded player is blocked at school, use the "Open on YouTube" link on each stop — it starts at the right time.</p>
-    <p>Check the clip yourself before class. The video names who made it at the start; credit them on the board.</p>`,
-  reflect:`<h4>Reflection · ~8 min in class, finish at home if needed</h4>
-    <p>Print one sheet per student (the Print button prints the sheet only, A4).</p>
-    <p><b>What a strong answer to Q3 does:</b> not just lists red flags, but names what evidence over time, or what reaction to a boundary, would tell the two apart. The near-miss is a list of warning signs with no "how to tell".</p>
-    <p>The private box is not collected. Tell students to fold it under or keep it.</p>`,
-  help:`<h4>Help · ~2 min</h4>
-    <p>Read the numbers aloud and leave this slide up as students leave.</p>
-    <p>Name your own school's wellbeing staff and where to find them. Offer a private check-in to anyone who wants one.</p>
-    <p>Youth Law Australia's site covers the law on relationships and age by state — students choose Victoria.</p>`
+  video:`<h4>Video · about 25 min</h4>
+    <p>Play a clip. When it stops, ask the question and have students write a one-line answer before you play the next one.</p>
+    <p>The people in the video are adults who live together and travel overseas. Link it back to students' lives: the video says the same tactics come up in friendship groups and with online scammers.</p>
+    <p>If the video won't play at school, use the "Open on YouTube" link on each clip. It starts at the right time.</p>
+    <p>Watch it before class and note who made it so you can credit them.</p>`,
+  reflect:`<h4>Reflection · about 8 min, finish at home if needed</h4>
+    <p>Print one sheet per student. The Print button prints just the sheet on one A4 page.</p>
+    <p>A strong answer to Q3 says how you'd tell the difference, for example by watching what happens over time or how they react when you slow things down. A weak answer just lists red flags.</p>
+    <p>The private box isn't collected. Students can fold it under or keep it.</p>`,
+  help:`<h4>Help · about 2 min</h4>
+    <p>Read the numbers out and leave this up as students leave.</p>
+    <p>Tell students who your wellbeing staff are and where to find them. Offer a private chat to anyone who wants one.</p>`
 };
 
 /* ================= state ================= */
@@ -517,12 +516,12 @@ function toggleFs(){
 /* ================= 0 · agreement ================= */
 function renderAgree(p){
   const items = [
-    ["We talk about the people in the scenarios", "— not people we know."],
-    ["No real names, no real stories", "— ours, our friends', or anyone else's."],
-    ["You can pass", "on any question, any time."],
-    ["Challenge the idea, not the person", "who said it."],
-    ["What people say in here stays in here.", "Don't repeat it outside class."],
-    ["If something hits close to home, talk to me after class.", "If someone isn't safe, I have to help — that's a promise to act, not to keep a secret."]
+    ["Only talk about the people in the scenarios,", "not people you know."],
+    ["No real names or real stories,", "including your own and your friends'."],
+    ["You can pass", "on any question."],
+    ["Disagree with the idea,", "not the person."],
+    ["Don't repeat what people say", "outside this class."],
+    ["If something worries you, talk to me after class.", "If someone isn't safe, I have to pass it on so they can get help."]
   ];
   p.innerHTML =
     `<p class="eyebrow">Before we start</p>
@@ -617,28 +616,28 @@ function renderArticle(p, i){
   if(a.kind==="intro"){
     p.innerHTML =
       `<div style="display:flex;align-items:center"><span class="eyebrow">What the article says</span>${pips}</div>
-       <h2 class="big">“Toxic” is a behaviour, not a label</h2>
+       <h2 class="big">What “toxic” means</h2>
        <div class="bullets">
-         <div><span class="k">1</span><span>There's no single definition. A toxic relationship is one where someone in it is <b>behaving</b> in a toxic way.</span></div>
-         <div><span class="k">2</span><span>There's no clean line between toxic and abusive. Many toxic behaviours could be considered abuse.</span></div>
-         <div><span class="k">3</span><span>The bottom line: a relationship that regularly leaves you feeling</span></div>
+         <div><span class="k">1</span><span>There's no single definition. It means someone in the relationship is behaving in a toxic way.</span></div>
+         <div><span class="k">2</span><span>Toxic and abusive overlap. Many toxic behaviours could be called abuse.</span></div>
+         <div><span class="k">3</span><span>If a relationship often leaves you feeling</span></div>
        </div>
        <div class="feelings"><span>upset</span><span>anxious</span><span>exhausted</span><span>angry</span><span>belittled</span></div>
-       <p style="font-size:1.45em;margin-top:.2em">isn't a healthy one.</p>
+       <p style="font-size:1.45em;margin-top:.2em">it isn't healthy.</p>
        ${src}`;
     return;
   }
   if(a.kind==="what"){
     p.innerHTML =
-      `<div style="display:flex;align-items:center"><span class="eyebrow">What the article says to do</span>${pips}</div>
-       <h2 class="big">Raise it — then watch what happens</h2>
+      `<div style="display:flex;align-items:center"><span class="eyebrow">What the article says</span>${pips}</div>
+       <h2 class="big">What you can do</h2>
        <div class="bullets">
-         <div><span class="k">1</span><span><b>Talk about the behaviour, not the label.</b> Not “you're toxic” — “when you do this, I feel this”. Have an example ready.</span></div>
-         <div><span class="k">2</span><span><b>Give them time</b> to think. Don't push for an answer on the spot.</span></div>
-         <div><span class="k">3</span><span><b>If talking won't help,</b> it's okay to end it. Everyone deserves to feel loved, valued and respected.</span></div>
-         <div><span class="k">4</span><span><b>Check yourself too.</b> Any of these behaviours can be yours.</span></div>
+         <div><span class="k">1</span><span><b>Talk about the behaviour.</b> For example: “When you go quiet for days, I feel anxious.” Think of examples first.</span></div>
+         <div><span class="k">2</span><span><b>Give them time to think.</b> Don't push for an answer straight away.</span></div>
+         <div><span class="k">3</span><span><b>If talking won't fix it,</b> it's okay to end the relationship.</span></div>
+         <div><span class="k">4</span><span><b>Think about your own behaviour too.</b></span></div>
        </div>
-       <div class="diff" style="margin-top:1em"><span class="lbl">Into the video</span>How someone responds when you raise it, or ask to slow down, is evidence. Watch what Devon does when Isak asks.</div>
+       <div class="diff" style="margin-top:1em"><span class="lbl">Next: the video</span>Watch how Devon reacts when Isak asks to slow down.</div>
        ${src}`;
     return;
   }
@@ -648,7 +647,7 @@ function renderArticle(p, i){
      <h2 class="big">What's the difference?</h2>
      <div class="pair">
        <div class="side ok"><span class="lbl">Healthy</span><span class="txt">${esc(a.ok)}</span></div>
-       <div class="side no"><span class="lbl">Red flag</span><span class="txt">${esc(a.no)}</span></div>
+       <div class="side no"><span class="lbl">Unhealthy</span><span class="txt">${esc(a.no)}</span></div>
      </div>
      ${shown
        ? `<div class="diff"><span class="lbl">The difference</span>${esc(a.diff)}</div>`
@@ -663,7 +662,7 @@ function renderVideo(p){
   const on = S.stop;
   const ytLink = t => `https://www.youtube.com/watch?v=${VIDEO_ID}&t=${t}s`;
   p.innerHTML =
-    `<div style="display:flex;align-items:baseline;gap:.8em"><span class="eyebrow">The video · red flags vs red lights</span></div>
+    `<div style="display:flex;align-items:baseline;gap:.8em"><span class="eyebrow">The video</span></div>
      <div class="vid" style="margin-top:.5em">
        <div>
          <div class="frame" id="frame">${on==null
@@ -672,7 +671,7 @@ function renderVideo(p){
                 title="Clip ${on+1}" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen></iframe>`}</div>
-         <p class="vidmeta">Each clip stops on its own. Play the next one when the class has answered.</p>
+         <p class="vidmeta">Each clip stops by itself.</p>
        </div>
        <div class="stops">${STOPS.map((s,i)=>`
          <div class="stop${on===i?" on":""}${on!=null&&i<on?" done":""}">
@@ -712,7 +711,7 @@ function buildSheet(){
      <div class="q"><b>1</b>${esc(REFLECT.qs[0])}${lines(4)}</div>
      <div class="q"><b>2</b>${esc(REFLECT.qs[1])}
        <div class="two"><div><div class="h">Just keen</div>${lines(3)}</div><div><div class="h">Red flag or red light</div>${lines(3)}</div></div>
-       <div class="h" style="font-size:9.5pt;font-weight:700;margin-top:6pt">The one difference</div>${lines(1)}</div>
+       <div class="h" style="font-size:9.5pt;font-weight:700;margin-top:6pt">Main difference</div>${lines(1)}</div>
      <div class="q"><b>3</b>${esc(REFLECT.qs[2])}${lines(7)}</div>
      <div class="priv q">${esc(REFLECT.priv)}${lines(2)}</div>
      <p class="src">Sources: ReachOut Australia, “Are you in a toxic relationship?” (2026); video, youtube.com/watch?v=${VIDEO_ID}. All people in the scenarios are fictional.</p>`;
@@ -721,7 +720,7 @@ function buildSheet(){
 /* ================= 5 · help ================= */
 function renderHelp(p){
   p.innerHTML =
-    `<span class="eyebrow">If you're worried — about you or a friend</span>
+    `<span class="eyebrow">If you're worried about yourself or a friend</span>
      <h2 class="big">Where to go for help</h2>
      <div class="help">
        <div class="svc"><span class="nm">1800RESPECT</span><span class="num">1800 737 732</span>
@@ -737,8 +736,8 @@ function renderHelp(p){
        <div class="svc urgent"><span class="nm">In danger right now</span><span class="num">000</span>
          <span class="d">Call emergency services.</span></div>
      </div>
-     <div class="redline" style="margin-top:.8em"><b>Not a judgement call:</b> if an adult asks someone under 18 to keep a relationship secret, tell a trusted adult.
-       Youth Law Australia (yla.org.au — choose Victoria) explains the law on relationships and age.</div>`;
+     <div class="redline" style="margin-top:.8em"><b>Under 18:</b> if an adult asks you to keep a relationship secret, tell a trusted adult.
+       Youth Law Australia (yla.org.au, choose Victoria) explains the law.</div>`;
 }
 
 /* ================= keys ================= */
