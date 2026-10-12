@@ -144,7 +144,8 @@
   .sortbar button.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 
   /* ---------- article pairs ---------- */
-  .pair{display:grid;grid-template-columns:1fr 1fr;gap:.8em;margin-top:.2em}
+  .pair{display:grid;grid-template-columns:1fr auto 1fr;gap:.6em;align-items:stretch;margin-top:.2em}
+  .arrow{align-self:center;font-size:2.6em;font-weight:800;color:var(--muted);line-height:1}
   .side{border:2px solid;border-radius:.7em;padding:.8em 1em;display:flex;flex-direction:column;gap:.4em}
   .side.ok{border-color:var(--v-green);background:var(--v-green-soft)}
   .side.no{border-color:var(--v-flag);background:var(--v-flag-soft)}
@@ -227,6 +228,7 @@
     .stage{grid-template-columns:1fr}
     .notes{width:auto}
     .sort,.vid,.refl,.pair,.agree,.help{grid-template-columns:1fr}
+    .arrow{transform:rotate(90deg);justify-self:center}
     .panel{overflow:visible}
   }
 </style>
@@ -355,31 +357,38 @@ const CARDS = [
 const ARTICLE = [
   { kind:"intro" },
   { kind:"pair", title:"Communicating",
+    q:"When does taking time to think turn into the silent treatment?",
     ok:"Needing time to think after a disagreement.",
     no:"Going silent for a long time to punish the other person.",
     diff:"Taking space to calm down and then coming back to talk is fine. Staying silent to make the other person feel bad is not." },
   { kind:"pair", title:"Effort and respect",
+    q:"When does being busy turn into not caring?",
     ok:"Both people make plans, start conversations and turn up.",
     no:"One person keeps cancelling, changing plans at the last minute or leaving the other on read.",
     diff:"Both people should put in effort. If one person always does the work, it can feel like the other doesn't care." },
   { kind:"pair", title:"Jealousy and friends",
+    q:"When does being close turn into being someone's only friend?",
     ok:"Your partner is also your friend.",
     no:"Your partner is your only friend, and you feel guilty for seeing anyone else.",
     diff:"You should still have other friends and see them without feeling guilty. ReachOut says cutting someone off from friends and family is “bordering on abuse”." },
   { kind:"pair", title:"Relying on each other",
+    q:"When does caring about someone turn into not being able to cope without them?",
     ok:"Caring about each other and wanting each other to be happy.",
     no:"Not being able to cope without each other. They're your only source of happiness.",
     diff:"Each person should still have their own friends, their own interests and other things that make them happy." },
   { kind:"pair", title:"Put-downs",
+    q:"When does banter turn into put-downs?",
     ok:"Banter you both enjoy and both join in on.",
     no:"Small negative comments that slowly make you feel worse about yourself.",
     diff:"If only one person is laughing, or the comments make you feel worse about yourself, it isn't banter. ReachOut says your partner doesn't decide your worth." },
   { kind:"pair", title:"Secrets",
+    q:"When does keeping it private turn into keeping it secret?",
     ok:"Keeping it private for a good reason, for example someone isn't out yet.",
     no:"Keeping it secret for a reason they won't explain.",
     diff:"You're allowed to ask why, and you should get an honest answer.",
     redline:"<b>Under 18:</b> an adult asking you to keep a relationship secret is never okay." },
   { kind:"pair", title:"Disagreeing",
+    q:"When does a disagreement turn into something unhealthy?",
     ok:"Disagreeing sometimes, and sorting it out.",
     no:"Arguing every day, or small things always turning into big fights.",
     diff:"In a healthy disagreement nobody yells, lies, guilt-trips or talks over the other person, and there's never any violence." },
@@ -419,7 +428,8 @@ const NOTES = {
     <li>When all 12 are placed, press Reveal and click cards to go through them.</li></ol>
     <p>The reveal uses four groups instead of two. Kai, Ruby, Chloe and Ben are red flags: worth a closer look, but they could be innocent. Amira and Jack are false red flags. Two columns aren't enough, and the article and video explain why.</p>`,
   article:`<h4>Article · about 12 min</h4>
-    <p>Each slide pairs a healthy behaviour with an unhealthy one that looks similar. Ask the class what the difference is before you show it (Space bar or the button).</p>
+    <p>Each slide is a turn and talk. Read the question, give pairs about a minute, take two or three answers, then show what ReachOut says (Space bar or the button).</p>
+    <p>Push for the point where it changes: how long, how often, why they're doing it, and how it leaves the other person feeling.</p>
     <p>Keep coming back to the article's test: does it leave someone feeling upset, anxious, exhausted, angry or belittled?</p>
     <p>On the Secrets slide, say the under-18 rule out loud. It's the one thing in the lesson that isn't open to judgement.</p>
     <p>Source: ReachOut Australia, "Are you in a toxic relationship?", updated 8 April 2026.</p>`,
@@ -643,15 +653,16 @@ function renderArticle(p, i){
   }
   const shown = !!S.diffs[i];
   p.innerHTML =
-    `<div style="display:flex;align-items:center"><span class="eyebrow">Look-alikes · ${esc(a.title)}</span>${pips}</div>
-     <h2 class="big">What's the difference?</h2>
+    `<div style="display:flex;align-items:center"><span class="eyebrow">Turn and talk · ${esc(a.title)}</span>${pips}</div>
+     <h2 class="big">${esc(a.q)}</h2>
      <div class="pair">
        <div class="side ok"><span class="lbl">Healthy</span><span class="txt">${esc(a.ok)}</span></div>
+       <div class="arrow" aria-hidden="true">&rarr;</div>
        <div class="side no"><span class="lbl">Unhealthy</span><span class="txt">${esc(a.no)}</span></div>
      </div>
      ${shown
-       ? `<div class="diff"><span class="lbl">The difference</span>${esc(a.diff)}</div>`
-       : `<div class="diff hidden"><span>Ask the class first.</span><button type="button" id="showDiff">Show the difference (Space)</button></div>`}
+       ? `<div class="diff"><span class="lbl">What ReachOut says</span>${esc(a.diff)}</div>`
+       : `<div class="diff hidden"><span>Talk to the person next to you, then share.</span><button type="button" id="showDiff">Show what ReachOut says (Space)</button></div>`}
      ${a.redline && shown ? `<div class="redline">${a.redline}</div>` : ""}
      ${src}`;
   if(el("showDiff")) el("showDiff").addEventListener("click",()=>{ S.diffs[i]=true; save(); render(); });
