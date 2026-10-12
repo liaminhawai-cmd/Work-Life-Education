@@ -21,7 +21,7 @@
     --v-flag:#b45309;   --v-flag-soft:#fbead6;
     --v-light:#a32424;  --v-light-soft:#f8e1df;
     --shadow:0 1px 2px rgba(31,31,31,.05),0 4px 14px rgba(31,31,31,.06);
-    --u:clamp(11px, .72vw + .62vh, 26px);
+    --u:clamp(12px, .8vw + .78vh, 32px);
   }
   @media (prefers-color-scheme:dark){
     :root:not([data-theme="light"]){
@@ -113,30 +113,31 @@
 
   /* ---------- sort ---------- */
   .sort{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1fr);gap:.8em;flex:1;min-height:0}
-  .col{border:2px dashed var(--line);border-radius:.7em;padding:.6em;display:flex;flex-direction:column;gap:.4em;min-height:0}
-  .col h3{font-family:Georgia,serif;font-size:1.2em;display:flex;align-items:center;gap:.4em}
+  .col{border:3px dashed var(--line);border-radius:.7em;padding:.6em .7em;display:flex;flex-direction:column;gap:.4em;min-height:0}
+  .col h3{font-family:Georgia,serif;font-size:1.75em;line-height:1.1;display:flex;align-items:center;gap:.4em}
   .col.green{border-color:var(--v-green)} .col.green h3{color:var(--v-green)}
   .col.red{border-color:var(--v-light)}   .col.red h3{color:var(--v-light)}
-  .col .chips{display:flex;flex-direction:column;gap:.35em;overflow:auto;min-height:0;flex:1}
-  .chip{text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:.5em;padding:.35em .6em;
-        font-size:.78em;line-height:1.3;display:flex;flex-direction:column;gap:.25em}
+  .col .chips{display:flex;flex-direction:column;gap:.3em;overflow:auto;min-height:0;flex:1}
+  .chip{text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:.5em;padding:.3em .6em;
+        font-size:1.12em;line-height:1.25;display:flex;flex-direction:column;gap:.25em}
+  .chip.row{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.2em .5em}
   .chip:hover{border-color:var(--accent)}
   .chip.on{outline:3px solid var(--accent);outline-offset:1px}
   .chip .who{font-weight:700}
   .centre{display:flex;flex-direction:column;gap:.7em;min-height:0}
   .card{flex:1;border:1px solid var(--line);border-radius:.8em;background:var(--band);padding:1.1em 1.3em;
         display:flex;flex-direction:column;gap:.6em;min-height:0;overflow:auto}
-  .card .who{font-size:.72em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-  .card .story{font-family:Georgia,serif;font-size:1.75em;line-height:1.38;text-wrap:pretty}
-  .card .why{border-top:1px dashed var(--line);padding-top:.6em;font-size:.95em;line-height:1.45}
+  .card .who{font-size:.95em;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .card .story{font-family:Georgia,serif;font-size:1.9em;line-height:1.38;text-wrap:pretty}
+  .card .why{border-top:1px dashed var(--line);padding-top:.6em;font-size:1.15em;line-height:1.45}
   .card .why .s{display:block;font-size:.75em;color:var(--muted);font-style:italic;margin-top:.3em}
   .card.empty{align-items:center;justify-content:center;text-align:center;color:var(--muted)}
   .place{display:grid;grid-template-columns:1fr 1fr;gap:.6em}
-  .place button{border-radius:.6em;padding:.55em;font-size:1.05em;font-weight:800;border:2px solid}
+  .place button{border-radius:.6em;padding:.45em;font-size:1.5em;font-weight:800;border:3px solid}
   .place .g{color:var(--v-green);border-color:var(--v-green);background:var(--v-green-soft)}
   .place .r{color:var(--v-light);border-color:var(--v-light);background:var(--v-light-soft)}
   .place button:disabled{opacity:.35;cursor:default}
-  .sortbar{display:flex;align-items:center;gap:.6em;flex-wrap:wrap;font-size:.8em}
+  .sortbar{display:flex;align-items:center;gap:.6em;flex-wrap:wrap;font-size:1em}
   .sortbar .sp{flex:1}
   .sortbar .count{font-weight:700;color:var(--muted)}
   .sortbar button{border:1px solid var(--line);background:var(--paper);border-radius:.5em;padding:.3em .8em;font-weight:700}
@@ -538,9 +539,11 @@ function renderSort(p){
   const chip = id => {
     const c = card(id);
     const v = VERDICT[c.v];
-    return `<button type="button" class="chip${current===id?" on":""}" data-id="${id}">
-      <span><span class="who">${esc(c.who)}</span> · ${esc(c.short)}</span>
-      ${so.revealed?`<span class="vtag ${v.cls}">${esc(v.lbl)}</span>`:""}</button>`;
+    return so.revealed
+      ? `<button type="button" class="chip row${current===id?" on":""}" data-id="${id}">
+           <span class="who">${esc(c.who)}</span><span class="vtag ${v.cls}">${esc(v.lbl)}</span></button>`
+      : `<button type="button" class="chip${current===id?" on":""}" data-id="${id}">
+           <span><span class="who">${esc(c.who)}</span> · ${esc(c.short)}</span></button>`;
   };
   let centre;
   if(current){
@@ -556,8 +559,9 @@ function renderSort(p){
         <button type="button" class="r" id="putR">Red flag <small>(R)</small></button>
       </div>`;
   } else {
-    centre = `<div class="card empty"><p class="serif" style="font-size:1.4em">All twelve placed.</p>
-      ${so.revealed?`<p style="margin-top:.4em">Click any card to see why.</p>`:""}</div>`;
+    centre = `<div class="card empty">${so.revealed
+      ? `<p class="serif" style="font-size:1.9em">Click any card to see why.</p>`
+      : `<button type="button" id="revealBig" style="border:3px solid var(--accent);background:var(--accent);color:var(--on-accent);border-radius:.6em;padding:.5em 1.4em;font-size:2em;font-weight:800">Reveal</button>`}</div>`;
   }
   const counts = {}; CARDS.forEach(c=>counts[c.v]=(counts[c.v]||0)+1);
   p.innerHTML =
@@ -577,17 +581,32 @@ function renderSort(p){
        <div class="col red"><h3>Red flag</h3><div class="chips">${inCol("red").map(chip).join("")}</div></div>
      </div>`;
 
+  /* Big by default for the TV. A crowded column (a class can put all twelve
+     on one side) or a long card shrinks its own text just enough to fit,
+     instead of scrolling where the back row can't see it. */
+  p.querySelectorAll(".col .chips, .centre .card").forEach(fitBox);
+
   p.querySelectorAll(".chip").forEach(b=>b.addEventListener("click",()=>{
     so.sel = (so.sel===b.dataset.id) ? null : b.dataset.id; save(); render();
   }));
   const put = col => { if(!current) return; so.place[current]=col; so.sel=null; save(); render(); };
   if(el("putG")) el("putG").addEventListener("click",()=>put("green"));
   if(el("putR")) el("putR").addEventListener("click",()=>put("red"));
-  if(el("reveal")) el("reveal").addEventListener("click",()=>{ so.revealed=true; so.sel=null; save(); render(); });
+  const doReveal = ()=>{ so.revealed=true; so.sel=null; save(); render(); };
+  if(el("reveal")) el("reveal").addEventListener("click",doReveal);
+  if(el("revealBig")) el("revealBig").addEventListener("click",doReveal);
   if(el("hideV"))  el("hideV").addEventListener("click",()=>{ so.revealed=false; save(); render(); });
   el("resetSort").addEventListener("click",()=>{
     if(confirm("Clear the sort and reshuffle the cards for a new class?")){ S.sort=blankSort(); save(); render(); }
   });
+}
+
+function fitBox(box){
+  box.style.fontSize = "";
+  let k = 1;
+  while(box.scrollHeight > box.clientHeight + 1 && k > 0.5){
+    k -= 0.04; box.style.fontSize = k.toFixed(2) + "em";
+  }
 }
 
 /* ================= 2 · article ================= */
@@ -735,6 +754,9 @@ document.addEventListener("keydown",e=>{
   else if(st.sec==="sort" && (e.key==="r"||e.key==="R") && el("putR")){ el("putR").click(); }
   else if(st.sec==="article" && e.key===" " && el("showDiff")){ e.preventDefault(); el("showDiff").click(); }
 });
+
+let resizeT;
+window.addEventListener("resize",()=>{ clearTimeout(resizeT); resizeT=setTimeout(render,120); });
 
 buildSheet();
 render();
