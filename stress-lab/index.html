@@ -1611,7 +1611,7 @@ function renderReport(){
   if(buildCount()){
     rows.push(`<tr><td>Word builders</td><td class="score">${buildFirstCount()}/${WORDS.length}</td>
       <td>${S.done.build?"Complete":"NOT FINISHED — "+buildCount()+" of "+WORDS.length+" built"}
-      · built with no wrong tile on the first pass</td></tr>`);
+      · built right the first time each word was filled</td></tr>`);
   } else {
     rows.push(`<tr><td>Word builders</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
   }
