@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Stress Lab - Work &amp; Life Education, managing stress. Word list with morphemes, briefing slides with checkpoints, word builders, a written problem-solving task, an audit and a report.">
+<title>Stress Lab</title>
+<style>
+  /* Paper ground, Georgia headings and step-card shell — the same visual
+     language used across the Work & Life Education interactive units.
+     The accent is a deep teal for the stress unit. */
+  :root{
+    --bg:#f4efe6; --paper:#fbf7ee; --band:#f5f0e6; --ink:#1f1f1f; --muted:#6b6256;
+    --line:#d8cfbb; --line-soft:#e8e0cd;
+    --accent:#1d5c73; --accent-deep:#14465a; --accent-soft:#e1edf1;
+    --gold:#8b681e; --gold-soft:#f6e7c2;
+    --correct:#2f6a3e; --wrong:#a83232; --okbg:#eef5ee; --badbg:#f7ecec;
+    --m-pre:#2d5fa8; --m-root:#a8442e; --m-suf:#2e7a57;
+    --shadow:0 1px 2px rgba(31,31,31,.05),0 4px 14px rgba(31,31,31,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#10161a; --paper:#182024; --band:#1f292e; --ink:#eae5db; --muted:#a2988a;
+      --line:#33424a; --line-soft:#283439;
+      --accent:#7cc3d6; --accent-deep:#9fd4e2; --accent-soft:#1c2c33;
+      --gold:#dcb355; --gold-soft:#372c11;
+      --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
+      --m-pre:#8fb4ee; --m-root:#eb9a7e; --m-suf:#83cba6;
+      --shadow:0 1px 2px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#10161a; --paper:#182024; --band:#1f292e; --ink:#eae5db; --muted:#a2988a;
+    --line:#33424a; --line-soft:#283439;
+    --accent:#7cc3d6; --accent-deep:#9fd4e2; --accent-soft:#1c2c33;
+    --gold:#dcb355; --gold-soft:#372c11;
+    --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
+    --shadow:0 1px 2px rgba(0,0,0,.45);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif;background:var(--bg);
+       color:var(--ink);min-height:100vh;padding:16px;display:flex;justify-content:center;align-items:flex-start}
+  .container{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+       max-width:900px;width:100%;padding:26px;margin-top:12px;box-shadow:var(--shadow)}
+  h1{text-align:center;font-size:24px;font-family:Georgia,'Times New Roman',serif;letter-spacing:.4px}
+  h2{font-family:Georgia,serif;font-size:19px;margin:4px 0 10px}
+  h3{font-family:Georgia,serif;font-size:15.5px;margin:18px 0 8px}
+  .subtitle{color:var(--muted);text-align:center;margin:6px 0 18px;font-size:13px}
+  .muted{color:var(--muted);font-size:13px;line-height:1.55}
+  .screen{display:none}.screen.active{display:block}
+  button{font-family:inherit}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+
+  .btn{padding:11px 18px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-weight:600;
+       cursor:pointer;background:var(--paper);color:var(--ink);transition:all .15s ease}
+  .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn-primary:hover:not(:disabled){background:var(--accent-deep);border-color:var(--accent-deep)}
+  .btn-primary:disabled{background:var(--line);border-color:var(--line);color:var(--muted);cursor:not-allowed}
+  .btn-ghost{background:var(--bg);color:var(--muted)}
+  .btn-ghost:hover{color:var(--ink);border-color:var(--ink)}
+  .linkbtn{background:none;border:none;color:var(--accent);font-weight:600;font-size:13px;cursor:pointer;padding:4px 8px}
+  .linkbtn:hover{text-decoration:underline}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px}
+  .progress{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.4px;text-align:right}
+
+  .steps{display:flex;flex-direction:column;gap:10px;margin:18px 0}
+  .step{display:flex;align-items:center;gap:14px;border:1px solid var(--line-soft);border-radius:10px;
+        padding:14px 16px;background:var(--paper);text-align:left;cursor:pointer;width:100%;color:inherit}
+  .step:hover:not(:disabled){border-color:var(--accent)}
+  .step:disabled{opacity:.5;cursor:not-allowed}
+  .step .num{width:34px;height:34px;border-radius:50%;background:var(--bg);border:1px solid var(--line);
+        display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+  .step.done .num{background:var(--okbg);border-color:var(--correct);color:var(--correct)}
+  .step .t{font-weight:700;font-size:15px}
+  .step .d{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.45}
+  .step .tag{margin-left:auto;font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--muted);
+        flex-shrink:0;text-align:right;max-width:120px;line-height:1.35}
+  .step.done .tag{color:var(--correct)}
+
+  .teach{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;
+         background:var(--bg);padding:16px 18px;margin-bottom:16px;font-size:14.5px;line-height:1.65}
+  .teach b{color:var(--accent)}
+  .teach ul,.teach ol{margin:8px 0 0 20px}
+  .teach li{margin-bottom:6px}
+
+  .slidewrap{border:1px solid var(--line);border-radius:12px;background:var(--band);
+             padding:22px 24px;min-height:330px;display:flex;flex-direction:column;gap:12px}
+  .slidewrap .of{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .slidewrap h2{font-family:Georgia,serif;font-size:clamp(20px,2.4vw + 10px,30px);line-height:1.12;margin:0}
+  .slidewrap .lead{font-size:clamp(14px,.6vw + 12px,17px);line-height:1.6}
+  .slidewrap .pts{display:flex;flex-direction:column;gap:8px}
+  .slidewrap .pts div{display:flex;gap:10px;font-size:clamp(13.5px,.5vw + 11.5px,16px);line-height:1.55}
+  .slidewrap .pts .b{color:var(--accent);font-weight:800;flex:none}
+  .pull{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);
+        border-radius:8px;padding:11px 14px;font-family:Georgia,serif;
+        font-size:clamp(14px,.6vw + 12px,17.5px);line-height:1.5}
+  .pull span{display:block;font-family:'Segoe UI',sans-serif;font-size:11px;font-weight:800;
+             letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .srcline{font-size:12px;color:var(--muted);font-style:italic;margin-top:auto;padding-top:8px}
+  .slidenav{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .slidenav .sp{flex:1}
+  .pips{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+  .pip{width:26px;height:6px;border-radius:3px;background:var(--line);border:none;cursor:pointer;padding:0}
+  .pip.seen{background:var(--muted)}
+  .pip.now{background:var(--accent)}
+
+  body.present .container{max-width:100%;margin:0;border:none;border-radius:0;padding:10px}
+  body.present .slidewrap{min-height:calc(100dvh - 150px);justify-content:center}
+  body.present .hide-present{display:none !important}
+  body.present .slidewrap h2{font-size:clamp(28px,4.4vw,58px)}
+  body.present .slidewrap .lead{font-size:clamp(17px,1.7vw,28px)}
+  body.present .slidewrap .pts div{font-size:clamp(16px,1.5vw,25px)}
+  body.present .pull{font-size:clamp(17px,1.6vw,27px)}
+
+  .buildword{font-family:Georgia,serif;font-size:20px;text-align:center;margin-bottom:4px;color:var(--muted)}
+  .slots,.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0}
+  .slot{min-width:78px;min-height:46px;border:2px dashed var(--line);border-radius:8px;
+        display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;
+        padding:6px 10px;background:var(--bg)}
+  .slot.filled{border-style:solid;border-color:var(--correct);background:var(--okbg);color:var(--correct)}
+  .tile{padding:10px 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);
+        font-weight:700;font-size:16px;cursor:pointer;color:var(--ink)}
+  .tile:hover:not(:disabled){border-color:var(--accent)}
+  .tile:disabled{opacity:.32;cursor:default}
+  .tile.shake{animation:shake .3s;border-color:var(--wrong);color:var(--wrong)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  @media (prefers-reduced-motion:reduce){ .tile.shake{animation:none} }
+  .glosses{margin:10px auto;max-width:560px;font-size:13px;color:var(--muted);line-height:1.75;text-align:center}
+  .glosses b{color:var(--ink)}
+  .reveal{border:1px solid var(--correct);background:var(--okbg);border-radius:10px;padding:14px 16px;
+          margin:14px 0;font-size:14.5px;line-height:1.6;display:none}
+  .reveal.show{display:block}
+  .buildprog{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:14px}
+  .bdot{width:12px;height:12px;border-radius:50%;border:1px solid var(--line);background:var(--bg)}
+  .bdot.done{background:var(--correct);border-color:var(--correct)}
+  .bdot.now{border-color:var(--accent);background:var(--paper);box-shadow:0 0 0 2px rgba(29,92,115,.25)}
+
+  .vcard{border:1px solid var(--line-soft);border-radius:10px;padding:14px 16px;margin-bottom:10px;background:var(--paper)}
+  .vcard .w{font-family:Georgia,serif;font-size:23px;font-weight:700}
+  .vcard .w .mp{color:var(--m-pre)} .vcard .w .mr{color:var(--m-root)} .vcard .w .ms{color:var(--m-suf)}
+  .vcard .pos{font-size:12px;color:var(--muted);font-style:italic;margin-left:6px}
+  .vcard .meaning{font-size:14px;margin:6px 0;line-height:1.5}
+  .vcard .morph{font-size:13.5px;color:var(--muted);line-height:1.7;border-top:1px dashed var(--line-soft);
+                padding-top:6px;margin-top:6px}
+  .vcard .morph b,.vcard .morph i{color:var(--ink)}
+  .vcard .morph code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:700;font-size:16px}
+  .vcard .morph code.mp{color:var(--m-pre)} .vcard .morph code.mr{color:var(--m-root)} .vcard .morph code.ms{color:var(--m-suf)}
+  .mlegend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;font-weight:700;margin:0 0 12px;
+           border:1px solid var(--line-soft);border-radius:8px;padding:10px 14px;background:var(--bg)}
+  .mlegend .mp{color:var(--m-pre)} .mlegend .mr{color:var(--m-root)} .mlegend .ms{color:var(--m-suf)}
+
+  .prompt{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:8px}
+  .qtext{font-size:17px;line-height:1.6;margin-bottom:16px}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--paper);font-size:15px;
+       text-align:left;cursor:pointer;line-height:1.5;color:var(--ink)}
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default}
+  .opt.right{background:var(--okbg);border-color:var(--correct);color:var(--correct);font-weight:700}
+  .opt.wrongpick{background:var(--badbg);border-color:var(--wrong);color:var(--wrong)}
+  .numrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .numrow input{padding:11px 13px;border:1px solid var(--line);border-radius:8px;font-size:16px;
+                font-family:ui-monospace,Menlo,monospace;width:130px;background:var(--paper);color:var(--ink)}
+  .numrow .unit{font-size:14px;color:var(--muted);font-weight:600}
+  .feedback{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:14px;line-height:1.6;display:none}
+  .feedback.ok{display:block;background:var(--okbg);border:1px solid var(--correct)}
+  .feedback.bad{display:block;background:var(--badbg);border:1px solid var(--wrong)}
+  .nextrow{margin-top:16px;display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;align-items:center}
+
+  .sendback{border:1px solid var(--wrong);border-left:4px solid var(--wrong);background:var(--badbg);
+            border-radius:10px;padding:16px 18px;margin-top:14px}
+  .sendback .hd{font-weight:800;color:var(--wrong);font-size:14px;letter-spacing:.3px;
+                text-transform:uppercase;margin-bottom:8px}
+  .sendback .slidecopy{background:var(--paper);border:1px solid var(--line);border-radius:8px;
+                       padding:14px 16px;font-size:14.5px;line-height:1.6}
+  .sendback .slidecopy h4{font-family:Georgia,serif;font-size:16px;margin-bottom:8px}
+  .sendback .slidecopy .pts div{display:flex;gap:9px;margin-bottom:6px}
+  .sendback .slidecopy .pts .b{color:var(--accent);font-weight:800;flex:none}
+  .dwell{font-size:12.5px;color:var(--muted);margin-top:10px;font-weight:600}
+
+  .stagepath{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;justify-content:center}
+  .spip{font-size:11px;font-weight:700;letter-spacing:.3px;padding:4px 10px;border-radius:12px;
+        border:1px solid var(--line-soft);color:var(--muted);background:var(--bg)}
+  .spip.done{border-color:var(--correct);color:var(--correct);background:var(--okbg)}
+  .spip.now{border-color:var(--accent);color:var(--accent);background:var(--paper)}
+
+  .sumbox{border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0;text-align:center}
+  .sumbox .big{font-family:Georgia,serif;font-size:31px;font-weight:700}
+  .sumbox .big.good{color:var(--correct)} .sumbox .big.mid{color:var(--gold)} .sumbox .big.low{color:var(--wrong)}
+
+  /* decode step */
+  .decword{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--accent);text-align:center;margin:6px 0}
+  textarea.dec{width:100%;min-height:90px;padding:12px;border:1px solid var(--line);border-radius:8px;
+        font:inherit;font-size:15px;background:var(--paper);color:var(--ink);resize:vertical}
+  .crit{border:1px solid var(--line);border-left:4px solid var(--gold);background:var(--gold-soft);
+        border-radius:8px;padding:12px 15px;font-size:14px;line-height:1.6;margin-top:12px;display:none}
+  .crit.show{display:block;margin-bottom:22px}
+  .selfmark{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:14px;align-items:center}
+
+  .repgrid{width:100%;border-collapse:collapse;margin:12px 0}
+  .repgrid th,.repgrid td{border:1px solid var(--line);padding:8px 10px;font-size:13.5px;text-align:left}
+  .repgrid th{background:var(--bg);font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  .repgrid td.score{font-weight:700;white-space:nowrap}
+  .repgrid td.nf{color:var(--muted);font-style:italic}
+  .idrow{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  .idrow label{font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
+  .idrow input{padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:15px;
+               font-family:inherit;background:var(--paper);color:var(--ink)}
+  .vcode{font-family:ui-monospace,Menlo,monospace;font-size:13px;letter-spacing:2px}
+
+  .sheet{border:1px solid var(--line);border-radius:10px;padding:18px;background:var(--paper);margin-top:12px}
+  .sheet h3{margin-top:0}
+  .sheet .qline{border-bottom:1px solid var(--ink);height:30px;margin:8px 0}
+
+  .vc{background:var(--accent-soft);border-radius:8px;padding:12px 15px;font-size:13px;line-height:1.55;margin-top:12px}
+  .vc .hd{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:6px}
+  .vc li{margin:5px 0 5px 18px}
+  .vc em{color:var(--ink)}
+
+  details.tnote{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-top:16px}
+  details.tnote summary{cursor:pointer;font-weight:700;font-size:13.5px;color:var(--muted);letter-spacing:.02em}
+  details.tnote .in{margin-top:12px;font-size:13.5px;line-height:1.6}
+  details.tnote .in ol{margin:8px 0 0 20px}
+  details.tnote .in li{margin-bottom:6px}
+
+  @media print{
+    body{background:#fff;padding:0;display:block}
+    .container{border:none;box-shadow:none;max-width:100%;padding:6px;background:#fff}
+    .noprint{display:none !important}
+    .pagebreak{break-before:page;page-break-before:always}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+  @media (max-width:560px){
+    .container{padding:16px}
+    .step .tag{max-width:74px;font-size:10px}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ============ INTRO GATE ============ -->
+<div class="screen" id="scr-intro">
+  <h1>Stress Lab</h1>
+  <p class="subtitle">Work &amp; Life Education · Managing stress · Year 10</p>
+  <div class="teach" style="max-width:640px;margin:0 auto 14px">
+    <b>Before anything else.</b> List everything someone your age could do when stress gets too much.
+    It comes back on your report at the end.
+  </div>
+  <textarea class="dec" id="introTxt" style="max-width:640px;display:block;margin:0 auto"
+    placeholder="Go for a walk, ..."></textarea>
+  <div class="nextrow noprint" style="justify-content:center">
+    <button class="btn btn-primary" id="introGo" type="button">That's my list &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ HOME ============ -->
+<div class="screen active" id="scr-home">
+  <h1>Stress Lab</h1>
+  <p class="subtitle">Work &amp; Life Education · Managing stress · Year 10</p>
+  <div class="steps" id="home-steps"></div>
+  <div class="nextrow noprint" style="justify-content:center">
+    <button class="linkbtn" id="resetAllBtn" type="button">start over (clears everything)</button>
+    <a class="linkbtn" href="../">&larr; Work &amp; Life Education</a>
+  </div>
+  <div class="vc">
+    <div class="hd">Victorian Curriculum F–10 Version 2.0 · alignment</div>
+    <ul>
+      <li><b>Health and Physical Education, Levels 9–10</b>: students <em>access, synthesise and apply health
+        information from credible sources to propose and justify responses to situations in the home, in the school
+        and the community</em>.</li>
+      <li><b>Personal and Social Capability, Levels 9–10</b>: students <em>develop criteria to appraise personal
+        qualities and use these to design strategies to plan for the future or address a challenge</em>.</li>
+    </ul>
+    <p class="muted" style="margin-top:8px">Descriptor wording quoted from VCAA. Confirm the current codes at
+      <b>victoriancurriculum.vcaa.vic.edu.au</b> before pasting into a planning document.</p>
+  </div>
+</div>
+
+<!-- ============ STUDY ============ -->
+<div class="screen" id="scr-study">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">STEP 1 · WORD LIST</span>
+  </div>
+  <h2>Ten words for this topic</h2>
+  <div id="study-list"></div>
+  <div class="nextrow noprint">
+    <button class="btn btn-primary" id="markStudiedBtn" type="button">I've read them all — go to the briefing &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDES ============ -->
+<div class="screen" id="scr-slides">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="slide-prog">STEP 2 · THE BRIEFING</span>
+  </div>
+  <div class="pips noprint" id="slide-pips"></div>
+  <div class="slidewrap" id="slide-body"></div>
+  <div class="slidenav noprint">
+    <button class="btn btn-ghost" id="slidePrev" type="button">&larr; Back</button>
+    <button class="btn btn-ghost" id="presentBtn" type="button">Present mode</button>
+    <button class="btn btn-ghost hide-present" id="slideToQ" type="button" hidden>Skip to the questions &rarr;</button>
+    <span class="sp"></span>
+    <button class="btn btn-primary" id="slideNext" type="button">Next &rarr;</button>
+  </div>
+  <p class="muted hide-present" style="margin-top:12px;text-align:center" id="slideFoot"></p>
+</div>
+
+<!-- ============ CHECKPOINTS ============ -->
+<div class="screen" id="scr-check">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="check-prog">STEP 2 · CHECKPOINTS</span>
+  </div>
+  <div id="check-body"></div>
+</div>
+
+<!-- ============ WORD BUILDERS ============ -->
+<div class="screen" id="scr-build">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="build-prog">STEP 3 · WORD BUILDERS</span>
+  </div>
+  <div id="build-body"></div>
+</div>
+
+<!-- ============ DECODE ============ -->
+<div class="screen" id="scr-decode">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">STEP 4 · WORK IT THROUGH</span>
+  </div>
+  <div id="decode-body"></div>
+</div>
+
+<!-- ============ AUDIT ============ -->
+<div class="screen" id="scr-audit">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="audit-prog">STEP 5 · STRESS AUDIT</span>
+  </div>
+  <div id="audit-body"></div>
+</div>
+
+<!-- ============ REPORT ============ -->
+<div class="screen" id="scr-report">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">REPORT</span>
+  </div>
+  <div id="report-body"></div>
+</div>
+
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   STRESS LAB — Work & Life Education, managing stress (Year 10)
+   Part 2 of the stress topic. The stress curve was taught in
+   class beforehand, so nothing here re-teaches it.
+   Built on the Purple Lab engine. Standalone; nothing leaves the
+   browser unless the student copies or prints it.
+   STEP 1 · WORD LIST — ten words with morphemes.
+   STEP 2 · THE BRIEFING — nine slides, checkpoint per slide,
+     wrong answer = sent back to the slide with a dwell.
+   STEP 3 · WORD BUILDERS — assemble words against decoys.
+   STEP 4 · WORK IT THROUGH — one scenario, three written
+     answers, self-marked against stated criteria (the page
+     cannot judge free writing and says so).
+   STEP 5 · STRESS AUDIT — two sections, 80% gate, reteach
+     plus parallel set.
+   REPORT — name, ID, verification code, print, and a
+     tab-separated row to paste into a class sheet.
+   Steps are recommended in order but never locked.
+   ============================================================ */
+
+/* ================= WORD LIST ================= */
+const WORDS = [
+  { w:"Adrenaline", pos:"noun",
+    meaning:"A hormone your body releases when it senses a challenge. It speeds up your heart and breathing.",
+    tiles:[["ad-","near, at"],["ren","kidney"],["-al","relating to"],["-ine","chemical substance"]],
+    decoys:[["ab-","away from"],["-ic","relating to"]],
+    note:"It's made in the <b>adrenal glands</b>, which sit right on top of your kidneys. That's the whole name: the chemical from the glands near the kidneys." },
+  { w:"Tension", pos:"noun",
+    meaning:"Tightness, in your muscles or in a situation.",
+    tiles:[["tens","stretched tight"],["-ion","state of"]],
+    decoys:[["ex-","out"],["-ile","able to be"]],
+    note:"Same root as <b>tense</b>. Stress tightens muscles to get you ready to move. If it stays tight for weeks, you get neck, shoulder and back pain, and headaches." },
+  { w:"Chronic", pos:"adjective",
+    meaning:"Lasting a long time or keeps coming back.",
+    tiles:[["chron","time"],["-ic","relating to"]],
+    decoys:[["chrom","colour"],["-al","relating to"]],
+    note:"Chronic stress is stress that doesn't switch off. The opposite is <b>acute</b>: short and sharp. <i>Chrom</i> is a trap: it means colour, as in <i>chromosome</i>." },
+  { w:"Cardiovascular", pos:"adjective",
+    meaning:"To do with the heart and blood vessels.",
+    tiles:[["cardio","heart"],["vascul","small vessel, tube"],["-ar","relating to"]],
+    decoys:[["carn","flesh, meat"],["-ous","full of"]],
+    note:"<i>Cardio</i> at the gym is exercise that works your heart. <i>Carn</i> looks close but means meat, as in <i>carnivore</i>." },
+  { w:"Immune", pos:"adjective",
+    meaning:"Protected from something, especially illness.",
+    tiles:[["im-","not"],["mune","duty, burden"]],
+    decoys:[["com-","together, shared"],["-ity","state of"]],
+    note:"Originally it meant free from a duty. Your <b>immune system</b> keeps you free from illness. Ongoing stress can make it work less well. <i>Com- + mune</i> gives <i>common</i> and <i>community</i>: a shared duty." },
+  { w:"Symptom", pos:"noun",
+    meaning:"A sign that something is going on in your body or mind.",
+    tiles:[["sym-","together"],["ptom","to fall"]],
+    decoys:[["anti-","against"],["-ology","the study of"]],
+    note:"Something that falls together with a condition. A headache can be a symptom of stress. <i>Syn-</i> changes to <i>sym-</i> before p, b and m." },
+  { w:"Procrastinate", pos:"verb",
+    meaning:"To keep putting something off until later.",
+    tiles:[["pro-","forward"],["crastin","tomorrow"],["-ate","to do"]],
+    decoys:[["pre-","before"],["-ive","tending to"]],
+    note:"Literally, to push it forward to tomorrow. Putting off the thing that stresses you usually makes the stress bigger, not smaller." },
+  { w:"Perspective", pos:"noun",
+    meaning:"A way of seeing a situation, including how big or small it really is.",
+    tiles:[["per-","through"],["spect","to look"],["-ive","having the quality of"]],
+    decoys:[["pro-","forward"],["retro-","backwards"]],
+    note:"Looking through something to see it properly. Talking to someone helps put things in perspective. <i>Pro + spect</i> gives <i>prospect</i>, looking forward. <i>Retro + spect</i> gives <i>retrospect</i>, looking back." },
+  { w:"Acceptance", pos:"noun",
+    meaning:"Recognising that something has happened and can't be changed, then focusing on what you can do next.",
+    tiles:[["ac-","to, towards"],["cept","to take"],["-ance","state of"]],
+    decoys:[["ex-","out"],["con-","together"]],
+    note:"Taking something to yourself. It doesn't mean you like it or think it's fair. <i>Ex + cept</i> gives <i>except</i>, taking something out." },
+  { w:"Resilience", pos:"noun",
+    meaning:"Being able to cope with hard things and recover from them.",
+    tiles:[["re-","back"],["sil","to jump, leap"],["-ience","state of"]],
+    decoys:[["pre-","before"],["-ient","describing a person or thing"]],
+    note:"Literally, the state of jumping back. Swap the suffix and you get <b>resilient</b>, the word for the person." }
+];
+
+/* ================= SLIDES + CHECKPOINTS ================= */
+const SLIDES = [
+  { id:"t1", title:"When stress tips into overload",
+    lead:"Too much stress, for too long, shows up in three places.",
+    pts:[
+      ["Body","Headaches, tight muscles, upset stomach, trouble sleeping, feeling shaky, getting sick more often."],
+      ["Feelings","Overwhelmed, always under pressure, anxious, irritable, down, can't relax."],
+      ["Actions","Pulling away from friends and family, avoiding things, forgetting things, nail biting, losing interest in things you used to like."]
+    ],
+    pull:{ lbl:"Why it matters", t:"Other people often notice the changes in what you do before you notice how you feel. Spotting signs early means you can do something before it gets harder." },
+    src:"ReachOut Schools, What is stress?",
+    q:{ kind:"mcq",
+        q:"A student says: “I'm not stressed. I've just stopped going to footy and I keep forgetting my homework.” Which reading fits the slide best?",
+        opts:[
+          "Those are signs in what he's doing, and they're worth noticing early.",
+          "It only counts as stress if he feels it, so this isn't stress at all.",
+          "Forgetting homework is a body sign, so he should see a doctor first.",
+          "Dropping footy means the stress is gone, because he has less to do."
+        ],
+        a:0,
+        explain:"Stopping things you enjoy and forgetting things are <b>behaviour</b> signs of overload. They count even when the person says they feel fine, and they're often the first signs other people see." } },
+
+  { id:"t2", title:"What stress does in your body",
+    lead:"When your brain senses a challenge, your body releases stress hormones, including adrenaline and cortisol. They get you ready to act.",
+    pts:[
+      ["1","<b>Heart and breathing</b> speed up to get more oxygen to your muscles. Blood pressure can rise."],
+      ["2","<b>Muscles</b> tense, ready to move."],
+      ["3","<b>Digestion</b> slows down, because it isn't needed right now. That's the churning stomach."],
+      ["4","<b>Your brain</b> becomes more alert."]
+    ],
+    pull:{ lbl:"Remember", t:"This response is useful in short bursts. It's how your body gets ready for a race, a speech or a test." },
+    src:"ReachOut, What does stress do to the body?",
+    q:{ kind:"mcq",
+        q:"Before a speech, your heart races and your stomach churns. What's the best explanation?",
+        opts:[
+          "Stress hormones are getting you ready to act, and digestion slows down.",
+          "Your body is shutting down because the stress has become dangerous.",
+          "Your immune system is fighting off an illness the stress gave you.",
+          "Your breathing is faster because you didn't get enough sleep last night."
+        ],
+        a:0,
+        explain:"It's the stress response doing its job: hormones speed up your heart and send energy to your muscles, and digestion slows down while it isn't needed. Nothing is shutting down." } },
+
+  { id:"t3", title:"Short bursts and chronic stress",
+    lead:"The stress response is meant to switch on, do its job and switch off. Problems start when it stays on for weeks or months.",
+    pts:[
+      ["Short","A burst of stress before a game or a test. It can even help your immune system for a short time."],
+      ["Chronic","Stress that doesn't switch off. It can lead to headaches, sore neck and back, stomach problems, poor sleep, getting sick more often, and skin problems."]
+    ],
+    pull:{ lbl:"The key idea", t:"Stress is designed to be a short-term response, not a constant state." },
+    src:"ReachOut, What does stress do to the body?",
+    q:{ kind:"mcq",
+        q:"Which statement matches the slide?",
+        opts:[
+          "A stress response before a test means something is wrong with your body.",
+          "The response that helps in short bursts can wear you down if it's chronic.",
+          "Chronic stress only affects your mood. It doesn't affect your body at all.",
+          "A short burst of stress is just as harmful as stress that lasts for months."
+        ],
+        a:1,
+        explain:"The <b>same</b> response is useful when it's short and harmful when it's chronic. A stress response before a test is normal. Months of it is what wears the body down." } },
+
+  { id:"t4", title:"What can I control?",
+    lead:"One of the most useful questions when you're stressed: which parts of this can I actually do something about?",
+    pts:[
+      ["Can","How I prepare. How I use my time. Whether I ask for help. How I look after myself. How I respond."],
+      ["Can't","Other people's behaviour and opinions. Unexpected events. What has already happened. Some results."]
+    ],
+    pull:{ lbl:"Remember", t:"I can't always control what happens, but I can often control how I respond." },
+    src:"ReachOut Schools, What is stress?",
+    q:{ kind:"mcq",
+        q:"Your group member hasn't done their part and the assignment is due Friday. Which of these is in your control?",
+        opts:[
+          "Whether your group member finishes their part of the work by Friday.",
+          "What the teacher decides to do about the late part of the assignment.",
+          "Messaging them today, and telling the teacher if they don't reply.",
+          "How your group member feels about you and the rest of the group."
+        ],
+        a:2,
+        explain:"You can't control what another person does, what the teacher decides, or how someone feels. You <b>can</b> control what you do next: send the message and tell the teacher." } },
+
+  { id:"t5", title:"When you can do something: 8 steps",
+    lead:"If part of the problem is in your control, breaking it into steps makes it feel smaller.",
+    pts:[
+      ["1","<b>Define</b> the problem. What exactly is it?"],
+      ["2","<b>Set a goal.</b> What do you want to happen?"],
+      ["3","<b>Brainstorm</b> as many options as you can."],
+      ["4","<b>Rule out</b> the ones that won't work."],
+      ["5","<b>Weigh up</b> the pros and cons of what's left."],
+      ["6","<b>Choose</b> the best one."],
+      ["7","<b>Try it.</b>"],
+      ["8","<b>Review.</b> Did it work? If not, try another option."]
+    ],
+    src:"ReachOut, A step-by-step guide to problem solving",
+    q:{ kind:"mcq",
+        q:"Ali writes down his problem as: “Everything is going wrong.” Which step hasn't he done well yet?",
+        opts:[
+          "Step 1. The problem is too vague to come up with any options for.",
+          "Step 3. He hasn't thought of enough possible options to choose from.",
+          "Step 8. He hasn't gone back to review how his plan worked out yet.",
+          "Step 6. He hasn't picked the best option out of the ones on his list."
+        ],
+        a:0,
+        explain:"“Everything is going wrong” isn't a problem you can brainstorm for. Step 1 needs something specific, like “I haven't started my essay and it's due Friday.” The later steps can't start until step 1 is clear." } },
+
+  { id:"t6", title:"When you can't change it: acceptance",
+    lead:"Sometimes nothing you do will change what has happened. Acceptance helps with those situations.",
+    pts:[
+      ["Isn't","Agreeing with it. Thinking it's fair. Liking it. Giving up."],
+      ["Is","Recognising what has happened, and putting your energy into what you can do next."]
+    ],
+    pull:{ lbl:"Example", t:"“I didn't make the team. I can't change that. I'll ask the coach what to work on for next season.”" },
+    src:"ReachOut, How acceptance can help you cope with things out of your control",
+    q:{ kind:"mcq",
+        q:"Which of these shows acceptance in the way the slide means it?",
+        opts:[
+          "“It's fine that I didn't get picked. It was totally fair anyway.”",
+          "“I didn't get picked. I'll ask the coach what I should work on.”",
+          "“I didn't get picked, so there's no point in ever trying again.”",
+          "“I'll just act like it never happened and not think about it.”"
+        ],
+        a:1,
+        explain:"Acceptance isn't saying it was fair, giving up, or pretending it didn't happen. It's recognising what happened and moving your energy to what you can do next." } },
+
+  { id:"t7", title:"Three ways to cope with what you can't change",
+    lead:"ReachOut suggests three things to try.",
+    pts:[
+      ["1","<b>Treat yourself like a friend.</b> What would you say to a friend in the same situation? Say that to yourself."],
+      ["2","<b>Notice your thoughts.</b> Thoughts aren't always facts. Try starting with “I just had the thought that…”. It puts a bit of distance between you and the thought."],
+      ["3","<b>Talk to someone.</b> A friend, family member, teacher or another adult you trust. It helps you feel less alone and put things in perspective."]
+    ],
+    src:"ReachOut, How acceptance can help you cope with things out of your control",
+    q:{ kind:"mcq",
+        q:"Mia thinks, “I'm going to fail everything.” Which response uses the “notice your thoughts” strategy?",
+        opts:[
+          "“I just had the thought that I'm going to fail everything.”",
+          "“I'm definitely not going to fail anything at all this year.”",
+          "“I'll stop thinking about school until the exams are over.”",
+          "“Everyone else will fail as well, so it doesn't really matter.”"
+        ],
+        a:0,
+        explain:"Noticing the thought doesn't argue with it or push it away. It just labels it as a thought, which makes it easier to see that it might not be true." } },
+
+  { id:"t8", title:"Exam stress",
+    lead:"Some of what helps happens before the exam. Some of it happens in the room.",
+    pts:[
+      ["Before","Prepare instead of cramming. Get enough sleep. Organise your equipment. Take breaks. Eat and drink properly."],
+      ["During","<b>1</b> Pause and breathe. <b>2</b> Read the instructions. <b>3</b> Be your own coach: “I've prepared. One question at a time.” <b>4</b> Take a micro-break if allowed. <b>5</b> If you're stuck, move on and come back later."]
+    ],
+    src:"ReachOut, exam stress resources",
+    q:{ kind:"mcq",
+        q:"You're stuck on question 3 with 40 minutes left and six questions to go. What do the strategies suggest?",
+        opts:[
+          "Move on to question 4, and come back to question 3 if there's time.",
+          "Stay on question 3 until you get it, because skipping it is giving up.",
+          "Go back and re-read question 1 to check it's still right before moving.",
+          "Stop writing completely and wait until the panic has properly passed."
+        ],
+        a:0,
+        explain:"Strategy 5: if you're stuck, move on. Six questions are still waiting, and you can come back to question 3 with whatever time is left." } },
+
+  { id:"t9", title:"Looking after yourself, and getting help",
+    lead:"No single strategy works for everyone. These help most people.",
+    pts:[
+      ["✓","Sleep. Moving your body. Breaks and doing things you enjoy. Breathing or mindfulness. Staying connected with people. Breaking big jobs into smaller ones."],
+      ["!","If stress goes on for a long time, feels overwhelming, or is getting in the way of everyday life, talk to a trusted adult or a health professional."]
+    ],
+    pull:{ lbl:"Remember", t:"You don't have to manage everything on your own." },
+    src:"ReachOut Schools, What is stress?",
+    q:{ kind:"mcq",
+        q:"Which situation most clearly calls for talking to a trusted adult or health professional?",
+        opts:[
+          "Feeling nervous and a bit jumpy on the night before a really big test.",
+          "Weeks of bad sleep and headaches, and skipping things you used to enjoy.",
+          "Being annoyed for the afternoon that footy training was cancelled.",
+          "Having two assignments due on the same day at the end of the week."
+        ],
+        a:1,
+        explain:"Nerves before a test, being annoyed, and a busy week are normal stress. Weeks of poor sleep, headaches and dropping things you enjoy are signs it has gone on too long. That's when to talk to someone." } }
+];
+
+/* ================= AUDIT ================= */
+const AUDIT = [
+  { id:"s1", title:"Control or accept?", core:true,
+    teach:`<b>For each situation, ask two questions.</b>
+      <ul>
+        <li>Which part of this can I actually do something about? Use the 8 steps on that part.</li>
+        <li>Which part can't I change? Use acceptance on that part. Acceptance isn't liking it, agreeing with it or giving up.</li>
+      </ul>`,
+    reteach:`<b>Go back to the two lists.</b>
+      <ul>
+        <li><b>In your control:</b> how you prepare, your time, asking for help, how you look after yourself, how you respond.</li>
+        <li><b>Not in your control:</b> other people's actions and opinions, unexpected events, the past, some results.</li>
+        <li>Acceptance means “I can't change this part, so what can I do next?” It is never “so I'll do nothing”.</li>
+      </ul>`,
+    itemsA:[
+      { id:"s1a1", kind:"mcq",
+        q:"Your exam timetable puts two exams on the same morning. What's the best first move?",
+        opts:["Ask the year level coordinator whether the clash can be moved or supported.",
+              "Accept it, and don't bother preparing for either of the two exams.",
+              "Assume the timetable is a mistake and turn up to whichever one suits you.",
+              "Complain about it to your friends until someone else sorts it out."],
+        a:0,
+        explain:"Asking about the clash is in your control, so do that first. The second option misuses acceptance: accepting something never means doing nothing about the parts you can still change." },
+      { id:"s1a2", kind:"mcq",
+        q:"Your best friend is moving interstate next term. Which response fits acceptance?",
+        opts:["Pretend it isn't happening, so that it doesn't upset you yet.",
+              "Decide it's unfair and stop talking to them, starting from now.",
+              "See that you can't change it, and plan how you'll keep in touch.",
+              "Try to convince their parents that they shouldn't move interstate at all."],
+        a:2,
+        explain:"The move is out of your control. Acceptance is recognising that and putting energy into what you can do, like planning how to stay in touch. Pretending, cutting them off and trying to stop it are all ways of not accepting it." },
+      { id:"s1a3", kind:"mcq",
+        q:"Which of these is completely in your control?",
+        opts:["Whether or not you get picked for the team this season.",
+              "What time you put your phone away to charge tonight.",
+              "What your mates end up thinking about your new haircut.",
+              "Whether it ends up raining on the athletics sports day."],
+        a:1,
+        explain:"Only the phone is fully up to you. Team selection, other people's opinions and the weather are on the “can't control” list." },
+      { id:"s1a4", kind:"mcq",
+        q:"You did badly on a practice test. Which thought uses “notice your thoughts”?",
+        opts:["“I just had the thought that I'm bad at maths.”",
+              "“I'm bad at maths, and I always will be.”",
+              "“Maths doesn't matter to me anyway, so it's fine either way.”",
+              "“That test was unfair, so it doesn't count.”"],
+        a:0,
+        explain:"Starting with “I just had the thought that…” treats it as a thought, not a fact. The others either believe the thought completely or brush the whole thing off." },
+      { id:"s1a5", kind:"mcq",
+        q:"A friend says, “Accepting it just means giving up.” What's the best reply?",
+        opts:["“Yeah. Once you accept something, there's nothing left to do.”",
+              "“Not really. Accepting it means you agree that what happened was fair.”",
+              "“No. You stop fighting what you can't change, and work on what you can.”",
+              "“You shouldn't ever accept anything bad. You should keep fighting.”"],
+        a:2,
+        explain:"Acceptance isn't giving up and isn't agreeing it was fair. It's letting go of what you can't change so your energy goes to what you can." }
+    ],
+    itemsB:[
+      { id:"s1b1", kind:"mcq",
+        q:"Your shift at work has been put on the night before a big test. Best first move?",
+        opts:["Ask your manager if you can swap the shift with someone else.",
+              "Accept it, and skip studying for the test completely this time.",
+              "Don't turn up to the shift and hope that nobody notices it.",
+              "Complain to friends about it and hope it changes by itself."],
+        a:0,
+        explain:"Asking to swap is in your control. Accepting the clash doesn't mean giving up on the test." },
+      { id:"s1b2", kind:"mcq",
+        q:"Your grandparent is moving into aged care. Which response fits acceptance?",
+        opts:["Avoid thinking about it until it's actually happened.",
+              "Decide it's wrong and refuse to visit them there at all.",
+              "See that you can't change it, and plan regular visits.",
+              "Try to get the family to change their decision."],
+        a:2,
+        explain:"You can't change the decision. You can choose how you stay part of their life." },
+      { id:"s1b3", kind:"mcq",
+        q:"Which of these is completely in your control?",
+        opts:["Whether you get the part you auditioned for.",
+              "Whether you start your essay tonight or not.",
+              "What other people post about your group chat.",
+              "Whether the bus turns up on time tomorrow."],
+        a:1,
+        explain:"Starting the essay is up to you. The others depend on other people or events." },
+      { id:"s1b4", kind:"mcq",
+        q:"After a fight with a friend you think, “Nobody likes me.” Which uses “notice your thoughts”?",
+        opts:["“I just had the thought that nobody likes me.”",
+              "“Nobody likes me, and that's never going to change.”",
+              "“I don't care what anyone thinks of me anyway.”",
+              "“It was all their fault, so it doesn't matter.”"],
+        a:0,
+        explain:"Labelling it as a thought gives you some distance from it. It isn't automatically a fact." },
+      { id:"s1b5", kind:"mcq",
+        q:"Which sentence describes acceptance correctly?",
+        opts:["Acceptance means agreeing that what happened was okay.",
+              "Acceptance means not trying any more, because it's done.",
+              "Acceptance means focusing on what you can still do next.",
+              "Acceptance means not letting yourself feel upset about it."],
+        a:2,
+        explain:"Acceptance is recognising what has happened and focusing on what you can do next. You can still feel upset about it." }
+    ] },
+
+  { id:"s2", title:"The body and the exam room", core:true,
+    teach:`<b>Two things to keep in mind.</b>
+      <ul>
+        <li>The stress response is useful in <b>short bursts</b> and harmful when it's <b>chronic</b>.</li>
+        <li>In an exam: pause and breathe, read the instructions, be your own coach, take a micro-break if allowed, move on if stuck.</li>
+      </ul>`,
+    reteach:`<b>Go back over the body and the exam room.</b>
+      <ul>
+        <li>Stress hormones like adrenaline speed up your heart and breathing, tense your muscles and slow your digestion. That's normal for a short time.</li>
+        <li>Weeks or months of it can mean headaches, sore muscles, stomach problems, poor sleep and getting sick more often.</li>
+        <li>Before an exam: prepare instead of cramming, and sleep. During: the five strategies.</li>
+      </ul>`,
+    itemsA:[
+      { id:"s2a1", kind:"mcq",
+        q:"Halfway through an exam your mind goes blank. Which strategy comes first?",
+        opts:["Pause, and take a slow breath in through your nose and out.",
+              "Start writing anything at all so that the page isn't empty.",
+              "Put your hand up straight away and ask to leave the room.",
+              "Re-read all of the questions that you've already finished."],
+        a:0,
+        explain:"Pausing to breathe is strategy 1. It slows the stress response down enough for you to think again." },
+      { id:"s2a2", kind:"mcq",
+        q:"Which plan for the week before an exam follows the advice?",
+        opts:["Leave it until the night before and stay up late to cover it all.",
+              "Spread revision over the week and sleep normally the night before.",
+              "Skip breakfast on the day so that you don't feel slow in the exam.",
+              "Only revise the one topic you like most, and skip all the others."],
+        a:1,
+        explain:"Preparing over time and sleeping well both reduce stress on the day. Cramming and skipping food make it worse." },
+      { id:"s2a3", kind:"mcq",
+        q:"Why might your stomach feel upset when you're stressed?",
+        opts:["The stress response slows digestion while the heart and muscles get priority.",
+              "Stress makes your stomach produce extra food that your body doesn't actually need.",
+              "An upset stomach is always a sign that you've eaten something bad.",
+              "Stress hormones are only ever released inside the stomach itself."],
+        a:0,
+        explain:"Digestion isn't needed to face a challenge, so the stress response slows it down. That's the churning or upset stomach." },
+      { id:"s2a4", kind:"mcq",
+        q:"Which is the clearest sign that stress has become chronic?",
+        opts:["Feeling nervous for an hour before giving a presentation.",
+              "Months of headaches, bad sleep and getting sick more often.",
+              "Your heart racing on the start line at the swimming carnival.",
+              "Feeling relieved and tired once a big test is finally over."],
+        a:1,
+        explain:"Chronic means long-lasting. The others are short bursts, which is the stress response working normally." },
+      { id:"s2a5", kind:"mcq",
+        q:"Which of these is “being your own coach” in an exam?",
+        opts:["“I've prepared for this. One question at a time.”",
+              "“Everyone around me is finishing faster than me.”",
+              "“If I don't get an A in this, then I've failed.”",
+              "“I really should have studied a lot more for this.”"],
+        a:0,
+        explain:"A coach is encouraging and practical. The others are comparisons and harsh judgements, which add to the stress." }
+    ],
+    itemsB:[
+      { id:"s2b1", kind:"mcq",
+        q:"You open the exam paper and your heart starts pounding. What's the first strategy?",
+        opts:["Pause and take a slow breath before you start.",
+              "Start on the hardest question to get it over with.",
+              "Close your eyes and wait for the feeling to go away.",
+              "Skim every page as fast as you can to see what's there."],
+        a:0,
+        explain:"Pause and breathe comes first. It gives your body a chance to settle before you read the instructions." },
+      { id:"s2b2", kind:"mcq",
+        q:"Which night before an exam follows the advice?",
+        opts:["Pull an all-nighter so you can get through every topic one more time.",
+              "Pack your equipment, do a short review and get to bed on time.",
+              "Drink energy drinks so you can keep studying until late.",
+              "Don't look at anything so you don't stress yourself out."],
+        a:1,
+        explain:"Organising your equipment and sleeping are both on the “before” list. All-nighters and energy drinks make the next day harder." },
+      { id:"s2b3", kind:"mcq",
+        q:"Why do your muscles feel tight when you're stressed?",
+        opts:["They tense up to get you ready to move quickly.",
+              "They're tired because stress uses up all your energy.",
+              "Stress hormones make your muscles grow stronger.",
+              "Tight muscles always mean you've injured yourself."],
+        a:0,
+        explain:"Tension is part of getting ready to act. If it stays for weeks, it can lead to neck, shoulder and back pain." },
+      { id:"s2b4", kind:"mcq",
+        q:"Which is the clearest sign of chronic stress?",
+        opts:["Butterflies before your first shift at a new job.",
+              "Weeks of stomach problems and not being able to switch off.",
+              "Feeling shaky in the few minutes right before you have to give a speech.",
+              "Being tired after a long day at a school camp."],
+        a:1,
+        explain:"Weeks of symptoms is chronic. The others are short, normal reactions." },
+      { id:"s2b5", kind:"mcq",
+        q:"You're stuck on a question. Which response follows the strategies?",
+        opts:["Move on, and come back to it if there's time at the end.",
+              "Keep working on it, because moving on would just be giving up on it.",
+              "Leave the exam early, since you can't do this one.",
+              "Rub out your earlier answers and start again."],
+        a:0,
+        explain:"Moving on means you don't lose time on one question while others are still waiting." }
+    ] }
+];
+
+/* ================= WORK IT THROUGH (step 4) ================= */
+const SCENARIO = "Jayden is 15. He has a maths test on Thursday, an English essay due Friday, and a shift at the bakery on Wednesday night. His friends' group chat is full of an argument he's been dragged into. He isn't sleeping well, and last night he snapped at his mum.";
+const DECODE = [
+  { w:"Control", prompt:"Split Jayden's week into what he can control and what he can't. Give at least two of each.",
+    crit:`<b>A strong answer:</b> puts at least two things in each list, for example when he starts the essay, asking to swap his shift or muting the group chat (can control), and the test date, what his friends say or the bakery roster (can't control). It also notices that he can still control how he responds to the things he can't change.
+      <b>The near-miss:</b> lists everything that's stressing him without sorting it, or puts other people's behaviour on the “can control” side.` },
+  { w:"Problem solve", prompt:"Pick one thing Jayden can control. Take it through the steps: what exactly is the problem, what's his goal, three options, which one he picks, his first step, and how he'll know if it worked.",
+    crit:`<b>A strong answer:</b> names a specific problem (“He hasn't started the essay and it's due Friday”, not “he has too much on”), a realistic goal, at least three options, a first step he could do today, and a way to check it worked.
+      <b>The near-miss:</b> “He should manage his time better.” That's a goal with no steps.` },
+  { w:"Accept", prompt:"The argument in the group chat isn't Jayden's to fix. Write what he could say to himself, using one of the three strategies.",
+    crit:`<b>A strong answer:</b> uses one of the three strategies and sounds like it: what you'd say to a friend, or “I just had the thought that…”, or a plan to talk to someone. It doesn't pretend the argument is fine or that it doesn't matter.
+      <b>The near-miss:</b> “Just don't care about it.” That's ignoring it, not accepting it.` }
+];
+
+/* ================= STATE ================= */
+const KEY = "stresslab.v1";
+let S = load();
+function blank(){
+  return { intro:false, introText:"", studied:false, slidesSeen:[], slidesDone:false,
+           first:{}, done:{}, sendbacks:0, checkDone:false,
+           buildDone:{}, buildFirst:{}, decode:{}, decodeDone:false,
+           reteach:{}, retryScores:{},
+           name:"", sid:"", startedAt:null, finishedAt:null };
+}
+function load(){ try{ const s=JSON.parse(localStorage.getItem(KEY)); return (s&&s.first)?s:blank(); }catch(e){ return blank(); } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+function el(id){ return document.getElementById(id); }
+/* Task shells share ids across screens; scope every lookup to its screen root
+   (a part-finished screen can leave stale ids behind, so every lookup
+   is scoped rather than global). */
+function scoped(rootId){
+  return function(sel){ const r = el(rootId); return r ? r.querySelector(sel) : null; };
+}
+const qc = scoped("check-body");
+const qb = scoped("build-body");
+const qa = scoped("audit-body");
+function esc(t){ const d=document.createElement("div"); d.textContent=t==null?"":String(t); return d.innerHTML; }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function go(name){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  el("scr-"+name).classList.add("active");
+  window.scrollTo(0,0);
+  if(name==="home"){ setPresent(false); renderHome(); }
+  if(name==="study") renderStudy();
+  if(name==="report") renderReport();
+}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+
+/* ================= HOME ================= */
+function checkFirstCount(){ return SLIDES.filter(s=>S.first[s.id]===true).length; }
+function buildCount(){ return WORDS.filter(w=>S.buildDone[w.w]).length; }
+function buildFirstCount(){ return WORDS.filter(w=>S.buildFirst[w.w]===true).length; }
+function auditItems(){ return AUDIT.flatMap(sec=>sec.itemsA); }
+function auditFirstCount(){ return auditItems().filter(it=>S.first[it.id]===true).length; }
+function decodeCount(){ return DECODE.filter(d=>S.decode[d.w] && S.decode[d.w].text && S.decode[d.w].text.trim().length>=20).length; }
+
+function renderHome(){
+  const wrap = el("home-steps"); wrap.innerHTML="";
+  const steps = [
+    { t:"The word list",
+      d:"Ten words, with the prefix, root and suffix that build each one.",
+      done:S.studied, fn:()=>go("study"), tag:S.studied?"READ":"" },
+    { t:"The briefing",
+      d:"Nine slides, then one checkpoint question per slide. A wrong answer sends you back to the slide.",
+      done:S.checkDone, fn:()=>startSlides(),
+      tag:S.checkDone ? `${checkFirstCount()}/${SLIDES.length} FIRST TRY`
+        : (S.slidesDone ? "SLIDES SEEN" : "") },
+    { t:"Word builders",
+      d:"Build each word from its parts. Some tiles in the bank belong to other words.",
+      done:S.done.build, fn:()=>startBuild(),
+      tag:S.done.build ? `${buildFirstCount()}/${WORDS.length} CLEAN`
+        : (buildCount() ? `${buildCount()}/${WORDS.length}` : "") },
+    { t:"Work it through",
+      d:"One student's week. Three written answers, then check yours against the criteria.",
+      done:S.decodeDone, fn:()=>startDecode(),
+      tag:S.decodeDone ? "WRITTEN" : (decodeCount()? `${decodeCount()}/${DECODE.length}` : "") },
+    { t:"Stress audit",
+      d:"Two sections. Under 80% on a section means a reteach and a fresh set of questions.",
+      done:S.done.audit, fn:()=>startAudit(),
+      tag:S.done.audit ? `${auditFirstCount()}/${auditItems().length} FIRST TRY` : "" },
+    { t:"Report",
+      d:"Your scores, your written answers, print, and a row to copy for your teacher.",
+      done:false, fn:()=>go("report"), tag:"ANY TIME" }
+  ];
+  steps.forEach((st,i)=>{
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="step"+(st.done?" done":"");
+    b.innerHTML=`<span class="num">${st.done?"✓":i+1}</span>`+
+      `<span><span class="t">${st.t}</span><br><span class="d">${st.d}</span></span>`+
+      `<span class="tag">${st.tag}</span>`;
+    b.addEventListener("click",st.fn);
+    wrap.appendChild(b);
+  });
+}
+
+el("resetAllBtn").addEventListener("click",()=>{
+  if(confirm("Wipe all your progress and scores?")){ S=blank(); save(); go("home"); }
+});
+
+/* ================= STEP 1 · STUDY ================= */
+/* Colour is a taxonomy: prefix / root / suffix, one colour each, legend shown.
+   A tile ending in "-" is a prefix, one starting with "-" is a suffix. */
+function morphClass(t,i){ return t.endsWith("-") ? "mp" : (t.startsWith("-") ? "ms" : "mr"); }
+function colourWord(v){
+  // rebuild the headword from its tiles so each part takes its category colour
+  let out="", rest=v.w;
+  for(const [t] of v.tiles){
+    const piece = t.replace(/-/g,"");
+    const idx = rest.toLowerCase().indexOf(piece.toLowerCase());
+    if(idx===-1){ return esc(v.w); }
+    out += esc(rest.slice(0,idx)) + `<span class="${morphClass(t)}">${esc(rest.slice(idx,idx+piece.length))}</span>`;
+    rest = rest.slice(idx+piece.length);
+  }
+  return out + esc(rest);
+}
+function renderStudy(){
+  const wrap = el("study-list"); wrap.innerHTML="";
+  wrap.insertAdjacentHTML("beforeend",
+    `<div class="mlegend"><span class="mp">prefix</span><span class="mr">root</span><span class="ms">suffix</span>
+</div>`);
+  WORDS.forEach(v=>{
+    const parts = v.tiles.map(t=>`<code class="${morphClass(t[0])}">${esc(t[0])}</code> <i>${esc(t[1])}</i>`).join(" + ");
+    const d=document.createElement("div"); d.className="vcard";
+    d.innerHTML = `<span class="w">${colourWord(v)}</span><span class="pos">${esc(v.pos)}</span>`+
+      `<div class="meaning">${esc(v.meaning)}</div>`+
+      `<div class="morph">${parts}<br>${v.note}</div>`;
+    wrap.appendChild(d);
+  });
+}
+el("markStudiedBtn").addEventListener("click",()=>{
+  S.studied=true; if(!S.startedAt) S.startedAt=Date.now(); save(); startSlides();
+});
+
+/* ================= STEP 2 · SLIDES ================= */
+let curSlide = 0;
+
+function setPresent(on){
+  document.body.classList.toggle("present", !!on);
+  el("presentBtn").textContent = on ? "Exit present mode" : "Present mode";
+}
+el("presentBtn").addEventListener("click",()=>setPresent(!document.body.classList.contains("present")));
+
+function slideHTML(sl, i){
+  return `<div class="of">Slide ${i+1} of ${SLIDES.length}</div>
+    <h2>${sl.title}</h2>
+    <p class="lead">${sl.lead}</p>
+    <div class="pts">${sl.pts.map(p=>`<div><span class="b">${esc(p[0])}</span><span>${p[1]}</span></div>`).join("")}</div>
+    ${sl.pull?`<div class="pull"><span>${esc(sl.pull.lbl)}</span>${sl.pull.t}</div>`:""}
+    <p class="srcline">${esc(sl.src)}</p>`;
+}
+
+function startSlides(){
+  if(!S.startedAt){ S.startedAt=Date.now(); save(); }
+  if(!S.checkDone && S.slidesDone && confirmSkip()){ startCheck(); return; }
+  curSlide = 0; go("slides"); renderSlide();
+}
+function confirmSkip(){
+  return confirm("You've already been through the slides. Go straight to the checkpoint questions?\n\nOK = go to questions.  Cancel = read the slides again.");
+}
+
+function renderSlide(){
+  const sl = SLIDES[curSlide];
+  el("slide-body").innerHTML = slideHTML(sl, curSlide);
+  el("slide-prog").textContent = `STEP 2 · SLIDE ${curSlide+1}/${SLIDES.length}`;
+  if(!S.slidesSeen.includes(sl.id)){ S.slidesSeen.push(sl.id); save(); }
+  const pips = el("slide-pips"); pips.innerHTML="";
+  SLIDES.forEach((s,i)=>{
+    const p=document.createElement("button");
+    p.type="button";
+    p.className="pip"+(S.slidesSeen.includes(s.id)?" seen":"")+(i===curSlide?" now":"");
+    p.title = `Slide ${i+1}: ${s.title}`;
+    p.setAttribute("aria-label", `Go to slide ${i+1}: ${s.title}`);
+    p.addEventListener("click",()=>{ curSlide=i; renderSlide(); });
+    pips.appendChild(p);
+  });
+  el("slidePrev").disabled = curSlide===0;
+  const last = curSlide===SLIDES.length-1;
+  el("slideNext").textContent = last
+    ? (S.checkDone ? "Back to the checkpoint summary →" : "Start the checkpoint questions →")
+    : "Next →";
+  const skip = el("slideToQ");
+  skip.hidden = !(S.slidesDone || S.checkDone);
+  skip.textContent = S.checkDone ? "Checkpoint summary →" : "Skip to the questions →";
+  el("slideFoot").textContent = S.checkDone
+    ? ""
+    : (last
+      ? `${SLIDES.length} checkpoint questions follow, one per slide.`
+      : "");
+}
+el("slideToQ").addEventListener("click",()=>{ S.slidesDone=true; save(); setPresent(false); startCheck(); });
+el("slidePrev").addEventListener("click",()=>{ if(curSlide>0){ curSlide--; renderSlide(); } });
+el("slideNext").addEventListener("click",()=>{
+  if(curSlide < SLIDES.length-1){ curSlide++; renderSlide(); }
+  else { S.slidesDone=true; save(); setPresent(false); startCheck(); }
+});
+document.addEventListener("keydown",(e)=>{
+  if(!el("scr-slides").classList.contains("active")) return;
+  if(e.key==="ArrowRight"){ el("slideNext").click(); }
+  if(e.key==="ArrowLeft"){ el("slidePrev").click(); }
+  if(e.key==="Escape" && document.body.classList.contains("present")) setPresent(false);
+});
+
+/* ---------- checkpoints ---------- */
+function startCheck(){
+  go("check");
+  const queue = SLIDES.filter(s=>!S.done[s.id]);
+  if(!queue.length){ finishCheck(); return; }
+  checkNext(queue.slice());
+}
+function checkProgress(){
+  const done = SLIDES.filter(s=>S.done[s.id]).length;
+  el("check-prog").textContent = `STEP 2 · CHECKPOINTS · cleared ${done}/${SLIDES.length}`;
+}
+
+function checkNext(queue){
+  checkProgress();
+  if(!queue.length){ finishCheck(); return; }
+  const sl = queue.shift();
+  const i = SLIDES.indexOf(sl);
+  const body = el("check-body");
+  const q = sl.q;
+  const isFirst = S.first[sl.id]===undefined;
+
+  body.innerHTML =
+    `<div class="stagepath">${SLIDES.map(s=>
+      `<span class="spip${S.done[s.id]?" done":""}${s.id===sl.id?" now":""}">${SLIDES.indexOf(s)+1}</span>`).join("")}</div>
+     <p class="prompt">Checkpoint · slide ${i+1} · ${esc(sl.title)}</p>
+     <p class="qtext">${q.q}</p>
+     <div id="ansarea"></div>
+     <div class="feedback" id="fb"></div>
+     <div id="sbarea"></div>
+     <div class="nextrow noprint" id="nextrow"></div>`;
+
+  const ansarea = qc("#ansarea");
+  if(q.kind==="mcq"){
+    const order = shuffle(q.opts.map((t,idx)=>({t,idx})));
+    ansarea.className="opts";
+    order.forEach(o=>{
+      const b=document.createElement("button");
+      b.type="button"; b.className="opt"; b.innerHTML=o.t;
+      b.addEventListener("click",()=>judge(o.idx===q.a, b, order, q, sl, queue, isFirst, i));
+      ansarea.appendChild(b);
+    });
+  } else {
+    ansarea.className="numrow";
+    ansarea.innerHTML =
+      `<input type="text" inputmode="decimal" id="numin" placeholder="?" autocomplete="off">
+       <span class="unit">${esc(q.unit||"")}</span>
+       <button class="btn btn-primary" id="numgo" type="button">Check</button>
+       ${q.hint?`<div class="muted" style="flex-basis:100%;margin-top:6px">Hint: ${esc(q.hint)}</div>`:""}`;
+    const submit = ()=>{
+      const raw = qc("#numin").value.trim();
+      if(raw==="") return;
+      const v = parseFloat(raw.replace(/[^\d.\-]/g,""));
+      const ok = !isNaN(v) && Math.abs(v - q.a) <= (q.tol!=null?q.tol:0.001);
+      qc("#numin").disabled = true; qc("#numgo").disabled = true;
+      judge(ok, null, null, q, sl, queue, isFirst, i);
+    };
+    qc("#numgo").addEventListener("click",submit);
+    qc("#numin").addEventListener("keydown",(e)=>{ if(e.key==="Enter") submit(); });
+    setTimeout(()=>{ const n=qc("#numin"); if(n) n.focus(); },40);
+  }
+}
+
+function judge(correct, btn, order, q, sl, queue, isFirst, slideIndex){
+  if(isFirst){ S.first[sl.id] = correct; }
+  const fb = qc("#fb");
+  const nextrow = qc("#nextrow");
+
+  if(q.kind==="mcq"){
+    const opts = [...qc("#ansarea").querySelectorAll(".opt")];
+    opts.forEach((b,pos)=>{
+      b.disabled = true;
+      if(order[pos].idx === q.a) b.classList.add("right");
+      if(b===btn && !correct) b.classList.add("wrongpick");
+    });
+  }
+
+  if(correct){
+    S.done[sl.id] = true; save();
+    fb.className = "feedback ok";
+    fb.innerHTML = `<b>Correct.</b> ${q.explain}`;
+    const b=document.createElement("button");
+    b.type="button"; b.className="btn btn-primary"; b.textContent="Next →";
+    b.addEventListener("click",()=>checkNext(queue));
+    nextrow.appendChild(b);
+    checkProgress();
+  } else {
+    S.sendbacks = (S.sendbacks||0)+1; save();
+    fb.className = "feedback bad";
+    fb.innerHTML = `<b>Not right.</b> ${q.explain}`;
+    queue.push(sl);
+    renderSendback(sl, slideIndex, queue);
+  }
+}
+
+function renderSendback(sl, i, queue){
+  const DWELL = 8;
+  const area = qc("#sbarea");
+  area.innerHTML =
+    `<div class="sendback">
+       <div class="hd">Back to slide ${i+1} — read it again</div>
+       <div class="slidecopy">
+         <h4>${esc(sl.title)}</h4>
+         <p style="margin-bottom:8px">${sl.lead}</p>
+         <div class="pts">${sl.pts.map(p=>`<div><span class="b">${esc(p[0])}</span><span>${p[1]}</span></div>`).join("")}</div>
+         ${sl.pull?`<div class="pull" style="margin-top:10px"><span>${esc(sl.pull.lbl)}</span>${sl.pull.t}</div>`:""}
+       </div>
+       <p class="dwell" id="dwelltxt">You can continue in ${DWELL} seconds.</p>
+     </div>`;
+  const nextrow = qc("#nextrow");
+  const b=document.createElement("button");
+  b.type="button"; b.className="btn btn-primary"; b.disabled=true;
+  b.textContent = "I've re-read it — the question comes back later";
+  nextrow.appendChild(b);
+  let left = DWELL;
+  const t = setInterval(()=>{
+    left--;
+    const d = qc("#dwelltxt");
+    if(left<=0){
+      clearInterval(t);
+      if(d) d.textContent = "Re-read done. This question will come back before the section is finished.";
+      b.disabled = false;
+    } else if(d){ d.textContent = `You can continue in ${left} second${left===1?"":"s"}.`; }
+  },1000);
+  b.addEventListener("click",()=>checkNext(queue));
+}
+
+function finishCheck(){
+  S.checkDone = true; save();
+  const got = checkFirstCount(), tot = SLIDES.length;
+  const pct = Math.round(100*got/tot);
+  const cls = pct>=80?"good":(pct>=60?"mid":"low");
+  el("check-body").innerHTML =
+    `<div class="sumbox"><div class="big ${cls}">${got}/${tot}</div>
+      <p class="muted">first-attempt on the briefing checkpoints · ${pct}%</p>
+      <p class="muted" style="margin-top:8px">You were sent back to a slide
+        <b>${S.sendbacks||0}</b> time${(S.sendbacks||0)===1?"":"s"}. Every question has now been cleared.</p></div>
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" data-go2="home" type="button">Home</button>
+       <button class="btn btn-ghost" id="reviewSlides" type="button">Review the slides</button>
+       <button class="btn btn-primary" id="toBuild" type="button">On to the word builders →</button>
+     </div>`;
+  el("check-body").querySelector("[data-go2]").addEventListener("click",()=>go("home"));
+  qc("#reviewSlides").addEventListener("click",()=>{ curSlide=0; go("slides"); renderSlide(); });
+  qc("#toBuild").addEventListener("click",()=>startBuild());
+}
+
+/* ================= STEP 3 · WORD BUILDERS ================= */
+function buildDots(curW){
+  return `<div class="buildprog">`+WORDS.map(w=>
+    `<span class="bdot${S.buildDone[w.w]?" done":""}${w.w===curW?" now":""}"></span>`).join("")+`</div>`;
+}
+function startBuild(){
+  go("build");
+  const queue = WORDS.filter(w=>!S.buildDone[w.w]);
+  if(!queue.length){ finishBuild(); return; }
+  buildNext(shuffle(queue));
+}
+function buildNext(queue){
+  el("build-prog").textContent = `STEP 3 · WORD BUILDERS · built ${buildCount()}/${WORDS.length}`;
+  if(!queue.length){ finishBuild(); return; }
+  const b = queue.shift();
+  renderBuild(b, queue);
+}
+
+function renderBuild(b, queue){
+  const body = el("build-body");
+  const bank = shuffle(b.tiles.concat(b.decoys));
+  let pos = 0;
+  let clean = true;
+
+  body.innerHTML =
+    buildDots(b.w)+
+    `<p class="prompt">Build the word from its morphemes</p>
+     <p class="buildword">${esc(b.meaning)}</p>
+     <p class="muted" style="text-align:center;margin-bottom:6px">${esc(b.pos)} · ${b.tiles.length} morpheme${b.tiles.length===1?"":"s"} · the bank contains decoys that belong to other words</p>
+     <div class="slots" id="slots">${b.tiles.map((_,i)=>`<div class="slot" id="slot${i}">${i+1}</div>`).join("")}</div>
+     <div class="bank" id="bank"></div>
+     <div class="glosses" id="glosses"></div>
+     <div class="reveal" id="reveal"></div>
+     <div class="nextrow noprint" id="nextrow"></div>`;
+
+  const bankEl = qb("#bank");
+  bank.forEach(t=>{
+    const btn=document.createElement("button");
+    btn.type="button"; btn.className="tile"; btn.textContent=t[0];
+    btn.title = t[1];
+    btn.addEventListener("click",()=>{
+      if(pos >= b.tiles.length) return;
+      if(t[0] === b.tiles[pos][0]){
+        const slot = qb("#slot"+pos);
+        slot.textContent = t[0];
+        slot.classList.add("filled");
+        btn.disabled = true;
+        const g = qb("#glosses");
+        g.innerHTML += `<div><b>${esc(t[0])}</b> — ${esc(t[1])}</div>`;
+        pos++;
+        if(pos === b.tiles.length) revealBuild(b, queue, clean);
+      } else {
+        clean = false;
+        btn.classList.add("shake");
+        setTimeout(()=>btn.classList.remove("shake"),320);
+        const g = qb("#glosses");
+        if(!g.dataset.warned){
+          g.dataset.warned = "1";
+          g.innerHTML = `<div style="color:var(--wrong)"><b>Not that piece.</b> Morphemes go in order: what comes first in the word?</div>` + g.innerHTML;
+        }
+      }
+    });
+    bankEl.appendChild(btn);
+  });
+}
+
+function revealBuild(b, queue, clean){
+  if(S.buildFirst[b.w]===undefined) S.buildFirst[b.w] = clean;
+  S.buildDone[b.w] = true; save();
+  const r = qb("#reveal");
+  r.className = "reveal show";
+  r.innerHTML = `<b style="font-family:Georgia,serif;font-size:17px">${esc(b.w)}</b><br>${b.note}`;
+  const nextrow = qb("#nextrow");
+  const btn=document.createElement("button");
+  btn.type="button"; btn.className="btn btn-primary";
+  btn.textContent = queue.length ? "Next word →" : "Finish →";
+  btn.addEventListener("click",()=>buildNext(queue));
+  nextrow.appendChild(btn);
+  el("build-prog").textContent = `STEP 3 · WORD BUILDERS · built ${buildCount()}/${WORDS.length}`;
+}
+
+function finishBuild(){
+  S.done.build = true; save();
+  const cleanN = buildFirstCount();
+  const pct = Math.round(100*cleanN/WORDS.length);
+  const cls = pct>=80?"good":(pct>=60?"mid":"low");
+  el("build-body").innerHTML =
+    `<div class="sumbox"><div class="big ${cls}">${cleanN}/${WORDS.length}</div>
+      <p class="muted">words built with no wrong tile on the first pass · ${pct}%</p>
+      <p class="muted" style="margin-top:8px">The tiles you rejected belong to real words:
+        <i>chromosome</i>, <i>carnivore</i>, <i>community</i>, <i>prospect</i>, <i>except</i>, <i>resilient</i>.</p></div>
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="bHome" type="button">Home</button>
+       <button class="btn btn-primary" id="toDecode" type="button">Work it through →</button>
+     </div>`;
+  el("bHome").addEventListener("click",()=>go("home"));
+  el("toDecode").addEventListener("click",()=>startDecode());
+}
+
+/* ================= STEP 4 · DECODE ================= */
+function startDecode(){
+  go("decode");
+  const body = el("decode-body");
+  body.innerHTML =
+    `<div class="teach">${esc(SCENARIO)}</div>
+     ${DECODE.map((d,i)=>{
+        const st = S.decode[d.w]||{};
+        return `<div class="decword">${esc(d.w)}</div>
+        <p class="qtext" style="margin-bottom:8px">${esc(d.prompt)}</p>
+        <textarea class="dec" id="dec${i}">${esc(st.text||"")}</textarea>
+        <div class="nextrow noprint" style="justify-content:flex-start">
+          <button class="btn btn-ghost" id="decBtn${i}" type="button">Show the criteria</button>
+        </div>
+        <div class="crit" id="crit${i}">${d.crit}
+          <div class="selfmark noprint">
+            <label><input type="radio" name="sm${i}" value="hit" ${st.mark==="hit"?"checked":""}> Mine does all of that</label>
+            <label><input type="radio" name="sm${i}" value="part" ${st.mark==="part"?"checked":""}> Partly</label>
+            <label><input type="radio" name="sm${i}" value="miss" ${st.mark==="miss"?"checked":""}> Mine is the near-miss</label>
+          </div>
+        </div>`;
+     }).join("")}
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="decHome" type="button">Home</button>
+       <button class="btn btn-primary" id="decFinish" type="button">Finish this step →</button>
+     </div>`;
+
+  DECODE.forEach((d,i)=>{
+    const ta = el("dec"+i);
+    ta.addEventListener("input",()=>{
+      S.decode[d.w] = S.decode[d.w]||{};
+      S.decode[d.w].text = ta.value; save();
+    });
+    const btn = el("decBtn"+i);
+    const openCrit = ()=>{
+      if(ta.value.trim().length < 20){
+        ta.focus();
+        ta.placeholder = "Write your answer first.";
+        return;
+      }
+      el("crit"+i).classList.add("show");
+      btn.disabled = true;
+    };
+    btn.addEventListener("click",openCrit);
+    if((S.decode[d.w]||{}).mark){ el("crit"+i).classList.add("show"); btn.disabled=true; }
+    document.querySelectorAll(`input[name="sm${i}"]`).forEach(r=>{
+      r.addEventListener("change",()=>{
+        S.decode[d.w] = S.decode[d.w]||{};
+        S.decode[d.w].mark = r.value; save();
+      });
+    });
+  });
+  el("decHome").addEventListener("click",()=>go("home"));
+  el("decFinish").addEventListener("click",()=>{
+    const missing = DECODE.find((d,i)=>{
+      const st = S.decode[d.w]||{};
+      return !(st.text && st.text.trim().length>=20 && st.mark);
+    });
+    if(missing){
+      alert("For each one: write your answer, open the criteria, and mark yourself.");
+      return;
+    }
+    S.decodeDone = true; save(); startAudit();
+  });
+}
+
+/* ================= STEP 5 · AUDIT ================= */
+function auditStage(idx){
+  if(idx >= AUDIT.length){ finishAudit(); return; }
+  const sec = AUDIT[idx];
+  runAuditSet(sec, false, idx);
+}
+function startAudit(){
+  go("audit");
+  const nextIdx = AUDIT.findIndex(sec=>!S.done["sec_"+sec.id]);
+  auditStage(nextIdx === -1 ? AUDIT.length : nextIdx);
+}
+function auditProgress(sec, cleared, total){
+  el("audit-prog").textContent = `STEP 5 · ${sec.title.toUpperCase()} · cleared ${cleared}/${total}`;
+}
+
+function runAuditSet(sec, isRetry, idx){
+  const items = isRetry ? sec.itemsB : sec.itemsA;
+  const shadow = {};
+  let queue = shuffle(items.slice());
+  let cleared = 0;
+  const total = items.length;
+  const body = el("audit-body");
+
+  function showTeach(){
+    body.innerHTML =
+      `<div class="stagepath">${AUDIT.map(s=>
+        `<span class="spip${S.done["sec_"+s.id]?" done":""}${s.id===sec.id?" now":""}">${esc(s.title)}</span>`).join("")}</div>
+       <h2>${esc(sec.title)}${isRetry?" — second set":""}</h2>
+       <div class="teach">${isRetry?sec.reteach:sec.teach}</div>
+       <p class="muted">${total} questions. Your <b>first attempt</b> on each is what the report records; anything you
+         get wrong comes back until you clear it.</p>
+       <div class="nextrow noprint"><button class="btn btn-primary" id="auStart" type="button">Start →</button></div>`;
+    el("auStart").addEventListener("click",()=>next());
+  }
+
+  function next(){
+    auditProgress(sec, cleared, total);
+    if(!queue.length){ done(); return; }
+    const it = queue.shift();
+    const isFirstOverall = S.first[it.id]===undefined;
+    const isFirstInSet   = shadow[it.id]===undefined;
+
+    body.innerHTML =
+      `<div class="stagepath">${AUDIT.map(s=>
+        `<span class="spip${S.done["sec_"+s.id]?" done":""}${s.id===sec.id?" now":""}">${esc(s.title)}</span>`).join("")}</div>
+       <p class="prompt">${esc(sec.title)}${isRetry?" · second set":""} · cleared ${cleared}/${total}</p>
+       <p class="qtext">${it.q}</p>
+       <div id="ansarea"></div>
+       <div class="feedback" id="fb"></div>
+       <div class="nextrow noprint" id="nextrow"></div>`;
+
+    const ansarea = qa("#ansarea");
+
+    function settle(ok){
+      if(isFirstOverall) S.first[it.id] = ok;
+      if(isFirstInSet)   shadow[it.id] = ok;
+      save();
+      const fb = qa("#fb");
+      fb.className = "feedback " + (ok?"ok":"bad");
+      fb.innerHTML = `<b>${ok?"Correct.":"Not right."}</b> ${it.explain}`;
+      if(ok) cleared++; else queue.push(it);
+      const b=document.createElement("button");
+      b.type="button"; b.className="btn btn-primary";
+      b.textContent = (queue.length||!ok) ? "Next →" : "Finish the section →";
+      b.addEventListener("click",()=>next());
+      qa("#nextrow").appendChild(b);
+      auditProgress(sec, cleared, total);
+    }
+
+    if(it.kind==="mcq"){
+      const order = shuffle(it.opts.map((t,i)=>({t,i})));
+      ansarea.className="opts";
+      order.forEach(o=>{
+        const b=document.createElement("button");
+        b.type="button"; b.className="opt"; b.innerHTML=o.t;
+        b.addEventListener("click",()=>{
+          const ok = o.i===it.a;
+          [...ansarea.querySelectorAll(".opt")].forEach((x,pos)=>{
+            x.disabled=true;
+            if(order[pos].i===it.a) x.classList.add("right");
+            if(x===b && !ok) x.classList.add("wrongpick");
+          });
+          settle(ok);
+        });
+        ansarea.appendChild(b);
+      });
+    } else {
+      ansarea.className="numrow";
+      ansarea.innerHTML =
+        `<input type="text" inputmode="decimal" id="numin" placeholder="?" autocomplete="off">
+         <span class="unit">${esc(it.unit||"")}</span>
+         <button class="btn btn-primary" id="numgo" type="button">Check</button>
+         ${it.hint?`<div class="muted" style="flex-basis:100%;margin-top:6px">Hint: ${esc(it.hint)}</div>`:""}`;
+      const submit = ()=>{
+        const raw = qa("#numin").value.trim();
+        if(raw==="") return;
+        const v = parseFloat(raw.replace(/[^\d.\-]/g,""));
+        const ok = !isNaN(v) && Math.abs(v - it.a) <= (it.tol!=null?it.tol:0.001);
+        qa("#numin").disabled=true; qa("#numgo").disabled=true;
+        settle(ok);
+      };
+      qa("#numgo").addEventListener("click",submit);
+      qa("#numin").addEventListener("keydown",(e)=>{ if(e.key==="Enter") submit(); });
+      setTimeout(()=>{ const n=qa("#numin"); if(n) n.focus(); },40);
+    }
+  }
+
+  function done(){
+    const got = items.filter(it=>shadow[it.id]===true).length;
+    const passed = got >= Math.ceil(total*0.8);
+    const pct = Math.round(100*got/total);
+    const cls = pct>=80?"good":(pct>=60?"mid":"low");
+
+    if(isRetry){ S.retryScores[sec.id] = got; }
+
+    if(!passed && !isRetry){
+      S.reteach[sec.id] = true; save();
+      body.innerHTML =
+        `<div class="sumbox"><div class="big ${cls}">${got}/${total}</div>
+          <p class="muted">first attempts on this set · ${pct}% — below the 80% you need to move on</p></div>
+         <div class="teach"><b>Reteach.</b> ${sec.reteach}</div>
+         <p class="muted">A <b>fresh set</b> of ${sec.itemsB.length} questions on the same skills follows. Your original
+           score stays on the report; this second attempt is recorded beside it.</p>
+         <div class="nextrow noprint">
+           <button class="btn btn-primary" id="auRetry" type="button">Start the fresh set →</button></div>`;
+      el("auRetry").addEventListener("click",()=>runAuditSet(sec, true, idx));
+      return;
+    }
+
+    S.done["sec_"+sec.id] = true; save();
+    const last = idx >= AUDIT.length-1;
+    body.innerHTML =
+      `<div class="sumbox"><div class="big ${cls}">${got}/${total}</div>
+        <p class="muted">first attempts on ${isRetry?"the fresh set":"this section"} · ${pct}%</p>
+        ${isRetry?`<p class="muted" style="margin-top:8px">Both scores go on your report — the original and this one.</p>`:""}</div>
+       <div class="nextrow noprint">
+         <button class="btn btn-ghost" id="auHome" type="button">Home</button>
+         <button class="btn btn-primary" id="auNext" type="button">${last?"Go to my report →":"Next section →"}</button>
+       </div>`;
+    el("auHome").addEventListener("click",()=>go("home"));
+    el("auNext").addEventListener("click",()=>{ last ? finishAudit() : auditStage(idx+1); });
+  }
+
+  showTeach();
+}
+
+function finishAudit(){
+  S.done.audit = true; S.finishedAt = Date.now(); save();
+  go("report");
+}
+
+/* ================= REPORT ================= */
+function vcode(str){
+  let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h+str.charCodeAt(i))|0; }
+  return Math.abs(h).toString(36).toUpperCase().padStart(6,"0").slice(0,6);
+}
+const MARKLBL = { hit:"met the criteria (self-marked)", part:"partly met the criteria (self-marked)", miss:"was the near-miss (self-marked)" };
+
+function renderReport(){
+  const rows = [];
+
+  rows.push(S.intro
+    ? `<tr><td>Before the session</td><td class="score">✓</td><td>Listed ways to cope before the lesson. Printed below</td></tr>`
+    : `<tr><td>Before the session</td><td class="nf">not done</td><td class="nf">—</td></tr>`);
+
+  rows.push(S.studied
+    ? `<tr><td>Word list read</td><td class="score">✓</td><td>Ten words with their morphemes</td></tr>`
+    : `<tr><td>Word list read</td><td class="nf">not yet</td><td class="nf">—</td></tr>`);
+
+  if(S.checkDone || Object.keys(S.first).some(k=>SLIDES.find(s=>s.id===k))){
+    const got = checkFirstCount();
+    const attempted = SLIDES.filter(s=>S.first[s.id]!==undefined).length;
+    rows.push(`<tr><td>Briefing checkpoints</td><td class="score">${got}/${attempted||SLIDES.length}</td>
+      <td>${S.checkDone?"Complete":"NOT FINISHED"} · first attempts · sent back to a slide
+      <b>${S.sendbacks||0}</b> time${(S.sendbacks||0)===1?"":"s"}</td></tr>`);
+  } else {
+    rows.push(`<tr><td>Briefing checkpoints</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+  }
+
+  if(buildCount()){
+    rows.push(`<tr><td>Word builders</td><td class="score">${buildFirstCount()}/${WORDS.length}</td>
+      <td>${S.done.build?"Complete":"NOT FINISHED — "+buildCount()+" of "+WORDS.length+" built"}
+      · built with no wrong tile on the first pass</td></tr>`);
+  } else {
+    rows.push(`<tr><td>Word builders</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+  }
+
+  DECODE.forEach(d=>{
+    const st = S.decode[d.w];
+    if(st && st.mark){
+      rows.push(`<tr><td>Work it through: ${esc(d.w)}</td><td class="score">${st.mark==="hit"?"✓":(st.mark==="part"?"◐":"✗")}</td>
+        <td>${MARKLBL[st.mark]}</td></tr>`);
+    } else {
+      rows.push(`<tr><td>Work it through: ${esc(d.w)}</td><td class="nf">not done</td><td class="nf">—</td></tr>`);
+    }
+  });
+
+  AUDIT.forEach(sec=>{
+    const items = sec.itemsA;
+    const att = items.filter(it=>S.first[it.id]!==undefined);
+    if(!att.length){
+      rows.push(`<tr><td>Audit — ${esc(sec.title)}</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+      return;
+    }
+    const got = items.filter(it=>S.first[it.id]===true).length;
+    const note = S.reteach[sec.id]
+      ? `Below 80% — reteach given, fresh set scored ${S.retryScores[sec.id]!==undefined?S.retryScores[sec.id]+"/"+sec.itemsB.length:"—"}`
+      : (S.done["sec_"+sec.id] ? "Passed first time" : "NOT FINISHED");
+    rows.push(`<tr><td>Audit — ${esc(sec.title)}</td><td class="score">${got}/${items.length}</td><td>${note}</td></tr>`);
+  });
+
+  const allItems = auditItems();
+  const attempted = allItems.filter(it=>S.first[it.id]!==undefined);
+  const totGot = attempted.filter(it=>S.first[it.id]===true).length;
+  const slideAtt = SLIDES.filter(s=>S.first[s.id]!==undefined);
+  const slideGot = slideAtt.filter(s=>S.first[s.id]===true).length;
+  const grandAtt = attempted.length + slideAtt.length;
+  const grandGot = totGot + slideGot;
+
+  const decTexts = DECODE.map(d=>{
+    const st=S.decode[d.w];
+    return st&&st.text?`<p style="margin:6px 0"><b>${esc(d.w)}:</b> ${esc(st.text)}</p>`:"";
+  }).join("");
+
+  el("report-body").innerHTML =
+    `<h2>My report</h2>
+     <div class="idrow noprint">
+       <div><label for="rName">Name</label><input id="rName" value="${esc(S.name)}" placeholder="Your name"></div>
+       <div><label for="rSid">Student ID</label><input id="rSid" value="${esc(S.sid)}" placeholder="ID"></div>
+     </div>
+     <p style="font-size:14px;margin:8px 0"><b>${esc(S.name)||"__________________"}</b>
+        &nbsp;·&nbsp; ID ${esc(S.sid)||"____________"}
+        &nbsp;·&nbsp; Stress Lab · Work &amp; Life Education</p>
+
+     <table class="repgrid">
+       <thead><tr><th>Task</th><th>Score</th><th>Notes</th></tr></thead>
+       <tbody>
+         ${rows.join("")}
+         <tr><td><b>All scored questions</b></td>
+             <td class="score"><b>${grandAtt?`${grandGot}/${grandAtt}`:"—"}</b></td>
+             <td>${grandAtt?`<b>${Math.round(100*grandGot/grandAtt)}%</b> on first attempts — every attempted question was then cleared through the retry loop`:"Nothing attempted yet"}</td></tr>
+       </tbody>
+     </table>
+     <p class="muted">Verification code <span class="vcode">${vcode(`${S.name}|${S.sid}|${grandGot}|${grandAtt}|${S.sendbacks||0}|${buildFirstCount()}`)}</span>
+       · Scores are <b>first attempts</b>; wrong answers looped until mastered. Written answers are the student's own
+       words, self-marked against stated criteria. The page does not judge writing.
+       ${Object.keys(S.reteach).length?" A reteach and fresh question set were used.":""}</p>
+
+     ${S.introText?`<div class="sheet"><h3>Ways to cope, before the lesson (verbatim)</h3><p style="margin:6px 0">${esc(S.introText)}</p></div>`:""}
+     ${decTexts?`<div class="sheet"><h3>Work it through (verbatim)</h3>${decTexts}</div>`:""}
+
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="rHome" type="button">Home</button>
+       <button class="btn btn-ghost" id="rCopy" type="button">Copy row for class sheet</button>
+       <button class="btn btn-primary" id="rPrint" type="button">Print report</button>
+     </div>
+     <p class="muted noprint" id="copyNote"></p>
+
+     <details class="tnote noprint">
+       <summary>For teachers</summary>
+       <div class="in">
+         <ol>
+           <li><b>Before the lab.</b> The stress curve was done in class, so it isn't repeated here. The intro screen asks students to list ways to cope; it comes back on the report so you can compare before and after.</li>
+           <li><b>Step 1 · 5 min.</b> Word list. Prefix, root and suffix are colour-coded.</li>
+           <li><b>Step 2 · 25 min.</b> Present mode for the nine slides (arrow keys, Esc to exit), then students do the checkpoints on their own devices. A wrong answer reprints the slide with an 8-second re-read and the question comes back later.</li>
+           <li><b>Step 3 · 10 min.</b> Word builders. Decoy tiles come from real neighbouring words.</li>
+           <li><b>Step 4 · 15 min.</b> Work it through. One scenario, three written answers. Students can't see the criteria until they've written something, then they self-mark. The report labels it as self-marked.</li>
+           <li><b>Step 5 · 15 min.</b> Audit. Under 80% on a section gives a reteach and a fresh set; both scores go on the report.</li>
+           <li><b>Report.</b> "Copy row for class sheet" puts one tab-separated row on the clipboard. Paste it into a shared spreadsheet and each student lands on their own row. Columns: name, ID, date, briefing first try, send-backs, words built clean, audit section 1, audit section 2, reteach used, minutes, self-marks, briefing misses, audit misses, coping list before, then the three written answers.</li>
+         </ol>
+         <p style="margin-top:10px"><b>What the report can't tell you:</b> whether a student had help, or whether a self-mark is honest. Scores are first attempts.</p>
+         <p style="margin-top:10px"><b>Wellbeing.</b> Nobody has to share personal experience; every task uses a fictional student. If a student says they're struggling, check in privately and follow your school's referral process.</p>
+       </div>
+     </details>
+
+     <p class="muted" style="margin-top:18px">Sources: ReachOut Schools, <i>What is stress?</i>; ReachOut, <i>What does
+       stress do to the body?</i>; <i>A step-by-step guide to problem solving</i>; <i>How acceptance can help you cope
+       with things out of your control</i>; ReachOut exam stress resources. If stress is getting too much: your
+       teacher or wellbeing team, Kids Helpline 1800 55 1800, headspace.org.au.</p>`;
+
+  el("rName").addEventListener("input",e=>{ S.name=e.target.value; save(); });
+  el("rSid").addEventListener("input",e=>{ S.sid=e.target.value; save(); });
+  el("rHome").addEventListener("click",()=>go("home"));
+  el("rPrint").addEventListener("click",()=>window.print());
+  el("rCopy").addEventListener("click",copyRow);
+}
+
+/* One tab-separated row per student: paste into a shared sheet and it lands
+   as one row. First attempts only; misses named, not just counted. */
+function classRow(){
+  const clean = t => String(t==null?"":t).replace(/[\t\r\n]+/g," ").trim();
+  const secScore = sec => {
+    const att = sec.itemsA.filter(it=>S.first[it.id]!==undefined);
+    return att.length ? `${sec.itemsA.filter(it=>S.first[it.id]===true).length}/${sec.itemsA.length}` : "";
+  };
+  const slideMiss = SLIDES.filter(s=>S.first[s.id]===false).map(s=>s.title).join("; ");
+  const auditMiss = AUDIT.flatMap(sec=>sec.itemsA.filter(it=>S.first[it.id]===false).map(()=>sec.title));
+  const missCount = {}; auditMiss.forEach(t=>missCount[t]=(missCount[t]||0)+1);
+  const mins = S.startedAt ? Math.round(((S.finishedAt||Date.now())-S.startedAt)/60000) : "";
+  const marks = DECODE.map(d=>{ const m=(S.decode[d.w]||{}).mark; return m==="hit"?"Y":m==="part"?"P":m==="miss"?"N":"-"; }).join("");
+  return [
+    S.name, S.sid, new Date().toLocaleDateString("en-AU"),
+    SLIDES.some(s=>S.first[s.id]!==undefined) ? `${checkFirstCount()}/${SLIDES.length}` : "",
+    S.sendbacks||0,
+    buildCount() ? `${buildFirstCount()}/${WORDS.length}` : "",
+    secScore(AUDIT[0]), secScore(AUDIT[1]),
+    Object.keys(S.reteach).length ? "yes" : "no",
+    mins, marks, slideMiss,
+    Object.entries(missCount).map(([k,v])=>`${k} x${v}`).join("; "),
+    S.introText,
+    ...DECODE.map(d=>(S.decode[d.w]||{}).text||"")
+  ].map(clean).join("\t");
+}
+function copyRow(){
+  const row = classRow();
+  const note = el("copyNote");
+  const done = ()=>{ note.textContent = "Copied. Paste it into the class sheet."; };
+  const fallback = ()=>{
+    const ta=document.createElement("textarea"); ta.value=row; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){ note.textContent = "Couldn't copy automatically. Select this row and copy it: " + row; }
+    ta.remove();
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(row).then(done, fallback); }
+  else fallback();
+}
+
+/* ================= BOOT ================= */
+el("introGo").addEventListener("click",()=>{
+  const t = el("introTxt").value.trim();
+  if(t.length < 15){
+    el("introTxt").placeholder = "Write at least a line.";
+    el("introTxt").focus();
+    return;
+  }
+  S.intro = true; S.introText = t; save(); go("home");
+});
+el("introTxt").addEventListener("input",()=>{ S.introText = el("introTxt").value; save(); });
+if(!S.intro){
+  el("introTxt").value = S.introText||"";
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  el("scr-intro").classList.add("active");
+} else {
+  renderHome();
+}
+</script>
+
+</body>
+</html>
