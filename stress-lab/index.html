@@ -16,6 +16,7 @@
     --gold:#8b681e; --gold-soft:#f6e7c2;
     --correct:#2f6a3e; --wrong:#a83232; --okbg:#eef5ee; --badbg:#f7ecec;
     --m-pre:#2d5fa8; --m-root:#a8442e; --m-suf:#2e7a57;
+    --m-pre-bg:#e6edf7; --m-root-bg:#f6e6e0; --m-suf-bg:#e2f1ea;
     --shadow:0 1px 2px rgba(31,31,31,.05),0 4px 14px rgba(31,31,31,.06);
   }
   @media (prefers-color-scheme:dark){
@@ -26,6 +27,7 @@
       --gold:#dcb355; --gold-soft:#372c11;
       --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
       --m-pre:#8fb4ee; --m-root:#eb9a7e; --m-suf:#83cba6;
+      --m-pre-bg:#1c2a40; --m-root-bg:#3a2119; --m-suf-bg:#173025;
       --shadow:0 1px 2px rgba(0,0,0,.45);
     }
   }
@@ -36,6 +38,8 @@
     --gold:#dcb355; --gold-soft:#372c11;
     --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
     --shadow:0 1px 2px rgba(0,0,0,.45);
+    --m-pre:#8fb4ee; --m-root:#eb9a7e; --m-suf:#83cba6;
+    --m-pre-bg:#1c2a40; --m-root-bg:#3a2119; --m-suf-bg:#173025;
   }
 
   *{margin:0;padding:0;box-sizing:border-box}
@@ -136,6 +140,53 @@
   .bdot.done{background:var(--correct);border-color:var(--correct)}
   .bdot.now{border-color:var(--accent);background:var(--paper);box-shadow:0 0 0 2px rgba(29,92,115,.25)}
 
+
+  /* ---------- board builder (from the Year 7 vocab hub) ---------- */
+  .boardhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .boardhead h2{margin:0}
+  .boardhead .mlegend{margin:0;padding:6px 12px}
+  .mbank{background:var(--bg);border:1px solid var(--line-soft);border-radius:10px;padding:12px;margin-bottom:10px;
+         position:sticky;top:6px;z-index:5}
+  .mgroup{margin-bottom:8px} .mgroup:last-child{margin-bottom:0}
+  .glabel{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+  .glabel.prefix{color:var(--m-pre)} .glabel.root{color:var(--m-root)} .glabel.suffix{color:var(--m-suf)}
+  .mtiles{display:flex;flex-wrap:wrap;gap:7px}
+  .mtile{border:1.5px solid;border-radius:9px;padding:7px 12px;display:inline-flex;flex-direction:column;align-items:center;
+         gap:1px;cursor:grab;touch-action:none;user-select:none;font:inherit;line-height:1.2}
+  .mtile .mm{font-weight:800;font-size:16px} .mtile .gl{font-size:10.5px;opacity:.85}
+  .mtile.prefix{color:var(--m-pre);background:var(--m-pre-bg);border-color:var(--m-pre)}
+  .mtile.root{color:var(--m-root);background:var(--m-root-bg);border-color:var(--m-root)}
+  .mtile.suffix{color:var(--m-suf);background:var(--m-suf-bg);border-color:var(--m-suf)}
+  .mtile.sel{outline:3px solid var(--ink);outline-offset:2px}
+  .mtile.dragging{opacity:.35}
+  .drag-ghost{position:fixed;transform:translate(-50%,-50%);z-index:999;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  .wtable{display:flex;flex-direction:column;gap:9px}
+  .wrow{display:flex;align-items:center;gap:12px;border:1px solid var(--line-soft);border-radius:10px;padding:10px 12px;
+        background:var(--paper);transition:opacity .3s,transform .3s}
+  .wrow.wrong{animation:shake .3s;border-color:var(--wrong)}
+  .wrow.done{border-color:var(--correct);background:var(--okbg)}
+  .wrow.gone{opacity:0;transform:translateX(40px)}
+  .wmean{flex:1 1 46%;min-width:190px;font-size:14.5px;line-height:1.45}
+  .wmean .pos{color:var(--muted);font-style:italic;font-size:12.5px}
+  .wslots{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .wjoin{color:var(--muted);font-weight:700}
+  .wslot{min-width:62px;min-height:46px;border:2px dashed var(--line);border-radius:8px;display:flex;align-items:center;
+         justify-content:center;padding:4px 8px;background:var(--bg);cursor:pointer;font:inherit;color:var(--ink)}
+  .wslot .ph{color:var(--muted);font-size:10.5px;letter-spacing:.3px}
+  .wslot .mm{font-weight:800;font-size:15px}
+  .wslot.over{border-color:var(--ink);background:var(--paper)}
+  .wslot.filled{border-style:solid}
+  .wslot.filled.prefix{border-color:var(--m-pre);background:var(--m-pre-bg);color:var(--m-pre)}
+  .wslot.filled.root{border-color:var(--m-root);background:var(--m-root-bg);color:var(--m-root)}
+  .wslot.filled.suffix{border-color:var(--m-suf);background:var(--m-suf-bg);color:var(--m-suf)}
+  .wbuilt{flex:1 1 46%;min-width:190px;text-align:right;display:none}
+  .wrow.done .wslots{display:none} .wrow.done .wbuilt{display:block}
+  .wbuilt .wname{font-family:Georgia,serif;font-weight:700;font-size:19px}
+  .wbuilt .wname .mp{color:var(--m-pre)} .wbuilt .wname .mr{color:var(--m-root)} .wbuilt .wname .ms{color:var(--m-suf)}
+  .wbuilt .wtick{color:var(--correct);font-weight:800;margin-left:4px}
+  .buildhint{font-size:13px;color:var(--wrong);text-align:center;min-height:18px;margin:2px 0 6px;font-weight:600}
+  @media (prefers-reduced-motion:reduce){ .wrow.wrong{animation:none} .wrow{transition:none} }
+  @media (max-width:560px){ .wmean,.wbuilt{min-width:0;flex-basis:100%} .wrow{flex-wrap:wrap} .mbank{position:static} }
   .vcard{border:1px solid var(--line-soft);border-radius:10px;padding:14px 16px;margin-bottom:10px;background:var(--paper)}
   .vcard .w{font-family:Georgia,serif;font-size:23px;font-weight:700}
   .vcard .w .mp{color:var(--m-pre)} .vcard .w .mr{color:var(--m-root)} .vcard .w .ms{color:var(--m-suf)}
@@ -1162,84 +1213,138 @@ function finishCheck(){
 }
 
 /* ================= STEP 3 · WORD BUILDERS ================= */
-function buildDots(curW){
-  return `<div class="buildprog">`+WORDS.map(w=>
-    `<span class="bdot${S.buildDone[w.w]?" done":""}${w.w===curW?" now":""}"></span>`).join("")+`</div>`;
-}
+/* Board builder, ported from the Year 7 vocab hub: every definition is on the
+   board at once, one shared bank of morphemes grouped by type, drag a piece
+   into a slot or tap a piece then tap a slot. A finished word ticks off and
+   leaves the board. Pieces are never used up, so a suffix can serve two words.
+   Ten words split into two boards of five so the bank stays readable. */
+const BOARDS = [WORDS.slice(0,5), WORDS.slice(5)];
+const MTYPES = [["prefix","Prefixes"],["root","Roots"],["suffix","Suffixes"]];
+function mtype(p){ return p.endsWith("-") ? "prefix" : (p.startsWith("-") ? "suffix" : "root"); }
+let bctx = { board:0, sel:null };
+
 function startBuild(){
   go("build");
-  const queue = WORDS.filter(w=>!S.buildDone[w.w]);
-  if(!queue.length){ finishBuild(); return; }
-  buildNext(shuffle(queue));
+  const bi = BOARDS.findIndex(b=>b.some(w=>!S.buildDone[w.w]));
+  if(bi === -1){ finishBuild(); return; }
+  renderBoard(bi);
 }
-function buildNext(queue){
+function buildProg(){
   el("build-prog").textContent = `STEP 3 · WORD BUILDERS · built ${buildCount()}/${WORDS.length}`;
-  if(!queue.length){ finishBuild(); return; }
-  const b = queue.shift();
-  renderBuild(b, queue);
 }
-
-function renderBuild(b, queue){
+function renderBoard(bi){
+  bctx = { board:bi, sel:null };
+  const words = BOARDS[bi];
+  const active = shuffle(words.filter(w=>!S.buildDone[w.w]));
+  const need = new Map();
+  words.forEach(w=>w.tiles.forEach(([p,g])=>{ if(!need.has(p)) need.set(p,g); }));
+  const pool = []; const seen = new Set(need.keys());
+  words.forEach(w=>(w.decoys||[]).forEach(([p,g])=>{ if(!seen.has(p)){ seen.add(p); pool.push([p,g]); } }));
+  const bank = [...need.entries()].concat(shuffle(pool).slice(0,3)).map(([p,g])=>({p,g,t:mtype(p)}));
+  const bankHtml = MTYPES.map(([t,lbl])=>{
+    const group = bank.filter(m=>m.t===t);
+    if(!group.length) return "";
+    return `<div class="mgroup"><div class="glabel ${t}">${lbl}</div><div class="mtiles">`+
+      shuffle(group).map(m=>`<button type="button" class="mtile ${m.t}" data-p="${esc(m.p)}" data-t="${m.t}">
+        <span class="mm">${esc(m.p)}</span><span class="gl">${esc(m.g)}</span></button>`).join("")+`</div></div>`;
+  }).join("");
+  const rows = active.map(w=>`<div class="wrow" data-w="${esc(w.w)}">
+      <div class="wmean"><span class="pos">${esc(w.pos)}</span>: ${esc(w.meaning)}</div>
+      <div class="wslots">${w.tiles.map((_,i)=>(i?`<span class="wjoin">+</span>`:"")+
+        `<button type="button" class="wslot" data-i="${i}" aria-label="slot ${i+1}"><span class="ph">drop</span></button>`).join("")}</div>
+      <div class="wbuilt"></div></div>`).join("");
+  el("build-body").innerHTML =
+    `<div class="boardhead">
+       <h2>Build the words${BOARDS.length>1?` · board ${bi+1} of ${BOARDS.length}`:""}</h2>
+       <div class="mlegend"><span class="mp">prefix</span><span class="mr">root</span><span class="ms">suffix</span></div>
+     </div>
+     <div class="mbank">${bankHtml}</div>
+     <div class="buildhint" id="buildhint" aria-live="polite"></div>
+     <div class="wtable" id="wtable">${rows}</div>`;
+  buildProg();
   const body = el("build-body");
-  const bank = shuffle(b.tiles.concat(b.decoys));
-  let pos = 0;
-  let clean = true;
-
-  body.innerHTML =
-    buildDots(b.w)+
-    `<p class="prompt">Build the word from its morphemes</p>
-     <p class="buildword">${esc(b.meaning)}</p>
-     <p class="muted" style="text-align:center;margin-bottom:6px">${esc(b.pos)} · ${b.tiles.length} morpheme${b.tiles.length===1?"":"s"} · the bank contains decoys that belong to other words</p>
-     <div class="slots" id="slots">${b.tiles.map((_,i)=>`<div class="slot" id="slot${i}">${i+1}</div>`).join("")}</div>
-     <div class="bank" id="bank"></div>
-     <div class="glosses" id="glosses"></div>
-     <div class="reveal" id="reveal"></div>
-     <div class="nextrow noprint" id="nextrow"></div>`;
-
-  const bankEl = qb("#bank");
-  bank.forEach(t=>{
-    const btn=document.createElement("button");
-    btn.type="button"; btn.className="tile"; btn.textContent=t[0];
-    btn.title = t[1];
-    btn.addEventListener("click",()=>{
-      if(pos >= b.tiles.length) return;
-      if(t[0] === b.tiles[pos][0]){
-        const slot = qb("#slot"+pos);
-        slot.textContent = t[0];
-        slot.classList.add("filled");
-        btn.disabled = true;
-        const g = qb("#glosses");
-        g.innerHTML += `<div><b>${esc(t[0])}</b> — ${esc(t[1])}</div>`;
-        pos++;
-        if(pos === b.tiles.length) revealBuild(b, queue, clean);
-      } else {
-        clean = false;
-        btn.classList.add("shake");
-        setTimeout(()=>btn.classList.remove("shake"),320);
-        const g = qb("#glosses");
-        if(!g.dataset.warned){
-          g.dataset.warned = "1";
-          g.innerHTML = `<div style="color:var(--wrong)"><b>Not that piece.</b> Morphemes go in order: what comes first in the word?</div>` + g.innerHTML;
-        }
-      }
+  body.querySelectorAll(".mtile").forEach(tile=>{
+    const info = { p:tile.dataset.p, t:tile.dataset.t };
+    tile.addEventListener("pointerdown", e=>{ if(e.button===0) dragTile(e, tile, info); });
+    tile.addEventListener("click", e=>{ if(e.detail===0) toggleSel(info); });   // keyboard
+  });
+  body.querySelectorAll(".wslot").forEach(slot=>{
+    slot.addEventListener("click", ()=>{
+      if(slot.dataset.p){ clearSlot(slot); return; }
+      if(bctx.sel){ const s=bctx.sel; toggleSel(null); fillSlot(slot, s); }
     });
-    bankEl.appendChild(btn);
   });
 }
-
-function revealBuild(b, queue, clean){
-  if(S.buildFirst[b.w]===undefined) S.buildFirst[b.w] = clean;
-  S.buildDone[b.w] = true; save();
-  const r = qb("#reveal");
-  r.className = "reveal show";
-  r.innerHTML = `<b style="font-family:Georgia,serif;font-size:17px">${esc(b.w)}</b><br>${b.note}`;
-  const nextrow = qb("#nextrow");
-  const btn=document.createElement("button");
-  btn.type="button"; btn.className="btn btn-primary";
-  btn.textContent = queue.length ? "Next word →" : "Finish →";
-  btn.addEventListener("click",()=>buildNext(queue));
-  nextrow.appendChild(btn);
-  el("build-prog").textContent = `STEP 3 · WORD BUILDERS · built ${buildCount()}/${WORDS.length}`;
+function toggleSel(info){
+  const same = info && bctx.sel && bctx.sel.p===info.p;
+  bctx.sel = same ? null : info;
+  el("build-body").querySelectorAll(".mtile").forEach(t=>t.classList.toggle("sel", !!bctx.sel && t.dataset.p===bctx.sel.p));
+}
+function dragTile(e, tile, info){
+  e.preventDefault();
+  const sx=e.clientX, sy=e.clientY; let moved=false, ghost=null;
+  try{ tile.setPointerCapture(e.pointerId); }catch(_){}
+  const slotAt = ev=>{ const n=document.elementFromPoint(ev.clientX, ev.clientY); return n ? n.closest("#build-body .wslot") : null; };
+  const clearOver = ()=>el("build-body").querySelectorAll(".wslot.over").forEach(s=>s.classList.remove("over"));
+  function mv(ev){
+    if(!moved && Math.hypot(ev.clientX-sx, ev.clientY-sy) > 6){
+      moved=true; tile.classList.add("dragging");
+      ghost=document.createElement("div"); ghost.className="drag-ghost mtile "+info.t;
+      ghost.innerHTML=tile.innerHTML; document.body.appendChild(ghost);
+    }
+    if(moved){ ghost.style.left=ev.clientX+"px"; ghost.style.top=ev.clientY+"px";
+      clearOver(); const s=slotAt(ev); if(s && !s.dataset.p) s.classList.add("over"); }
+  }
+  function up(ev){
+    tile.removeEventListener("pointermove", mv); tile.removeEventListener("pointerup", up);
+    try{ tile.releasePointerCapture(e.pointerId); }catch(_){}
+    if(moved){
+      tile.classList.remove("dragging"); ghost.remove(); clearOver();
+      const s=slotAt(ev); if(s && !s.dataset.p) fillSlot(s, info);
+    } else toggleSel(info);
+  }
+  tile.addEventListener("pointermove", mv); tile.addEventListener("pointerup", up);
+}
+function fillSlot(slot, info){
+  slot.dataset.p = info.p;
+  slot.className = "wslot filled "+info.t;
+  slot.innerHTML = `<span class="mm">${esc(info.p)}</span>`;
+  checkRow(slot.closest(".wrow"));
+}
+function clearSlot(slot){
+  delete slot.dataset.p;
+  slot.className = "wslot";
+  slot.innerHTML = `<span class="ph">drop</span>`;
+  el("buildhint").textContent = "";
+}
+function checkRow(row){
+  const w = WORDS.find(x=>x.w===row.dataset.w);
+  const slots = [...row.querySelectorAll(".wslot")];
+  if(slots.some(s=>!s.dataset.p)) return;
+  const placed = slots.map(s=>s.dataset.p), answer = w.tiles.map(t=>t[0]);
+  const hint = el("buildhint");
+  if(placed.every((p,i)=>p===answer[i])){
+    hint.textContent = "";
+    if(S.buildFirst[w.w]===undefined) S.buildFirst[w.w] = true;
+    S.buildDone[w.w] = true; save(); buildProg();
+    row.classList.add("done");
+    row.querySelector(".wbuilt").innerHTML = `<span class="wname">${colourWord(w)}</span> <span class="wtick">&#10003;</span>`;
+    setTimeout(()=>{ row.classList.add("gone");
+      setTimeout(()=>{ row.remove();
+        if(!document.querySelector("#wtable .wrow")){
+          const next = BOARDS.findIndex(b=>b.some(x=>!S.buildDone[x.w]));
+          next === -1 ? finishBuild() : renderBoard(next);
+        }
+      }, 300);
+    }, 900);
+  } else {
+    if(S.buildFirst[w.w]===undefined){ S.buildFirst[w.w] = false; save(); }
+    row.classList.add("wrong"); setTimeout(()=>row.classList.remove("wrong"), 320);
+    const sameSet = [...placed].sort().join("~")===[...answer].sort().join("~");
+    hint.innerHTML = sameSet
+      ? "Right pieces, wrong order. Prefix, then root, then suffix. Tap a slot to send its piece back."
+      : "Not a match yet. Reread the meaning. Tap a slot to send its piece back.";
+  }
 }
 
 function finishBuild(){
@@ -1249,9 +1354,7 @@ function finishBuild(){
   const cls = pct>=80?"good":(pct>=60?"mid":"low");
   el("build-body").innerHTML =
     `<div class="sumbox"><div class="big ${cls}">${cleanN}/${WORDS.length}</div>
-      <p class="muted">words built with no wrong tile on the first pass · ${pct}%</p>
-      <p class="muted" style="margin-top:8px">The tiles you rejected belong to real words:
-        <i>chromosome</i>, <i>carnivore</i>, <i>community</i>, <i>prospect</i>, <i>except</i>, <i>resilient</i>.</p></div>
+      <p class="muted">words built right the first time they were filled · ${pct}%</p></div>
      <div class="nextrow noprint">
        <button class="btn btn-ghost" id="bHome" type="button">Home</button>
        <button class="btn btn-primary" id="toDecode" type="button">Work it through →</button>
