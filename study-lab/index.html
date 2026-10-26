@@ -451,7 +451,8 @@
     <span class="progress">FINAL STEP · TEST AGAIN</span>
   </div>
   <h2>Test again</h2>
-  <p class="muted" style="margin-bottom:12px">You have now completed the learning activities. Try the same vocabulary test again without looking back at the word list. Compare your score with your first test.</p>
+  <p class="muted" style="margin-bottom:12px">Same Swahili words as the first test, in a different order. Don't look back at the lists.</p>
+  <div id="retestResults"></div>
   <div id="retestArea"></div>
 </div>
 
@@ -475,13 +476,14 @@
    STEP 1 · THE EXPERIMENT — the teacher runs the study phases on
      the projector (full-screen run, timed so both lists get the
      same 3 minutes). Students predict, then take a typed,
-     auto-marked test now, and the same test again next lesson.
+     auto-marked test now, and the same test again at the end of the lesson.
      "Class results" averages pasted report rows.
    STEP 2 · THE BRIEFING — nine slides, checkpoint per slide.
    STEP 3 · WORD LIST · STEP 4 · WORD BUILDERS (two boards).
    STEP 5 · WORK IT THROUGH — Alex's study plan, three written
      answers, self-marked against criteria.
-   STEP 6 · STUDY AUDIT — two sections, 80% gate, reteach.
+   STEP 6 · STUDY AUDIT — two sections, 80% gate, reteach. Finishing
+     it leads straight to the end-of-lesson test, then the report.
    REPORT — print, plus a tab-separated row for a class sheet;
      its first eight columns are what Class results reads.
    Steps are recommended in order but never locked.
@@ -585,18 +587,18 @@ const SLIDES = [
       ["Minutes later","Rereading usually wins or ties. The information is still fresh."],
       ["Days later","People who tested themselves remember much more. The rereaders have forgotten more of it."]
     ],
-    pull:{ lbl:"Our experiment", t:"This is what our retest next lesson is checking. Your score now and your score later can tell different stories." },
+    pull:{ lbl:"Our experiment", t:"This is what our test at the end of the lesson checks. Your first score and your later score can tell different stories." },
     src:"Roediger & Karpicke (2006), Psychological Science",
     q:{ kind:"mcq",
-        q:"In our experiment, suppose the reread list scores higher today. What should we conclude?",
+        q:"In our experiment, suppose the reread list scores higher on the first test. What should we conclude?",
         opts:[
-          "Nothing yet. The real comparison is the retest after a few days.",
-          "Rereading is the better method, so the retest isn't really needed.",
+          "Not much yet. Wait for the test at the end of the lesson.",
+          "Rereading is the better method, so the second test isn't needed.",
           "The experiment failed, because recall practice was meant to win.",
-          "Both methods are equal, because today's scores ended up close."
+          "Both methods are equal, because the first scores ended up close."
         ],
         a:0,
-        explain:"Rereading often wins a few minutes after studying. The question that matters for an exam is what you still know days later, which is why we test again next lesson." } },
+        explain:"Rereading often wins a few minutes after studying. What matters for an exam is what you still know later, which is why we test again at the end of the lesson. The longer the gap, the bigger the difference usually gets." } },
 
   { id:"u3", title:"Get it out: retrieval practice",
     lead:"The most useful thing you can do with study time is practise getting information out of your memory, then check.",
@@ -858,7 +860,7 @@ const AUDIT = [
         a:0,
         explain:"Fluency: it reads easily, so it feels known. That feeling doesn't mean you can recall it." },
       { id:"v2b3", kind:"mcq",
-        q:"Our class average shows recall practice ahead on the retest. A student says, “It didn't work for me.” What's fair?",
+        q:"Our class average shows recall practice ahead on the end-of-lesson test. A student says, “It didn't work for me.” What's fair?",
         opts:["Individuals vary. The average is still the better evidence.",
               "The class result is wrong because one person disagrees.",
               "The student should stop using retrieval practice forever after this.",
@@ -874,13 +876,13 @@ const AUDIT = [
         a:0,
         explain:"Practice questions without notes are a mini version of the real test, and marking them shows what you still need." },
       { id:"v2b5", kind:"mcq",
-        q:"Why do we retest next lesson instead of only today?",
+        q:"Why do we test again at the end of the lesson instead of only straight after studying?",
         opts:["Because the difference between methods shows up after a delay.",
               "Because today's test was far too easy to tell us anything useful at all.",
               "Because students need extra marks for their school report.",
-              "Because the lists change between today and next lesson."],
+              "Because the lists change between the first and second tests."],
         a:0,
-        explain:"Rereading can match or beat retrieval minutes later. The retest after a delay is where they come apart." }
+        explain:"Rereading can match or beat retrieval minutes later. After a delay they start to come apart, and the longer the delay, the more they do." }
     ] }
 ];
 
@@ -973,7 +975,7 @@ function renderHome(){
       done:S.done.audit, fn:()=>startAudit(),
       tag:S.done.audit ? `${auditFirstCount()}/${auditItems().length} FIRST TRY` : "" },
     { t:"Test again",
-      d:"At the very end, repeat the vocabulary test and compare it with your first score.",
+      d:"At the end of the lesson, take the Swahili word test again and compare it with your first score.",
       done:!!S.exp.later, disabled:!S.done.audit, fn:()=>startRetest(),
       tag:S.exp.later ? "BOTH TESTS DONE" : (!S.done.audit ? "FINISH THE LEARNING FIRST" : "READY") },
     { t:"Report",
@@ -1600,7 +1602,7 @@ function runAuditSet(sec, isRetry, idx){
         ${isRetry?`<p class="muted" style="margin-top:8px">Both scores go on your report, the original and this one.</p>`:""}</div>
        <div class="nextrow noprint">
          <button class="btn btn-ghost" id="auHome" type="button">Home</button>
-         <button class="btn btn-primary" id="auNext" type="button">${last?"Go to my report →":"Next section →"}</button>
+         <button class="btn btn-primary" id="auNext" type="button">${last?(S.exp.later?"Go to my report →":"Next: test again →"):"Next section →"}</button>
        </div>`;
     el("auHome").addEventListener("click",()=>go("home"));
     el("auNext").addEventListener("click",()=>{ last ? finishAudit() : auditStage(idx+1); });
@@ -1611,7 +1613,7 @@ function runAuditSet(sec, isRetry, idx){
 
 function finishAudit(){
   S.done.audit = true; S.finishedAt = Date.now(); save();
-  go("report");
+  go(S.exp.later ? "report" : "retest");
 }
 
 /* ================= REPORT ================= */
@@ -1631,8 +1633,8 @@ function renderReport(){
   ["now","later"].forEach(when=>{
     const r = E[when];
     rows.push(r
-      ? `<tr><td>Experiment: ${when==="now"?"test now":"retest"}</td><td class="score">${r.rec} v ${r.rer}</td><td>out of 10 · read once and recall v read three times</td></tr>`
-      : `<tr><td>Experiment: ${when==="now"?"test now":"retest"}</td><td class="nf">not done</td><td class="nf">—</td></tr>`);
+      ? `<tr><td>Experiment: ${when==="now"?"first test":"end of lesson"}</td><td class="score">${r.rec} v ${r.rer}</td><td>out of 10 · read once and recall v read three times</td></tr>`
+      : `<tr><td>Experiment: ${when==="now"?"first test":"end of lesson"}</td><td class="nf">not done</td><td class="nf">—</td></tr>`);
   });
 
   rows.push(S.studied
@@ -1733,14 +1735,14 @@ function renderReport(){
        <div class="in">
          <ol>
            <li><b>Lesson 1, tuning in · 15 min.</b> Students open The experiment, write how they study and make their prediction, then close laptops. You press <i>Run it on the projector</i>. The run is timed so both lists get exactly three minutes: List 1 is read once, recalled on paper, then checked; List 2 is read three times. Then two minutes of counting backwards, then students open laptops and take <i>Test now</i>. Space pauses, arrow keys move, Esc exits.</li>
-           <li><b>Ask them not to look at the words again</b> before next lesson, or the retest won't mean much.</li>
-           <li><b>Slides · 20 min.</b> Teach the briefing in Present mode, then students do the checkpoints. Slide 2 explains what today's scores probably show.</li>
+           <li><b>Ask them not to look at the Swahili words again</b> before the end of the lesson, or the second test won't mean much.</li>
+           <li><b>Slides · 20 min.</b> Teach the briefing in Present mode, then students do the checkpoints. Slide 2 explains what the first scores probably show.</li>
            <li><b>Lab · rest of the lesson.</b> Word list, builders, Work it through and the audit, on their own devices.</li>
-           <li><b>Lesson 2 · 10 min.</b> Students take <i>Test again</i>, then copy their report row into the class sheet. Paste the sheet's rows into <i>Class results</i> on the projector run screen to show the class averages.</li>
+           <li><b>End of the lesson · 5 min.</b> Finishing the audit takes students straight to <i>Test again</i>. Then they copy their report row into the class sheet. Paste the sheet's rows into <i>Class results</i> on the projector run screen to show the class averages.</li>
          </ol>
          <p style="margin-top:10px"><b>How it's built:</b> 20 Swahili–English pairs, all everyday nouns. List 1 (recall) goes first, so if anything the reread list has the recency advantage on the same-day test. Both lists are the same for everyone, so list difficulty isn't balanced. That's worth asking the class: what could make this test unfair?</p>
-         <p style="margin-top:10px"><b>What to expect:</b> rereading often ties or wins on the same day. Recall practice usually wins after a delay (Roediger &amp; Karpicke, 2006). A small class can go either way; the averages are the point, not any one student.</p>
-         <p style="margin-top:10px"><b>Class sheet columns:</b> name, ID, date, prediction, recall now, reread now, recall later, reread later, briefing first try, send-backs, words built clean, audit 1, audit 2, reteach, minutes, self-marks, briefing misses, audit misses, how I study, then the three written answers.</p>
+         <p style="margin-top:10px"><b>What to expect:</b> rereading often ties or wins straight after studying. Recall practice usually pulls ahead after a delay (Roediger &amp; Karpicke, 2006). Half an hour is a short delay, so the gap may be small or not there yet. Worth asking the class: what would a test next week show? A small class can go either way; the averages are the point, not any one student.</p>
+         <p style="margin-top:10px"><b>Class sheet columns:</b> name, ID, date, prediction, recall first test, reread first test, recall end of lesson, reread end of lesson, briefing first try, send-backs, words built clean, audit 1, audit 2, reteach, minutes, self-marks, briefing misses, audit misses, how I study, then the three written answers.</p>
        </div>
      </details>
 
@@ -1819,7 +1821,15 @@ function startRetest(){
   if(!S.done.audit){ alert("Finish the learning activities first, then return here for the final test."); return; }
   go("retest");
 }
-function renderRetest(){ renderTest("later"); }
+function renderRetest(){
+  renderTest("later");
+  const out=el("retestResults");
+  if(!S.exp.later){ out.innerHTML=""; return; }
+  out.innerHTML = resultsHTML() +
+    `<div class="nextrow noprint"><button class="btn btn-primary" id="rtReport" type="button">Go to my report →</button></div>`;
+  el("rtReport").addEventListener("click",()=>go("report"));
+  out.scrollIntoView({block:"start"});
+}
 function renderExp(){
   const E=S.exp, body=el("exp-body");
   body.innerHTML =
@@ -1828,10 +1838,10 @@ function renderExp(){
      <h2>Before</h2>
      <label class="lbl2" for="expHow">How do you usually study for a test?</label>
      <textarea class="dec" id="expHow" style="min-height:70px">${esc(E.how)}</textarea>
-     <p class="lbl2" style="margin-top:12px">Which way will you remember better next lesson?</p>
+     <p class="lbl2" style="margin-top:12px">Which way will you remember better by the end of the lesson?</p>
      <div class="predrow">${Object.keys(PRED).map(k=>`<label class="pred"><input type="radio" name="pred" value="${k}" ${E.pred===k?"checked":""}> ${esc(PRED[k])}</label>`).join("")}</div>
      <h2 style="margin-top:22px">First test</h2>
-     <p class="muted" style="margin-bottom:10px">Complete this before the briefing and learning activities. The repeat test unlocks at the very end.</p>
+     <p class="muted" style="margin-bottom:10px">Do this before the briefing. You'll take the same test again at the end of the lesson.</p>
      <div class="testbtns">
        <button class="btn ${E.now?"btn-ghost":"btn-primary"}" id="tNow" type="button">${E.now?"Test now: done, see answers":"Test now"}</button>
      </div>
@@ -1870,7 +1880,7 @@ function renderTest(when){
     if(when==="now" && !S.startedAt) S.startedAt=Date.now();
     S.exp[when]={rec:score.rec, rer:score.rer, ans, at:Date.now()}; save();
     if(when==="now"){ renderExp(); renderTest(when); }
-    else { renderTest(when); renderHome(); }
+    else { renderRetest(); renderHome(); }
   });
 }
 function bar(v, cls){ return `<div class="bar"><i class="${cls}" style="width:${v*10}%"></i><b>${v}/10</b></div>`; }
@@ -1879,7 +1889,7 @@ function resultsHTML(){
   const row=(lbl,r)=>`<tr><th>${lbl}</th><td>${r?bar(r.rec,"rec"):"<span class=muted>not yet</span>"}</td><td>${r?bar(r.rer,"rer"):"<span class=muted>not yet</span>"}</td></tr>`;
   return `<h2 style="margin-top:22px">My results</h2>
     <table class="restab"><thead><tr><th></th><th>${esc(METHOD.rec)}</th><th>${esc(METHOD.rer)}</th></tr></thead>
-    <tbody>${row("Today",E.now)}${row("Next lesson",E.later)}</tbody></table>
+    <tbody>${row("First test",E.now)}${row("End of lesson",E.later)}</tbody></table>
     ${E.pred?`<p class="muted" style="margin-top:8px">Your prediction: ${esc(PRED[E.pred])}.</p>`:""}`;
 }
 
@@ -1927,8 +1937,8 @@ function classResults(){
     const preds={}; rows.forEach(c=>{ if(c[3]) preds[c[3]]=(preds[c[3]]||0)+1; });
     el("clsOut").innerHTML = rows.length ? `
       <table class="restab big"><thead><tr><th></th><th>${esc(METHOD.rec)}</th><th>${esc(METHOD.rer)}</th></tr></thead>
-      <tbody><tr><th>Today</th><td>${cell(col(4),"rec")}</td><td>${cell(col(5),"rer")}</td></tr>
-             <tr><th>Next lesson</th><td>${cell(col(6),"rec")}</td><td>${cell(col(7),"rer")}</td></tr></tbody></table>
+      <tbody><tr><th>First test</th><td>${cell(col(4),"rec")}</td><td>${cell(col(5),"rer")}</td></tr>
+             <tr><th>End of lesson</th><td>${cell(col(6),"rec")}</td><td>${cell(col(7),"rer")}</td></tr></tbody></table>
       <p class="runsmall">Predictions: ${Object.entries(preds).map(([k,v])=>`${esc(k)} ${v}`).join(" · ")||"none"}</p>` : "";
   };
   ta.addEventListener("input",draw); draw(); ta.focus();
