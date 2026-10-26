@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Study Lab - Work &amp; Life Education, studying smarter. A class experiment comparing rereading with recall practice, briefing slides with checkpoints, word builders, a written task, an audit and a report.">
+<title>Study Lab</title>
+<style>
+  /* Paper ground, Georgia headings and step-card shell — the same visual
+     language used across the Work & Life Education interactive units.
+     The accent is mulberry for the study unit. */
+  :root{
+    --bg:#f4efe6; --paper:#fbf7ee; --band:#f5f0e6; --ink:#1f1f1f; --muted:#6b6256;
+    --line:#d8cfbb; --line-soft:#e8e0cd;
+    --accent:#7a3b5e; --accent-deep:#5f2c49; --accent-soft:#f2e4ec;
+    --gold:#8b681e; --gold-soft:#f6e7c2;
+    --correct:#2f6a3e; --wrong:#a83232; --okbg:#eef5ee; --badbg:#f7ecec;
+    --m-pre:#2d5fa8; --m-root:#a8442e; --m-suf:#2e7a57;
+    --m-pre-bg:#e6edf7; --m-root-bg:#f6e6e0; --m-suf-bg:#e2f1ea;
+    --shadow:0 1px 2px rgba(31,31,31,.05),0 4px 14px rgba(31,31,31,.06);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#10161a; --paper:#182024; --band:#1f292e; --ink:#eae5db; --muted:#a2988a;
+      --line:#33424a; --line-soft:#283439;
+      --accent:#d79bbd; --accent-deep:#e6b6d0; --accent-soft:#33202b;
+      --gold:#dcb355; --gold-soft:#372c11;
+      --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
+      --m-pre:#8fb4ee; --m-root:#eb9a7e; --m-suf:#83cba6;
+      --m-pre-bg:#1c2a40; --m-root-bg:#3a2119; --m-suf-bg:#173025;
+      --shadow:0 1px 2px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#10161a; --paper:#182024; --band:#1f292e; --ink:#eae5db; --muted:#a2988a;
+    --line:#33424a; --line-soft:#283439;
+    --accent:#d79bbd; --accent-deep:#e6b6d0; --accent-soft:#33202b;
+    --gold:#dcb355; --gold-soft:#372c11;
+    --correct:#6cc389; --wrong:#ef8a80; --okbg:#16301f; --badbg:#381d1b;
+    --shadow:0 1px 2px rgba(0,0,0,.45);
+    --m-pre:#8fb4ee; --m-root:#eb9a7e; --m-suf:#83cba6;
+    --m-pre-bg:#1c2a40; --m-root-bg:#3a2119; --m-suf-bg:#173025;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,system-ui,sans-serif;background:var(--bg);
+       color:var(--ink);min-height:100vh;padding:16px;display:flex;justify-content:center;align-items:flex-start}
+  .container{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+       max-width:900px;width:100%;padding:26px;margin-top:12px;box-shadow:var(--shadow)}
+  h1{text-align:center;font-size:24px;font-family:Georgia,'Times New Roman',serif;letter-spacing:.4px}
+  h2{font-family:Georgia,serif;font-size:19px;margin:4px 0 10px}
+  h3{font-family:Georgia,serif;font-size:15.5px;margin:18px 0 8px}
+  .subtitle{color:var(--muted);text-align:center;margin:6px 0 18px;font-size:13px}
+  .muted{color:var(--muted);font-size:13px;line-height:1.55}
+  .screen{display:none}.screen.active{display:block}
+  button{font-family:inherit}
+  :focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+
+  .btn{padding:11px 18px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-weight:600;
+       cursor:pointer;background:var(--paper);color:var(--ink);transition:all .15s ease}
+  .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn-primary:hover:not(:disabled){background:var(--accent-deep);border-color:var(--accent-deep)}
+  .btn-primary:disabled{background:var(--line);border-color:var(--line);color:var(--muted);cursor:not-allowed}
+  .btn-ghost{background:var(--bg);color:var(--muted)}
+  .btn-ghost:hover{color:var(--ink);border-color:var(--ink)}
+  .linkbtn{background:none;border:none;color:var(--accent);font-weight:600;font-size:13px;cursor:pointer;padding:4px 8px}
+  .linkbtn:hover{text-decoration:underline}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px}
+  .progress{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.4px;text-align:right}
+
+  .steps{display:flex;flex-direction:column;gap:10px;margin:18px 0}
+  .step{display:flex;align-items:center;gap:14px;border:1px solid var(--line-soft);border-radius:10px;
+        padding:14px 16px;background:var(--paper);text-align:left;cursor:pointer;width:100%;color:inherit}
+  .step:hover:not(:disabled){border-color:var(--accent)}
+  .step:disabled{opacity:.5;cursor:not-allowed}
+  .step .num{width:34px;height:34px;border-radius:50%;background:var(--bg);border:1px solid var(--line);
+        display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+  .step.done .num{background:var(--okbg);border-color:var(--correct);color:var(--correct)}
+  .step .t{font-weight:700;font-size:15px}
+  .step .d{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.45}
+  .step .tag{margin-left:auto;font-size:11px;font-weight:800;letter-spacing:.5px;color:var(--muted);
+        flex-shrink:0;text-align:right;max-width:120px;line-height:1.35}
+  .step.done .tag{color:var(--correct)}
+
+  .teach{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;
+         background:var(--bg);padding:16px 18px;margin-bottom:16px;font-size:14.5px;line-height:1.65}
+  .teach b{color:var(--accent)}
+  .teach ul,.teach ol{margin:8px 0 0 20px}
+  .teach li{margin-bottom:6px}
+
+  .slidewrap{border:1px solid var(--line);border-radius:12px;background:var(--band);
+             padding:22px 24px;min-height:330px;display:flex;flex-direction:column;gap:12px}
+  .slidewrap .of{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .slidewrap h2{font-family:Georgia,serif;font-size:clamp(20px,2.4vw + 10px,30px);line-height:1.12;margin:0}
+  .slidewrap .lead{font-size:clamp(14px,.6vw + 12px,17px);line-height:1.6}
+  .slidewrap .pts{display:flex;flex-direction:column;gap:8px}
+  .slidewrap .pts div{display:flex;gap:10px;font-size:clamp(13.5px,.5vw + 11.5px,16px);line-height:1.55}
+  .slidewrap .pts .b{color:var(--accent);font-weight:800;flex:none}
+  .pull{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--gold);
+        border-radius:8px;padding:11px 14px;font-family:Georgia,serif;
+        font-size:clamp(14px,.6vw + 12px,17.5px);line-height:1.5}
+  .pull span{display:block;font-family:'Segoe UI',sans-serif;font-size:11px;font-weight:800;
+             letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .srcline{font-size:12px;color:var(--muted);font-style:italic;margin-top:auto;padding-top:8px}
+  .slidenav{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .slidenav .sp{flex:1}
+  .pips{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+  .pip{width:26px;height:6px;border-radius:3px;background:var(--line);border:none;cursor:pointer;padding:0}
+  .pip.seen{background:var(--muted)}
+  .pip.now{background:var(--accent)}
+
+  body.present .container{max-width:100%;margin:0;border:none;border-radius:0;padding:10px}
+  body.present .slidewrap{min-height:calc(100dvh - 150px);justify-content:center}
+  body.present .hide-present{display:none !important}
+  body.present .slidewrap h2{font-size:clamp(28px,4.4vw,58px)}
+  body.present .slidewrap .lead{font-size:clamp(17px,1.7vw,28px)}
+  body.present .slidewrap .pts div{font-size:clamp(16px,1.5vw,25px)}
+  body.present .pull{font-size:clamp(17px,1.6vw,27px)}
+
+  .buildword{font-family:Georgia,serif;font-size:20px;text-align:center;margin-bottom:4px;color:var(--muted)}
+  .slots,.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0}
+  .slot{min-width:78px;min-height:46px;border:2px dashed var(--line);border-radius:8px;
+        display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;
+        padding:6px 10px;background:var(--bg)}
+  .slot.filled{border-style:solid;border-color:var(--correct);background:var(--okbg);color:var(--correct)}
+  .tile{padding:10px 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);
+        font-weight:700;font-size:16px;cursor:pointer;color:var(--ink)}
+  .tile:hover:not(:disabled){border-color:var(--accent)}
+  .tile:disabled{opacity:.32;cursor:default}
+  .tile.shake{animation:shake .3s;border-color:var(--wrong);color:var(--wrong)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  @media (prefers-reduced-motion:reduce){ .tile.shake{animation:none} }
+  .glosses{margin:10px auto;max-width:560px;font-size:13px;color:var(--muted);line-height:1.75;text-align:center}
+  .glosses b{color:var(--ink)}
+  .reveal{border:1px solid var(--correct);background:var(--okbg);border-radius:10px;padding:14px 16px;
+          margin:14px 0;font-size:14.5px;line-height:1.6;display:none}
+  .reveal.show{display:block}
+  .buildprog{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:14px}
+  .bdot{width:12px;height:12px;border-radius:50%;border:1px solid var(--line);background:var(--bg)}
+  .bdot.done{background:var(--correct);border-color:var(--correct)}
+  .bdot.now{border-color:var(--accent);background:var(--paper);box-shadow:0 0 0 2px rgba(122,59,94,.25)}
+
+
+
+  /* ---------- experiment ---------- */
+  .lbl2{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+  .predrow{display:flex;gap:8px;flex-wrap:wrap}
+  .pred{border:1px solid var(--line);border-radius:8px;padding:8px 12px;background:var(--paper);font-size:14px;cursor:pointer}
+  .testbtns{display:flex;gap:8px;flex-wrap:wrap}
+  .testgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:10px}
+  .tq{display:flex;align-items:center;gap:8px;border:1px solid var(--line-soft);border-radius:8px;padding:6px 10px;background:var(--paper);flex-wrap:wrap}
+  .tq .sw{font-family:Georgia,serif;font-weight:700;font-size:16px;min-width:72px}
+  .tq input{flex:1;min-width:80px;padding:7px 9px;border:1px solid var(--line);border-radius:6px;font:inherit;font-size:15px;background:var(--bg);color:var(--ink)}
+  .tq.ok{border-color:var(--correct);background:var(--okbg)} .tq.no{border-color:var(--wrong);background:var(--badbg)}
+  .tq .mk{font-weight:800;font-size:13px} .tq.ok .mk{color:var(--correct)} .tq.no .mk{color:var(--wrong)}
+  .restab{width:100%;border-collapse:collapse;margin-top:8px}
+  .restab th,.restab td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:13.5px;vertical-align:middle}
+  .restab thead th{background:var(--bg);font-size:12px;text-transform:uppercase;letter-spacing:.3px}
+  .bar{position:relative;height:22px;background:var(--bg);border:1px solid var(--line);border-radius:5px;overflow:hidden;min-width:120px}
+  .bar i{position:absolute;inset:0 auto 0 0;background:var(--accent);opacity:.75}
+  .bar i.rer{background:var(--gold)}
+  .bar b{position:relative;font-size:12.5px;padding-left:8px;line-height:22px}
+  /* projector run: covers the page, sized off the viewport */
+  .run{position:fixed;inset:0;z-index:100;background:var(--paper);display:flex;flex-direction:column;
+       font-size:clamp(14px, .9vw + .9vh, 34px)}
+  .run[hidden]{display:none}
+  body.running{overflow:hidden}
+  .runbar{display:flex;align-items:center;gap:.5em;padding:.5em .9em;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .runbar button{font:inherit;font-size:.7em;font-weight:700;padding:.4em .9em;border-radius:.5em;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+  .runbar .sp{flex:1}
+  .runlbl{font-size:.7em;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .runtime{font-variant-numeric:tabular-nums;font-weight:800;font-size:1.4em;color:var(--accent)}
+  .runbody{flex:1;min-height:0;overflow:auto;padding:1em 1.4em;display:flex;flex-direction:column;gap:.8em}
+  .runmsg{font-family:Georgia,serif;font-size:1.6em;font-weight:700;line-height:1.2}
+  .runpairs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5em 2.2em;font-size:2.1em}
+  .runpairs div{display:flex;justify-content:space-between;gap:1em;border-bottom:1px solid var(--line-soft);padding:.15em 0}
+  .runpairs b{font-family:Georgia,serif}
+  .runpairs span{color:var(--muted)}
+  .runsmall{font-size:.9em;color:var(--muted)}
+  .clsin{width:100%;min-height:5em;font:inherit;font-size:.6em;padding:.6em;border:1px solid var(--line);border-radius:.4em;background:var(--bg);color:var(--ink)}
+  .restab.big th,.restab.big td{font-size:.8em}
+  .bar.big{height:1.6em} .bar.big b{line-height:1.6em;font-size:.8em}
+  /* ---------- board builder (from the Year 7 vocab hub) ---------- */
+  .boardhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+  .boardhead h2{margin:0}
+  .boardhead .mlegend{margin:0;padding:6px 12px}
+  .mbank{background:var(--bg);border:1px solid var(--line-soft);border-radius:10px;padding:12px;margin-bottom:10px;
+         position:sticky;top:6px;z-index:5}
+  .mgroup{margin-bottom:8px} .mgroup:last-child{margin-bottom:0}
+  .glabel{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+  .glabel.prefix{color:var(--m-pre)} .glabel.root{color:var(--m-root)} .glabel.suffix{color:var(--m-suf)}
+  .mtiles{display:flex;flex-wrap:wrap;gap:7px}
+  .mtile{border:1.5px solid;border-radius:9px;padding:7px 12px;display:inline-flex;flex-direction:column;align-items:center;
+         gap:1px;cursor:grab;touch-action:none;user-select:none;font:inherit;line-height:1.2}
+  .mtile .mm{font-weight:800;font-size:16px} .mtile .gl{font-size:10.5px;opacity:.85}
+  .mtile.prefix{color:var(--m-pre);background:var(--m-pre-bg);border-color:var(--m-pre)}
+  .mtile.root{color:var(--m-root);background:var(--m-root-bg);border-color:var(--m-root)}
+  .mtile.suffix{color:var(--m-suf);background:var(--m-suf-bg);border-color:var(--m-suf)}
+  .mtile.sel{outline:3px solid var(--ink);outline-offset:2px}
+  .mtile.dragging{opacity:.35}
+  .drag-ghost{position:fixed;transform:translate(-50%,-50%);z-index:999;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  .wtable{display:flex;flex-direction:column;gap:9px}
+  .wrow{display:flex;align-items:center;gap:12px;border:1px solid var(--line-soft);border-radius:10px;padding:10px 12px;
+        background:var(--paper);transition:opacity .3s,transform .3s}
+  .wrow.wrong{animation:shake .3s;border-color:var(--wrong)}
+  .wrow.done{border-color:var(--correct);background:var(--okbg)}
+  .wrow.gone{opacity:0;transform:translateX(40px)}
+  .wmean{flex:1 1 46%;min-width:190px;font-size:14.5px;line-height:1.45}
+  .wmean .pos{color:var(--muted);font-style:italic;font-size:12.5px}
+  .wslots{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .wjoin{color:var(--muted);font-weight:700}
+  .wslot{min-width:62px;min-height:46px;border:2px dashed var(--line);border-radius:8px;display:flex;align-items:center;
+         justify-content:center;padding:4px 8px;background:var(--bg);cursor:pointer;font:inherit;color:var(--ink)}
+  .wslot .ph{color:var(--muted);font-size:10.5px;letter-spacing:.3px}
+  .wslot .mm{font-weight:800;font-size:15px}
+  .wslot.over{border-color:var(--ink);background:var(--paper)}
+  .wslot.filled{border-style:solid}
+  .wslot.filled.prefix{border-color:var(--m-pre);background:var(--m-pre-bg);color:var(--m-pre)}
+  .wslot.filled.root{border-color:var(--m-root);background:var(--m-root-bg);color:var(--m-root)}
+  .wslot.filled.suffix{border-color:var(--m-suf);background:var(--m-suf-bg);color:var(--m-suf)}
+  .wbuilt{flex:1 1 46%;min-width:190px;text-align:right;display:none}
+  .wrow.done .wslots{display:none} .wrow.done .wbuilt{display:block}
+  .wbuilt .wname{font-family:Georgia,serif;font-weight:700;font-size:19px}
+  .wbuilt .wname .mp{color:var(--m-pre)} .wbuilt .wname .mr{color:var(--m-root)} .wbuilt .wname .ms{color:var(--m-suf)}
+  .wbuilt .wtick{color:var(--correct);font-weight:800;margin-left:4px}
+  .buildhint{font-size:13px;color:var(--wrong);text-align:center;min-height:18px;margin:2px 0 6px;font-weight:600}
+  @media (prefers-reduced-motion:reduce){ .wrow.wrong{animation:none} .wrow{transition:none} }
+  @media (max-width:560px){ .wmean,.wbuilt{min-width:0;flex-basis:100%} .wrow{flex-wrap:wrap} .mbank{position:static} }
+  .vcard{border:1px solid var(--line-soft);border-radius:10px;padding:14px 16px;margin-bottom:10px;background:var(--paper)}
+  .vcard .w{font-family:Georgia,serif;font-size:23px;font-weight:700}
+  .vcard .w .mp{color:var(--m-pre)} .vcard .w .mr{color:var(--m-root)} .vcard .w .ms{color:var(--m-suf)}
+  .vcard .pos{font-size:12px;color:var(--muted);font-style:italic;margin-left:6px}
+  .vcard .meaning{font-size:14px;margin:6px 0;line-height:1.5}
+  .vcard .morph{font-size:13.5px;color:var(--muted);line-height:1.7;border-top:1px dashed var(--line-soft);
+                padding-top:6px;margin-top:6px}
+  .vcard .morph b,.vcard .morph i{color:var(--ink)}
+  .vcard .morph code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:700;font-size:16px}
+  .vcard .morph code.mp{color:var(--m-pre)} .vcard .morph code.mr{color:var(--m-root)} .vcard .morph code.ms{color:var(--m-suf)}
+  .mlegend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;font-weight:700;margin:0 0 12px;
+           border:1px solid var(--line-soft);border-radius:8px;padding:10px 14px;background:var(--bg)}
+  .mlegend .mp{color:var(--m-pre)} .mlegend .mr{color:var(--m-root)} .mlegend .ms{color:var(--m-suf)}
+
+  .prompt{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:8px}
+  .qtext{font-size:17px;line-height:1.6;margin-bottom:16px}
+  .opts{display:flex;flex-direction:column;gap:8px}
+  .opt{padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--paper);font-size:15px;
+       text-align:left;cursor:pointer;line-height:1.5;color:var(--ink)}
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt:disabled{cursor:default}
+  .opt.right{background:var(--okbg);border-color:var(--correct);color:var(--correct);font-weight:700}
+  .opt.wrongpick{background:var(--badbg);border-color:var(--wrong);color:var(--wrong)}
+  .numrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .numrow input{padding:11px 13px;border:1px solid var(--line);border-radius:8px;font-size:16px;
+                font-family:ui-monospace,Menlo,monospace;width:130px;background:var(--paper);color:var(--ink)}
+  .numrow .unit{font-size:14px;color:var(--muted);font-weight:600}
+  .feedback{margin-top:14px;padding:12px 14px;border-radius:8px;font-size:14px;line-height:1.6;display:none}
+  .feedback.ok{display:block;background:var(--okbg);border:1px solid var(--correct)}
+  .feedback.bad{display:block;background:var(--badbg);border:1px solid var(--wrong)}
+  .nextrow{margin-top:16px;display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;align-items:center}
+
+  .sendback{border:1px solid var(--wrong);border-left:4px solid var(--wrong);background:var(--badbg);
+            border-radius:10px;padding:16px 18px;margin-top:14px}
+  .sendback .hd{font-weight:800;color:var(--wrong);font-size:14px;letter-spacing:.3px;
+                text-transform:uppercase;margin-bottom:8px}
+  .sendback .slidecopy{background:var(--paper);border:1px solid var(--line);border-radius:8px;
+                       padding:14px 16px;font-size:14.5px;line-height:1.6}
+  .sendback .slidecopy h4{font-family:Georgia,serif;font-size:16px;margin-bottom:8px}
+  .sendback .slidecopy .pts div{display:flex;gap:9px;margin-bottom:6px}
+  .sendback .slidecopy .pts .b{color:var(--accent);font-weight:800;flex:none}
+  .dwell{font-size:12.5px;color:var(--muted);margin-top:10px;font-weight:600}
+
+  .stagepath{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;justify-content:center}
+  .spip{font-size:11px;font-weight:700;letter-spacing:.3px;padding:4px 10px;border-radius:12px;
+        border:1px solid var(--line-soft);color:var(--muted);background:var(--bg)}
+  .spip.done{border-color:var(--correct);color:var(--correct);background:var(--okbg)}
+  .spip.now{border-color:var(--accent);color:var(--accent);background:var(--paper)}
+
+  .sumbox{border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0;text-align:center}
+  .sumbox .big{font-family:Georgia,serif;font-size:31px;font-weight:700}
+  .sumbox .big.good{color:var(--correct)} .sumbox .big.mid{color:var(--gold)} .sumbox .big.low{color:var(--wrong)}
+
+  /* decode step */
+  .decword{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--accent);text-align:center;margin:6px 0}
+  textarea.dec{width:100%;min-height:90px;padding:12px;border:1px solid var(--line);border-radius:8px;
+        font:inherit;font-size:15px;background:var(--paper);color:var(--ink);resize:vertical}
+  .crit{border:1px solid var(--line);border-left:4px solid var(--gold);background:var(--gold-soft);
+        border-radius:8px;padding:12px 15px;font-size:14px;line-height:1.6;margin-top:12px;display:none}
+  .crit.show{display:block;margin-bottom:22px}
+  .selfmark{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:14px;align-items:center}
+
+  .repgrid{width:100%;border-collapse:collapse;margin:12px 0}
+  .repgrid th,.repgrid td{border:1px solid var(--line);padding:8px 10px;font-size:13.5px;text-align:left}
+  .repgrid th{background:var(--bg);font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  .repgrid td.score{font-weight:700;white-space:nowrap}
+  .repgrid td.nf{color:var(--muted);font-style:italic}
+  .idrow{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  .idrow label{font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
+  .idrow input{padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:15px;
+               font-family:inherit;background:var(--paper);color:var(--ink)}
+  .vcode{font-family:ui-monospace,Menlo,monospace;font-size:13px;letter-spacing:2px}
+
+  .sheet{border:1px solid var(--line);border-radius:10px;padding:18px;background:var(--paper);margin-top:12px}
+  .sheet h3{margin-top:0}
+  .sheet .qline{border-bottom:1px solid var(--ink);height:30px;margin:8px 0}
+
+  .vc{background:var(--accent-soft);border-radius:8px;padding:12px 15px;font-size:13px;line-height:1.55;margin-top:12px}
+  .vc .hd{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:6px}
+  .vc li{margin:5px 0 5px 18px}
+  .vc em{color:var(--ink)}
+
+  details.tnote{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-top:16px}
+  details.tnote summary{cursor:pointer;font-weight:700;font-size:13.5px;color:var(--muted);letter-spacing:.02em}
+  details.tnote .in{margin-top:12px;font-size:13.5px;line-height:1.6}
+  details.tnote .in ol{margin:8px 0 0 20px}
+  details.tnote .in li{margin-bottom:6px}
+
+  @media print{
+    body{background:#fff;padding:0;display:block}
+    .container{border:none;box-shadow:none;max-width:100%;padding:6px;background:#fff}
+    .noprint{display:none !important}
+    .pagebreak{break-before:page;page-break-before:always}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+  @media (max-width:560px){
+    .container{padding:16px}
+    .step .tag{max-width:74px;font-size:10px}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ============ HOME ============ -->
+<div class="screen active" id="scr-home">
+  <h1>Study Lab</h1>
+  <p class="subtitle">Work &amp; Life Education · Study smarter · Year 10</p>
+  <div class="steps" id="home-steps"></div>
+  <div class="nextrow noprint" style="justify-content:center">
+    <button class="linkbtn" id="resetAllBtn" type="button">start over (clears everything)</button>
+    <a class="linkbtn" href="../">&larr; Work &amp; Life Education</a>
+  </div>
+  <div class="vc">
+    <div class="hd">Victorian Curriculum F–10 Version 2.0 · alignment</div>
+    <ul>
+      <li><b>Health and Physical Education, Levels 9–10</b>: students <em>access, synthesise and apply health
+        information from credible sources to propose and justify responses to situations in the home, in the school
+        and the community</em>.</li>
+      <li><b>Personal and Social Capability, Levels 9–10</b>: students <em>develop criteria to appraise personal
+        qualities and use these to design strategies to plan for the future or address a challenge</em>.</li>
+    </ul>
+    <p class="muted" style="margin-top:8px">Descriptor wording quoted from VCAA. Confirm the current codes at
+      <b>victoriancurriculum.vcaa.vic.edu.au</b> before pasting into a planning document.</p>
+  </div>
+</div>
+
+<!-- ============ EXPERIMENT (student) ============ -->
+<div class="screen" id="scr-exp">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">STEP 1 · THE EXPERIMENT</span>
+  </div>
+  <div id="exp-body"></div>
+</div>
+
+<!-- ============ EXPERIMENT (projector) ============ -->
+<div id="run" class="run" hidden>
+  <div class="runbar">
+    <span class="runlbl" id="runLbl"></span>
+    <span class="runtime" id="runTime"></span>
+    <span class="sp"></span>
+    <button type="button" id="runBack">&larr; Back</button>
+    <button type="button" id="runPause">Pause</button>
+    <button type="button" id="runNext">Next &rarr;</button>
+    <button type="button" id="runClass">Class results</button>
+    <button type="button" id="runExit">Exit</button>
+  </div>
+  <div class="runbody" id="runBody"></div>
+</div>
+
+<!-- ============ STUDY ============ -->
+<div class="screen" id="scr-study">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">STEP 3 · WORD LIST</span>
+  </div>
+  <h2>Eight words for this topic</h2>
+  <div id="study-list"></div>
+  <div class="nextrow noprint">
+    <button class="btn btn-primary" id="markStudiedBtn" type="button">Build the words &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDES ============ -->
+<div class="screen" id="scr-slides">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="slide-prog">STEP 2 · THE BRIEFING</span>
+  </div>
+  <div class="pips noprint" id="slide-pips"></div>
+  <div class="slidewrap" id="slide-body"></div>
+  <div class="slidenav noprint">
+    <button class="btn btn-ghost" id="slidePrev" type="button">&larr; Back</button>
+    <button class="btn btn-ghost" id="presentBtn" type="button">Present mode</button>
+    <button class="btn btn-ghost hide-present" id="slideToQ" type="button" hidden>Skip to the questions &rarr;</button>
+    <span class="sp"></span>
+    <button class="btn btn-primary" id="slideNext" type="button">Next &rarr;</button>
+  </div>
+  <p class="muted hide-present" style="margin-top:12px;text-align:center" id="slideFoot"></p>
+</div>
+
+<!-- ============ CHECKPOINTS ============ -->
+<div class="screen" id="scr-check">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="check-prog">STEP 2 · CHECKPOINTS</span>
+  </div>
+  <div id="check-body"></div>
+</div>
+
+<!-- ============ WORD BUILDERS ============ -->
+<div class="screen" id="scr-build">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="build-prog">STEP 4 · WORD BUILDERS</span>
+  </div>
+  <div id="build-body"></div>
+</div>
+
+<!-- ============ DECODE ============ -->
+<div class="screen" id="scr-decode">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">STEP 5 · WORK IT THROUGH</span>
+  </div>
+  <div id="decode-body"></div>
+</div>
+
+<!-- ============ AUDIT ============ -->
+<div class="screen" id="scr-audit">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress" id="audit-prog">STEP 6 · STUDY AUDIT</span>
+  </div>
+  <div id="audit-body"></div>
+</div>
+
+<!-- ============ REPORT ============ -->
+<div class="screen" id="scr-report">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">REPORT</span>
+  </div>
+  <div id="report-body"></div>
+</div>
+
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   STUDY LAB — Work & Life Education, study smarter (Year 10)
+   Built on the Stress Lab engine. Standalone; nothing leaves the
+   browser unless the student copies or prints it.
+   STEP 1 · THE EXPERIMENT — the teacher runs the study phases on
+     the projector (full-screen run, timed so both lists get the
+     same 3 minutes). Students predict, then take a typed,
+     auto-marked test now, and the same test again next lesson.
+     "Class results" averages pasted report rows.
+   STEP 2 · THE BRIEFING — nine slides, checkpoint per slide.
+   STEP 3 · WORD LIST · STEP 4 · WORD BUILDERS (two boards).
+   STEP 5 · WORK IT THROUGH — Alex's study plan, three written
+     answers, self-marked against criteria.
+   STEP 6 · STUDY AUDIT — two sections, 80% gate, reteach.
+   REPORT — print, plus a tab-separated row for a class sheet;
+     its first eight columns are what Class results reads.
+   Steps are recommended in order but never locked.
+   ============================================================ */
+
+/* ================= THE EXPERIMENT ================= */
+/* Two lists of ten Swahili–English pairs: everyday concrete nouns, so the
+   lists are close in difficulty. "rec" is learned by reading once, recalling
+   and checking; "rer" by reading three times. Equal study time: 3 minutes each.
+   The recall list is studied first, so any recency advantage on the same-day
+   test goes to rereading. The alternative answers accept real second meanings. */
+const PAIRS = {
+  rec:[ ["paka","cat"],["ndege","bird","plane","aeroplane","airplane"],["kitabu","book"],["mwezi","moon","month"],
+        ["mlima","mountain","hill"],["kiti","chair","seat"],["meza","table","desk"],["mvua","rain"],
+        ["nyota","star"],["rafiki","friend"] ],
+  rer:[ ["maziwa","milk"],["mkate","bread"],["samaki","fish"],["mbwa","dog"],["nyumba","house","home"],
+        ["maji","water"],["mti","tree"],["jua","sun"],["gari","car","vehicle"],["kalamu","pen","pencil"] ]
+};
+const METHOD = { rec:"Read once, recall, check", rer:"Read three times" };
+/* projector phases: each list gets 180 seconds */
+const PHASES = [
+  { k:"ready", t:"Laptops closed. Paper and pen out." },
+  { k:"study", list:"rec", secs:60, t:"List 1. Read these." },
+  { k:"recall", list:"rec", secs:90, t:"List 1. Write the English for each word from memory." },
+  { k:"check", list:"rec", secs:30, t:"List 1. Check your answers." },
+  { k:"study", list:"rer", secs:60, t:"List 2. Read these." },
+  { k:"study", list:"rer", secs:60, t:"List 2. Read them again." },
+  { k:"study", list:"rer", secs:60, t:"List 2. Read them one more time." },
+  { k:"filler", secs:120, t:"Count backwards from 300 in threes. Out loud, in your head, or on paper." },
+  { k:"test", t:"Open your laptop. Study Lab, The experiment, Test now." }
+];
+
+/* ================= WORD LIST ================= */
+const WORDS = [
+  { w:"Retrieve", pos:"verb",
+    meaning:"To find something and bring it back. In learning: to bring something back out of your memory.",
+    tiles:[["re-","again, back"],["trieve","to find"]],
+    decoys:[["de-","down, away"],["-al","the act of"]],
+    note:"Add <i>-al</i> and you get <b>retrieval</b>, as in retrieval practice: practising getting information back out." },
+  { w:"Retention", pos:"noun",
+    meaning:"How much you keep hold of, especially in your memory.",
+    tiles:[["re-","back"],["ten","to hold"],["-tion","the state of"]],
+    decoys:[["at-","towards"],["con-","together"]],
+    note:"Holding something back so you keep it. Swap the prefix and you get <i>attention</i> (holding towards) or <i>contention</i>." },
+  { w:"Metacognition", pos:"noun",
+    meaning:"Thinking about your own thinking: knowing what you know and what you don't.",
+    tiles:[["meta-","about, beyond"],["cogn","to know"],["-ition","the act of"]],
+    decoys:[["re-","again"],["pre-","before"]],
+    note:"Knowing about your own knowing. Asking “Could I do this without my notes?” is metacognition. <i>Re + cogn</i> gives <i>recognition</i>: knowing it again when you see it." },
+  { w:"Interleave", pos:"verb",
+    meaning:"To mix things together in layers. In study: mixing different topics or question types in one session.",
+    tiles:[["inter-","between"],["leave","leaf, layer"]],
+    decoys:[["intra-","within"],["-ing","doing"]],
+    note:"Like slipping sheets of paper between each other. <i>Intra-</i> means within, as in <i>intranet</i>." },
+  { w:"Consolidate", pos:"verb",
+    meaning:"To make something firm and lasting. Your brain consolidates memories, a lot of it while you sleep.",
+    tiles:[["con-","together"],["solid","firm"],["-ate","to make"]],
+    decoys:[["dis-","apart"],["sol","sun"]],
+    note:"Making the pieces firm together. <i>Sol</i> looks close but means sun, as in <i>solar</i>." },
+  { w:"Elaborate", pos:"verb",
+    meaning:"To work an idea out in more detail, adding reasons and connections.",
+    tiles:[["e-","out"],["labor","work"],["-ate","to do"]],
+    decoys:[["col-","together"],["-ory","a place for"]],
+    note:"Working it out. Asking “why is this true?” is elaboration. <i>Col + labor + ate</i> is <i>collaborate</i>, working together; <i>labor + -ory</i> gives <i>laboratory</i>." },
+  { w:"Fluency", pos:"noun",
+    meaning:"How easily something flows. When notes feel easy to read, that's fluency, which isn't the same as remembering them.",
+    tiles:[["flu","to flow"],["-ency","the state of"]],
+    decoys:[["in-","into"],["-id","having the quality of"]],
+    note:"Same root as <i>fluid</i> and <i>influence</i>. The “fluency illusion” is when something reads easily, so you think you know it." },
+  { w:"Mnemonic", pos:"noun",
+    meaning:"A trick to help you remember, like a rhyme or the first letters of a list.",
+    tiles:[["mnem","memory"],["-onic","relating to"]],
+    decoys:[["a-","without"],["-ia","condition"]],
+    note:"The first m is silent: <i>nem-ON-ik</i>. Its relative <i>amnesia</i> is a- (without) + mnes (memory) + -ia (condition)." }
+];
+
+/* ================= SLIDES + CHECKPOINTS ================= */
+const SLIDES = [
+  { id:"u1", title:"Familiar isn't the same as remembered",
+    lead:"Reading your notes again makes them feel easy. That easy feeling is called fluency, and it fools almost everyone.",
+    pts:[
+      ["See it","When the notes are in front of you, you recognise everything. It feels like you know it."],
+      ["Use it","The test takes the notes away. Now you have to bring the information back yourself, which is much harder."]
+    ],
+    pull:{ lbl:"The test", t:"Close the book. What can you write down or explain without looking?" },
+    src:"Learning research on study strategies, including Sean Kang, University of Melbourne",
+    q:{ kind:"mcq",
+        q:"Ella reads her notes the night before and says, “It all looks familiar, so I'm ready.” What's the problem with her reasoning?",
+        opts:[
+          "Recognising notes in front of you is easier than recalling them without.",
+          "Reading notes the night before means you can't remember anything at all.",
+          "Familiar information is always forgotten more quickly than new material.",
+          "She should have highlighted the notes first, before reading them through."
+        ],
+        a:0,
+        explain:"Familiarity is recognition: the answer is in front of you. The test asks for recall: getting it back with nothing to look at. Feeling ready after rereading tells you about the first, not the second." } },
+
+  { id:"u2", title:"Why rereading wins on the day",
+    lead:"If you test people a few minutes after studying, rereading often does as well as testing yourself, or better. That's why it feels like it works.",
+    pts:[
+      ["Minutes later","Rereading usually wins or ties. The information is still fresh."],
+      ["Days later","People who tested themselves remember much more. The rereaders have forgotten more of it."]
+    ],
+    pull:{ lbl:"Our experiment", t:"This is what our retest next lesson is checking. Your score now and your score later can tell different stories." },
+    src:"Roediger & Karpicke (2006), Psychological Science",
+    q:{ kind:"mcq",
+        q:"In our experiment, suppose the reread list scores higher today. What should we conclude?",
+        opts:[
+          "Nothing yet. The real comparison is the retest after a few days.",
+          "Rereading is the better method, so the retest isn't really needed.",
+          "The experiment failed, because recall practice was meant to win.",
+          "Both methods are equal, because today's scores ended up close."
+        ],
+        a:0,
+        explain:"Rereading often wins a few minutes after studying. The question that matters for an exam is what you still know days later, which is why we test again next lesson." } },
+
+  { id:"u3", title:"Get it out: retrieval practice",
+    lead:"The most useful thing you can do with study time is practise getting information out of your memory, then check.",
+    pts:[
+      ["How","Close the book and write down everything you remember (a brain dump). Flashcards. Practice questions. Get someone to quiz you."],
+      ["Then","Check what you got wrong or missed. That's the bit to study next."]
+    ],
+    pull:{ lbl:"Remember", t:"It feels harder than rereading. That's normal, and it's part of why it works." },
+    src:"Dunlosky et al. (2013); Roediger & Karpicke (2006)",
+    q:{ kind:"mcq",
+        q:"Which of these is retrieval practice?",
+        opts:[
+          "Closing your book and writing down everything you remember, then checking.",
+          "Reading the chapter slowly and carefully so that nothing important gets missed.",
+          "Highlighting the key words in each paragraph of your class notes.",
+          "Copying your notes out neatly into a new book, word for word."
+        ],
+        a:0,
+        explain:"Retrieval means bringing it back from memory with nothing to look at. Reading, highlighting and copying all keep the information in front of you." } },
+
+  { id:"u4", title:"Space it out",
+    lead:"The same amount of study works better spread over several days than crammed into one night.",
+    pts:[
+      ["Cram","Three hours the night before. Feels productive. Fades fast."],
+      ["Spaced","Three sessions of an hour on different days. Each time you come back, you have to retrieve it again."]
+    ],
+    pull:{ lbl:"Same time, better result", t:"Spacing isn't studying more. It's studying the same amount, at different times." },
+    src:"Dunlosky et al. (2013)",
+    q:{ kind:"mcq",
+        q:"Two students both study for 3 hours. Who has used spacing?",
+        opts:[
+          "Kai studies for one hour on Monday, one on Wednesday and one on Friday.",
+          "Mia studies for three hours straight on Thursday night, with no breaks.",
+          "Sam studies for three hours on Thursday, with a short break each hour.",
+          "Ana studies for one hour, three times over on Thursday night instead."
+        ],
+        a:0,
+        explain:"Spacing means coming back on different days. Breaks inside one evening are still one session." } },
+
+  { id:"u5", title:"Mix it up",
+    lead:"Practise different topics or question types in the same session, instead of doing all of one type and then all of the next. This is called interleaving.",
+    pts:[
+      ["Blocked","Ten area questions, then ten volume questions. You always know which method to use."],
+      ["Mixed","Area and volume questions shuffled together. You have to work out which method each one needs, like in the test."]
+    ],
+    pull:{ lbl:"Why it works", t:"A test doesn't tell you which method to use. Mixed practice makes you practise choosing." },
+    src:"Dunlosky et al. (2013)",
+    q:{ kind:"mcq",
+        q:"Which practice set uses interleaving?",
+        opts:[
+          "Questions on fractions, percentages and ratios, shuffled together.",
+          "Twenty fractions questions, then twenty percentages questions.",
+          "The same fractions question done five times over, until it's perfect.",
+          "Reading the fractions chapter, then the percentages chapter."
+        ],
+        a:0,
+        explain:"Interleaving means the types are mixed, so each question makes you choose the method. Blocked sets let you run on autopilot." } },
+
+  { id:"u6", title:"Ask why, and explain it",
+    lead:"Two more ways to make your brain work while you study.",
+    pts:[
+      ["Ask why","Don't just learn the fact. Ask why it's true and what it connects to. “Germany invaded Poland in 1939.” Why then? What led up to it?"],
+      ["Explain it","Explain it out loud as if to someone who knows nothing. What is it? How does it work? Why does it matter?"]
+    ],
+    pull:{ lbl:"Warning sign", t:"If you can't explain it without your notes, you don't know it yet. That's useful: now you know what to work on." },
+    src:"Dunlosky et al. (2013)",
+    q:{ kind:"mcq",
+        q:"Which student is asking “why” while they study?",
+        opts:[
+          "Leo reads that Germany invaded Poland in 1939, then asks what led up to it.",
+          "Ava writes “Germany invaded Poland, 1939” on a flashcard ten times.",
+          "Max highlights the date 1939 in bright yellow so it stands out on the page.",
+          "Zoe reads the paragraph about Poland three times in a row, slowly."
+        ],
+        a:0,
+        explain:"Asking what led up to it connects the fact to other knowledge, which makes it easier to bring back later. The others repeat the fact without thinking about it." } },
+
+  { id:"u7", title:"What about highlighting and summaries?",
+    lead:"A big review of study techniques rated rereading, highlighting and summarising as low usefulness. Not useless. Weak on their own.",
+    pts:[
+      ["Fix","Highlight, then cover the page and try to say what you highlighted and why it matters."],
+      ["Fix","Write a summary from memory, then check it against your notes and fill the gaps."]
+    ],
+    pull:{ lbl:"The rule", t:"Turn anything you're doing into getting it out, then checking." },
+    src:"Dunlosky et al. (2013), Psychological Science in the Public Interest",
+    q:{ kind:"mcq",
+        q:"Which change turns highlighting into something more useful?",
+        opts:[
+          "Cover the page and try to explain each highlighted part from memory.",
+          "Use three different colours so every type of information stands out.",
+          "Highlight less, so only the most important sentence on each page shows.",
+          "Highlight everything first, then go back and read only the highlighting."
+        ],
+        a:0,
+        explain:"Covering it and explaining from memory adds retrieval. Changing colours or amounts is still just looking." } },
+
+  { id:"u8", title:"When it feels hard",
+    lead:"Testing yourself, spacing and mixing all feel harder than rereading. People often stop because of that feeling.",
+    pts:[
+      ["Feels","Slower. More mistakes. Less confident."],
+      ["Does","More of it sticks. Mistakes you check and fix are some of the best learning you'll do."]
+    ],
+    pull:{ lbl:"Remember", t:"Feeling like you're learning and actually learning aren't the same thing." },
+    src:"Bjork, desirable difficulties; Dunlosky et al. (2013)",
+    q:{ kind:"mcq",
+        q:"Noah tries flashcards, gets half wrong and says, “This isn't working, I'll go back to reading.” What's the best reply?",
+        opts:[
+          "“Getting some wrong is normal. Checking them is what makes it work.”",
+          "“Yeah, if it feels hard then it's probably not the right method.”",
+          "“Make the cards easier so you get them right the first time.”",
+          "“Read the cards over a few more times before you test yourself on them.”"
+        ],
+        a:0,
+        explain:"The difficulty is part of how it works. The wrong answers show him exactly what to study, and checking them is the learning." } },
+
+  { id:"u9", title:"Sleep is part of studying",
+    lead:"Your brain consolidates what you learned during sleep. The night's sleep after studying is part of the studying.",
+    pts:[
+      ["All-nighter","Less sleep means less consolidation, plus worse attention and memory in the test."],
+      ["Plan","Spread study across the week so the night before can be a short review and a normal bedtime."]
+    ],
+    pull:{ lbl:"Link", t:"Sleep Lab covered why: consolidation happens while you sleep." },
+    src:"Sleep Lab; Better Health Channel",
+    q:{ kind:"mcq",
+        q:"It's the night before a test. Which plan fits the slide?",
+        opts:[
+          "A short self-test, then bed at a normal time.",
+          "Stay up late to get through all the notes once.",
+          "Skip sleep and study, then sleep after the test.",
+          "Reread the whole textbook until midnight or later."
+        ],
+        a:0,
+        explain:"A short retrieval session and a normal night's sleep let your brain consolidate. Staying up late trades away the consolidation for more rereading." } }
+];
+
+/* ================= AUDIT ================= */
+const AUDIT = [
+  { id:"v1", title:"Name the strategy", core:true,
+    teach:`<b>Five strategies.</b>
+      <ul>
+        <li><b>Retrieval:</b> getting it out of your memory, then checking.</li>
+        <li><b>Spacing:</b> the same study spread over different days.</li>
+        <li><b>Interleaving:</b> mixing topics or question types in one session.</li>
+        <li><b>Elaboration:</b> asking why, and connecting it to what you know.</li>
+        <li><b>Rereading:</b> going over it again. Feels good, weak on its own.</li>
+      </ul>`,
+    reteach:`<b>Ask one question about each example: what is the student's brain doing?</b>
+      <ul>
+        <li>Bringing it back with nothing to look at? <b>Retrieval.</b></li>
+        <li>Coming back to it on a different day? <b>Spacing.</b></li>
+        <li>Switching between types so they have to choose a method? <b>Interleaving.</b></li>
+        <li>Asking why, or connecting it to something else? <b>Elaboration.</b></li>
+        <li>Just looking at it again? <b>Rereading.</b></li>
+      </ul>`,
+    itemsA:[
+      { id:"v1a1", kind:"mcq", q:"Tom covers his notes and writes down everything he can remember about the water cycle. Which strategy?",
+        opts:["Retrieval", "Spacing", "Interleaving", "Elaboration", "Rereading"], a:0,
+        explain:"Writing it down with the notes covered is getting it out of memory: retrieval." },
+      { id:"v1a2", kind:"mcq", q:"Priya revises her French vocab on Monday, Thursday and Sunday. Which strategy?",
+        opts:["Retrieval", "Spacing", "Interleaving", "Elaboration", "Rereading"], a:1,
+        explain:"Coming back to the same material on different days is spacing." },
+      { id:"v1a3", kind:"mcq", q:"Jack's maths practice has area, perimeter and volume questions shuffled together. Which strategy?",
+        opts:["Retrieval", "Spacing", "Interleaving", "Elaboration", "Rereading"], a:2,
+        explain:"Mixing question types so you have to pick the method is interleaving." },
+      { id:"v1a4", kind:"mcq", q:"While studying the gold rush, Sara asks herself why so many people moved to Victoria in the 1850s. Which strategy?",
+        opts:["Retrieval", "Spacing", "Interleaving", "Elaboration", "Rereading"], a:3,
+        explain:"Asking why and connecting it to causes is elaboration." },
+      { id:"v1a5", kind:"mcq", q:"Ben reads his science notes three times the night before. Which strategy?",
+        opts:["Retrieval", "Spacing", "Interleaving", "Elaboration", "Rereading"], a:4,
+        explain:"Going over it again in one sitting is rereading. It feels productive but it's weak on its own." }
+    ],
+    itemsB:[
+      { id:"v1b1", kind:"mcq", q:"Lily's friend quizzes her on the causes of World War I without letting her look. Which strategy?",
+        opts:["Retrieval", "Spacing", "Interleaving", "Elaboration", "Rereading"], a:0,
+        explain:"Answering from memory with nothing to look at is retrieval." },
+      { id:"v1b2", kind:"mcq", q:"Omar does twenty minutes of chemistry on Tuesday and twenty more on Saturday. Which strategy?",
+        opts:["Retrieval", "Spacing", "Interleaving", "Elaboration", "Rereading"], a:1,
+        explain:"Returning on a different day is spacing." },
+      { id:"v1b3", kind:"mcq", q:"Grace's English revision mixes poetry, persuasive and novel questions in one set. Which strategy?",
+        opts:["Retrieval", "Spacing", "Interleaving", "Elaboration", "Rereading"], a:2,
+        explain:"Mixed question types in one session is interleaving." },
+      { id:"v1b4", kind:"mcq", q:"Ethan explains to himself how photosynthesis connects to the food chain. Which strategy?",
+        opts:["Retrieval", "Spacing", "Interleaving", "Elaboration", "Rereading"], a:3,
+        explain:"Connecting it to something else and explaining how is elaboration." },
+      { id:"v1b5", kind:"mcq", q:"Chloe goes over her highlighted notes again before class. Which strategy?",
+        opts:["Retrieval", "Spacing", "Interleaving", "Elaboration", "Rereading"], a:4,
+        explain:"Looking over the notes again is rereading." }
+    ] },
+
+  { id:"v2", title:"Read the evidence", core:true,
+    teach:`<b>Two things to keep in mind when you read study results.</b>
+      <ul>
+        <li><b>When was the test?</b> Results a few minutes after studying can be the opposite of results days later.</li>
+        <li><b>How someone feels isn't a score.</b> Feeling ready and doing well can come apart.</li>
+      </ul>`,
+    reteach:`<b>Check the timing, then check what was measured.</b>
+      <ul>
+        <li>Rereading often wins a few minutes later. Retrieval practice usually wins days later. Exams are days later.</li>
+        <li>Confidence ratings measure how ready people feel, not what they remember.</li>
+        <li>One person's result could be luck. A class average is better evidence.</li>
+      </ul>`,
+    itemsA:[
+      { id:"v2a1", kind:"mcq",
+        q:"A class scores 8/10 on a reread list and 7/10 on a recall list, five minutes after studying. A week later: reread 3/10, recall 6/10. Which conclusion fits?",
+        opts:["Recall practice kept more for longer, even though rereading was ahead at first.",
+              "Rereading is the better method, because it got the highest score of all the results.",
+              "Both methods were equally good, because the averages come out about even.",
+              "The week-later test was harder, so its results don't count for anything."],
+        a:0,
+        explain:"The order flipped over time. What matters for an exam is what's left days later, and recall practice kept twice as much." },
+      { id:"v2a2", kind:"mcq",
+        q:"After rereading, students rate themselves 9/10 for confidence. On the test they average 5/10. What does this show?",
+        opts:["Feeling ready and actually knowing it can be very different.",
+              "The test must have been unfair, given how confident they were.",
+              "Confidence ratings are the most accurate way to check learning.",
+              "They would have scored higher if they had felt even more ready."],
+        a:0,
+        explain:"That's the fluency illusion. Rereading makes things feel known. The test shows what can actually be recalled." },
+      { id:"v2a3", kind:"mcq",
+        q:"One student in our experiment did better with rereading on both tests. Does that disprove retrieval practice?",
+        opts:["No. One result can be chance. Look at the whole class.",
+              "Yes. If it fails for one person, it doesn't work at all.",
+              "Yes. It proves rereading is better for most students.",
+              "No, because that student must have cheated on the test."],
+        a:0,
+        explain:"Individual results vary. The research finding is about averages across many people." },
+      { id:"v2a4", kind:"mcq",
+        q:"Which test would best check whether a study method helps in exams?",
+        opts:["A test a week later, without notes.",
+              "A test five minutes later, with notes.",
+              "Asking students how well it went.",
+              "Timing how long they spent studying."],
+        a:0,
+        explain:"Exams come days or weeks later and you have no notes. The test should look like that." },
+      { id:"v2a5", kind:"mcq",
+        q:"Someone says, “I study for five hours, so I must be studying well.” What's missing?",
+        opts:["What they do in those hours matters more than how many there are.",
+              "Nothing. Five hours is plenty for almost any test you could have.",
+              "They should study for even longer, like six hours, to be safe.",
+              "Hours only count if they're spent in a library, not at home."],
+        a:0,
+        explain:"Time spent rereading isn't the same as time spent retrieving. The method matters more than the hours." }
+    ],
+    itemsB:[
+      { id:"v2b1", kind:"mcq",
+        q:"Straight after studying, method A scores 9/10 and method B scores 8/10. Two days later, A scores 4/10 and B scores 7/10. Which is better for an exam?",
+        opts:["B, because it kept more after two days.",
+              "A, because it had the top score of all.",
+              "Neither, because the results changed.",
+              "A, because it was ahead on the first day."],
+        a:0,
+        explain:"Exams test what you still know days later. B kept far more." },
+      { id:"v2b2", kind:"mcq",
+        q:"Why does rereading feel like it's working?",
+        opts:["Familiar material feels easy to read, which feels like knowing it.",
+              "Rereading puts the information straight into your long-term memory.",
+              "Rereading is the method most teachers say works best for tests.",
+              "The more times you read it, the harder it is to forget later."],
+        a:0,
+        explain:"Fluency: it reads easily, so it feels known. That feeling doesn't mean you can recall it." },
+      { id:"v2b3", kind:"mcq",
+        q:"Our class average shows recall practice ahead on the retest. A student says, “It didn't work for me.” What's fair?",
+        opts:["Individuals vary. The average is still the better evidence.",
+              "The class result is wrong because one person disagrees.",
+              "The student should stop using retrieval practice forever after this.",
+              "Averages never tell you anything useful about people."],
+        a:0,
+        explain:"One result can go either way by chance. The pattern across many people is what the research is about." },
+      { id:"v2b4", kind:"mcq",
+        q:"Which is the best check that you're ready for a test?",
+        opts:["Doing practice questions without notes, then marking them.",
+              "Feeling confident when you look over your notes the night before.",
+              "Having highlighted everything you think is important.",
+              "Spending more hours studying than your friends did."],
+        a:0,
+        explain:"Practice questions without notes are a mini version of the real test, and marking them shows what you still need." },
+      { id:"v2b5", kind:"mcq",
+        q:"Why do we retest next lesson instead of only today?",
+        opts:["Because the difference between methods shows up after a delay.",
+              "Because today's test was far too easy to tell us anything useful at all.",
+              "Because students need extra marks for their school report.",
+              "Because the lists change between today and next lesson."],
+        a:0,
+        explain:"Rereading can match or beat retrieval minutes later. The retest after a delay is where they come apart." }
+    ] }
+];
+
+/* ================= WORK IT THROUGH (step 5) ================= */
+const SCENARIO = "Alex has a Science test on Friday. On Thursday night, Alex reads all their notes for three hours, highlights the important parts and watches some YouTube videos. It all looks familiar, so Alex feels ready.";
+const DECODE = [
+  { w:"The problem", prompt:"Alex feels ready. Explain why Alex might not be.",
+    crit:`<b>A strong answer:</b> says that familiar isn't the same as remembered, that reading, highlighting and watching all keep the information in front of Alex instead of getting it out, and that one session the night before fades fast.
+      <b>The near-miss:</b> “Alex should study more.” More of the same won't fix it.` },
+  { w:"Fix Alex's week", prompt:"Rewrite Alex's study for the week, starting Monday. Use the same three hours in total.",
+    crit:`<b>A strong answer:</b> spreads the three hours over at least three days, puts getting it out (a brain dump, flashcards, practice questions) into every session, includes checking answers, and keeps Thursday short so Alex sleeps normally.
+      <b>The near-miss:</b> “Study a bit each night.” That spaces it out, but it doesn't say what Alex does in each session.` },
+  { w:"Your plan", prompt:"Think of a real test or assessment you have coming up. When will you study, what will you do, and how will you know it's working?",
+    crit:`<b>A strong answer:</b> names the real assessment, plans at least two sessions on different days, names a specific way to get it out, and says how you'll check (for example, your score on practice questions without notes).
+      <b>The near-miss:</b> “I'll study harder.” No when, no what, no check.` }
+];
+
+/* ================= STATE ================= */
+const KEY = "studylab.v1";
+let S = load();
+function blank(){
+  return { intro:true, introText:"", exp:{ how:"", pred:"", order:{}, now:null, later:null }, studied:false, slidesSeen:[], slidesDone:false,
+           first:{}, done:{}, sendbacks:0, checkDone:false,
+           buildDone:{}, buildFirst:{}, decode:{}, decodeDone:false,
+           reteach:{}, retryScores:{},
+           name:"", sid:"", startedAt:null, finishedAt:null };
+}
+function load(){ try{ const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.first){ s.exp=s.exp||{how:"",pred:"",order:{},now:null,later:null}; return s; } return blank(); }catch(e){ return blank(); } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+function el(id){ return document.getElementById(id); }
+/* Task shells share ids across screens; scope every lookup to its screen root
+   (a part-finished screen can leave stale ids behind, so every lookup
+   is scoped rather than global). */
+function scoped(rootId){
+  return function(sel){ const r = el(rootId); return r ? r.querySelector(sel) : null; };
+}
+const qc = scoped("check-body");
+const qb = scoped("build-body");
+const qa = scoped("audit-body");
+function esc(t){ const d=document.createElement("div"); d.textContent=t==null?"":String(t); return d.innerHTML; }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+function go(name){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  el("scr-"+name).classList.add("active");
+  window.scrollTo(0,0);
+  if(name==="home"){ setPresent(false); renderHome(); }
+  if(name==="study") renderStudy();
+  if(name==="report") renderReport();
+  if(name==="exp") renderExp();
+}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+
+/* ================= HOME ================= */
+function checkFirstCount(){ return SLIDES.filter(s=>S.first[s.id]===true).length; }
+function buildCount(){ return WORDS.filter(w=>S.buildDone[w.w]).length; }
+function buildFirstCount(){ return WORDS.filter(w=>S.buildFirst[w.w]===true).length; }
+function auditItems(){ return AUDIT.flatMap(sec=>sec.itemsA); }
+function auditFirstCount(){ return auditItems().filter(it=>S.first[it.id]===true).length; }
+function decodeCount(){ return DECODE.filter(d=>S.decode[d.w] && S.decode[d.w].text && S.decode[d.w].text.trim().length>=20).length; }
+
+function renderHome(){
+  const wrap = el("home-steps"); wrap.innerHTML="";
+  const steps = [
+    { t:"The experiment",
+      d:"Predict, study two lists, take the test now, and the same test again next lesson.",
+      done:!!(S.exp.now && S.exp.later), fn:()=>startExp(),
+      tag:S.exp.later ? "BOTH TESTS DONE" : (S.exp.now ? "RETEST NEXT LESSON" : "") },
+    { t:"The briefing",
+      d:"Nine slides, then one checkpoint question per slide. A wrong answer sends you back to the slide.",
+      done:S.checkDone, fn:()=>startSlides(),
+      tag:S.checkDone ? `${checkFirstCount()}/${SLIDES.length} FIRST TRY`
+        : (S.slidesDone ? "SLIDES SEEN" : "") },
+    { t:"The word list",
+      d:"Eight words, with the prefix, root and suffix that build each one.",
+      done:S.studied, fn:()=>go("study"), tag:S.studied?"READ":"" },
+    { t:"Word builders",
+      d:"Build each word from its parts. Some tiles in the bank belong to other words.",
+      done:S.done.build, fn:()=>startBuild(),
+      tag:S.done.build ? `${buildFirstCount()}/${WORDS.length} CLEAN`
+        : (buildCount() ? `${buildCount()}/${WORDS.length}` : "") },
+    { t:"Work it through",
+      d:"Alex's study plan. Three written answers, then check yours against the criteria.",
+      done:S.decodeDone, fn:()=>startDecode(),
+      tag:S.decodeDone ? "WRITTEN" : (decodeCount()? `${decodeCount()}/${DECODE.length}` : "") },
+    { t:"Study audit",
+      d:"Two sections. Under 80% on a section means a reteach and a fresh set of questions.",
+      done:S.done.audit, fn:()=>startAudit(),
+      tag:S.done.audit ? `${auditFirstCount()}/${auditItems().length} FIRST TRY` : "" },
+    { t:"Report",
+      d:"Your experiment results, scores and written answers, print, and a row to copy for your teacher.",
+      done:false, fn:()=>go("report"), tag:"ANY TIME" }
+  ];
+  steps.forEach((st,i)=>{
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="step"+(st.done?" done":"");
+    b.innerHTML=`<span class="num">${st.done?"✓":i+1}</span>`+
+      `<span><span class="t">${st.t}</span><br><span class="d">${st.d}</span></span>`+
+      `<span class="tag">${st.tag}</span>`;
+    b.addEventListener("click",st.fn);
+    wrap.appendChild(b);
+  });
+}
+
+el("resetAllBtn").addEventListener("click",()=>{
+  if(confirm("Wipe all your progress and scores?")){ S=blank(); save(); go("home"); }
+});
+
+/* ================= STEP 1 · STUDY ================= */
+/* Colour is a taxonomy: prefix / root / suffix, one colour each, legend shown.
+   A tile ending in "-" is a prefix, one starting with "-" is a suffix. */
+function morphClass(t,i){ return t.endsWith("-") ? "mp" : (t.startsWith("-") ? "ms" : "mr"); }
+function colourWord(v){
+  // rebuild the headword from its tiles so each part takes its category colour
+  let out="", rest=v.w;
+  for(const [t] of v.tiles){
+    const piece = t.replace(/-/g,"");
+    const idx = rest.toLowerCase().indexOf(piece.toLowerCase());
+    if(idx===-1){ return esc(v.w); }
+    out += esc(rest.slice(0,idx)) + `<span class="${morphClass(t)}">${esc(rest.slice(idx,idx+piece.length))}</span>`;
+    rest = rest.slice(idx+piece.length);
+  }
+  return out + esc(rest);
+}
+function renderStudy(){
+  const wrap = el("study-list"); wrap.innerHTML="";
+  wrap.insertAdjacentHTML("beforeend",
+    `<div class="mlegend"><span class="mp">prefix</span><span class="mr">root</span><span class="ms">suffix</span>
+</div>`);
+  WORDS.forEach(v=>{
+    const parts = v.tiles.map(t=>`<code class="${morphClass(t[0])}">${esc(t[0])}</code> <i>${esc(t[1])}</i>`).join(" + ");
+    const d=document.createElement("div"); d.className="vcard";
+    d.innerHTML = `<span class="w">${colourWord(v)}</span><span class="pos">${esc(v.pos)}</span>`+
+      `<div class="meaning">${esc(v.meaning)}</div>`+
+      `<div class="morph">${parts}<br>${v.note}</div>`;
+    wrap.appendChild(d);
+  });
+}
+el("markStudiedBtn").addEventListener("click",()=>{
+  S.studied=true; if(!S.startedAt) S.startedAt=Date.now(); save(); startBuild();
+});
+
+/* ================= STEP 2 · SLIDES ================= */
+let curSlide = 0;
+
+function setPresent(on){
+  document.body.classList.toggle("present", !!on);
+  el("presentBtn").textContent = on ? "Exit present mode" : "Present mode";
+}
+el("presentBtn").addEventListener("click",()=>setPresent(!document.body.classList.contains("present")));
+
+function slideHTML(sl, i){
+  return `<div class="of">Slide ${i+1} of ${SLIDES.length}</div>
+    <h2>${sl.title}</h2>
+    <p class="lead">${sl.lead}</p>
+    <div class="pts">${sl.pts.map(p=>`<div><span class="b">${esc(p[0])}</span><span>${p[1]}</span></div>`).join("")}</div>
+    ${sl.pull?`<div class="pull"><span>${esc(sl.pull.lbl)}</span>${sl.pull.t}</div>`:""}
+    <p class="srcline">${esc(sl.src)}</p>`;
+}
+
+function startSlides(){
+  if(!S.startedAt){ S.startedAt=Date.now(); save(); }
+  if(!S.checkDone && S.slidesDone && confirmSkip()){ startCheck(); return; }
+  curSlide = 0; go("slides"); renderSlide();
+}
+function confirmSkip(){
+  return confirm("You've already been through the slides. Go straight to the checkpoint questions?\n\nOK = go to questions.  Cancel = read the slides again.");
+}
+
+function renderSlide(){
+  const sl = SLIDES[curSlide];
+  el("slide-body").innerHTML = slideHTML(sl, curSlide);
+  el("slide-prog").textContent = `STEP 2 · SLIDE ${curSlide+1}/${SLIDES.length}`;
+  if(!S.slidesSeen.includes(sl.id)){ S.slidesSeen.push(sl.id); save(); }
+  const pips = el("slide-pips"); pips.innerHTML="";
+  SLIDES.forEach((s,i)=>{
+    const p=document.createElement("button");
+    p.type="button";
+    p.className="pip"+(S.slidesSeen.includes(s.id)?" seen":"")+(i===curSlide?" now":"");
+    p.title = `Slide ${i+1}: ${s.title}`;
+    p.setAttribute("aria-label", `Go to slide ${i+1}: ${s.title}`);
+    p.addEventListener("click",()=>{ curSlide=i; renderSlide(); });
+    pips.appendChild(p);
+  });
+  el("slidePrev").disabled = curSlide===0;
+  const last = curSlide===SLIDES.length-1;
+  el("slideNext").textContent = last
+    ? (S.checkDone ? "Back to the checkpoint summary →" : "Start the checkpoint questions →")
+    : "Next →";
+  const skip = el("slideToQ");
+  skip.hidden = !(S.slidesDone || S.checkDone);
+  skip.textContent = S.checkDone ? "Checkpoint summary →" : "Skip to the questions →";
+  el("slideFoot").textContent = S.checkDone
+    ? ""
+    : (last
+      ? `${SLIDES.length} checkpoint questions follow, one per slide.`
+      : "");
+}
+el("slideToQ").addEventListener("click",()=>{ S.slidesDone=true; save(); setPresent(false); startCheck(); });
+el("slidePrev").addEventListener("click",()=>{ if(curSlide>0){ curSlide--; renderSlide(); } });
+el("slideNext").addEventListener("click",()=>{
+  if(curSlide < SLIDES.length-1){ curSlide++; renderSlide(); }
+  else { S.slidesDone=true; save(); setPresent(false); startCheck(); }
+});
+document.addEventListener("keydown",(e)=>{
+  if(!el("scr-slides").classList.contains("active")) return;
+  if(e.key==="ArrowRight"){ el("slideNext").click(); }
+  if(e.key==="ArrowLeft"){ el("slidePrev").click(); }
+  if(e.key==="Escape" && document.body.classList.contains("present")) setPresent(false);
+});
+
+/* ---------- checkpoints ---------- */
+function startCheck(){
+  go("check");
+  const queue = SLIDES.filter(s=>!S.done[s.id]);
+  if(!queue.length){ finishCheck(); return; }
+  checkNext(queue.slice());
+}
+function checkProgress(){
+  const done = SLIDES.filter(s=>S.done[s.id]).length;
+  el("check-prog").textContent = `STEP 2 · CHECKPOINTS · cleared ${done}/${SLIDES.length}`;
+}
+
+function checkNext(queue){
+  checkProgress();
+  if(!queue.length){ finishCheck(); return; }
+  const sl = queue.shift();
+  const i = SLIDES.indexOf(sl);
+  const body = el("check-body");
+  const q = sl.q;
+  const isFirst = S.first[sl.id]===undefined;
+
+  body.innerHTML =
+    `<div class="stagepath">${SLIDES.map(s=>
+      `<span class="spip${S.done[s.id]?" done":""}${s.id===sl.id?" now":""}">${SLIDES.indexOf(s)+1}</span>`).join("")}</div>
+     <p class="prompt">Checkpoint · slide ${i+1} · ${esc(sl.title)}</p>
+     <p class="qtext">${q.q}</p>
+     <div id="ansarea"></div>
+     <div class="feedback" id="fb"></div>
+     <div id="sbarea"></div>
+     <div class="nextrow noprint" id="nextrow"></div>`;
+
+  const ansarea = qc("#ansarea");
+  if(q.kind==="mcq"){
+    const order = shuffle(q.opts.map((t,idx)=>({t,idx})));
+    ansarea.className="opts";
+    order.forEach(o=>{
+      const b=document.createElement("button");
+      b.type="button"; b.className="opt"; b.innerHTML=o.t;
+      b.addEventListener("click",()=>judge(o.idx===q.a, b, order, q, sl, queue, isFirst, i));
+      ansarea.appendChild(b);
+    });
+  } else {
+    ansarea.className="numrow";
+    ansarea.innerHTML =
+      `<input type="text" inputmode="decimal" id="numin" placeholder="?" autocomplete="off">
+       <span class="unit">${esc(q.unit||"")}</span>
+       <button class="btn btn-primary" id="numgo" type="button">Check</button>
+       ${q.hint?`<div class="muted" style="flex-basis:100%;margin-top:6px">Hint: ${esc(q.hint)}</div>`:""}`;
+    const submit = ()=>{
+      const raw = qc("#numin").value.trim();
+      if(raw==="") return;
+      const v = parseFloat(raw.replace(/[^\d.\-]/g,""));
+      const ok = !isNaN(v) && Math.abs(v - q.a) <= (q.tol!=null?q.tol:0.001);
+      qc("#numin").disabled = true; qc("#numgo").disabled = true;
+      judge(ok, null, null, q, sl, queue, isFirst, i);
+    };
+    qc("#numgo").addEventListener("click",submit);
+    qc("#numin").addEventListener("keydown",(e)=>{ if(e.key==="Enter") submit(); });
+    setTimeout(()=>{ const n=qc("#numin"); if(n) n.focus(); },40);
+  }
+}
+
+function judge(correct, btn, order, q, sl, queue, isFirst, slideIndex){
+  if(isFirst){ S.first[sl.id] = correct; }
+  const fb = qc("#fb");
+  const nextrow = qc("#nextrow");
+
+  if(q.kind==="mcq"){
+    const opts = [...qc("#ansarea").querySelectorAll(".opt")];
+    opts.forEach((b,pos)=>{
+      b.disabled = true;
+      if(order[pos].idx === q.a) b.classList.add("right");
+      if(b===btn && !correct) b.classList.add("wrongpick");
+    });
+  }
+
+  if(correct){
+    S.done[sl.id] = true; save();
+    fb.className = "feedback ok";
+    fb.innerHTML = `<b>Correct.</b> ${q.explain}`;
+    const b=document.createElement("button");
+    b.type="button"; b.className="btn btn-primary"; b.textContent="Next →";
+    b.addEventListener("click",()=>checkNext(queue));
+    nextrow.appendChild(b);
+    checkProgress();
+  } else {
+    S.sendbacks = (S.sendbacks||0)+1; save();
+    fb.className = "feedback bad";
+    fb.innerHTML = `<b>Not right.</b> ${q.explain}`;
+    queue.push(sl);
+    renderSendback(sl, slideIndex, queue);
+  }
+}
+
+function renderSendback(sl, i, queue){
+  const DWELL = 8;
+  const area = qc("#sbarea");
+  area.innerHTML =
+    `<div class="sendback">
+       <div class="hd">Back to slide ${i+1} — read it again</div>
+       <div class="slidecopy">
+         <h4>${esc(sl.title)}</h4>
+         <p style="margin-bottom:8px">${sl.lead}</p>
+         <div class="pts">${sl.pts.map(p=>`<div><span class="b">${esc(p[0])}</span><span>${p[1]}</span></div>`).join("")}</div>
+         ${sl.pull?`<div class="pull" style="margin-top:10px"><span>${esc(sl.pull.lbl)}</span>${sl.pull.t}</div>`:""}
+       </div>
+       <p class="dwell" id="dwelltxt">You can continue in ${DWELL} seconds.</p>
+     </div>`;
+  const nextrow = qc("#nextrow");
+  const b=document.createElement("button");
+  b.type="button"; b.className="btn btn-primary"; b.disabled=true;
+  b.textContent = "I've re-read it — the question comes back later";
+  nextrow.appendChild(b);
+  let left = DWELL;
+  const t = setInterval(()=>{
+    left--;
+    const d = qc("#dwelltxt");
+    if(left<=0){
+      clearInterval(t);
+      if(d) d.textContent = "Re-read done. This question will come back before the section is finished.";
+      b.disabled = false;
+    } else if(d){ d.textContent = `You can continue in ${left} second${left===1?"":"s"}.`; }
+  },1000);
+  b.addEventListener("click",()=>checkNext(queue));
+}
+
+function finishCheck(){
+  S.checkDone = true; save();
+  const got = checkFirstCount(), tot = SLIDES.length;
+  const pct = Math.round(100*got/tot);
+  const cls = pct>=80?"good":(pct>=60?"mid":"low");
+  el("check-body").innerHTML =
+    `<div class="sumbox"><div class="big ${cls}">${got}/${tot}</div>
+      <p class="muted">first-attempt on the briefing checkpoints · ${pct}%</p>
+      <p class="muted" style="margin-top:8px">You were sent back to a slide
+        <b>${S.sendbacks||0}</b> time${(S.sendbacks||0)===1?"":"s"}. Every question has now been cleared.</p></div>
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" data-go2="home" type="button">Home</button>
+       <button class="btn btn-ghost" id="reviewSlides" type="button">Review the slides</button>
+       <button class="btn btn-primary" id="toBuild" type="button">On to the word list →</button>
+     </div>`;
+  el("check-body").querySelector("[data-go2]").addEventListener("click",()=>go("home"));
+  qc("#reviewSlides").addEventListener("click",()=>{ curSlide=0; go("slides"); renderSlide(); });
+  qc("#toBuild").addEventListener("click",()=>go("study"));
+}
+
+/* ================= STEP 3 · WORD BUILDERS ================= */
+/* Board builder, ported from the Year 7 vocab hub: every definition is on the
+   board at once, one shared bank of morphemes grouped by type, drag a piece
+   into a slot or tap a piece then tap a slot. A finished word ticks off and
+   leaves the board. Pieces are never used up, so a suffix can serve two words.
+   Eight words split into two boards of four so the bank stays readable. */
+const BOARDS = [WORDS.slice(0,4), WORDS.slice(4)];
+const MTYPES = [["prefix","Prefixes"],["root","Roots"],["suffix","Suffixes"]];
+function mtype(p){ return p.endsWith("-") ? "prefix" : (p.startsWith("-") ? "suffix" : "root"); }
+let bctx = { board:0, sel:null };
+
+function startBuild(){
+  go("build");
+  const bi = BOARDS.findIndex(b=>b.some(w=>!S.buildDone[w.w]));
+  if(bi === -1){ finishBuild(); return; }
+  renderBoard(bi);
+}
+function buildProg(){
+  el("build-prog").textContent = `STEP 4 · WORD BUILDERS · built ${buildCount()}/${WORDS.length}`;
+}
+function renderBoard(bi){
+  bctx = { board:bi, sel:null };
+  const words = BOARDS[bi];
+  const active = shuffle(words.filter(w=>!S.buildDone[w.w]));
+  const need = new Map();
+  words.forEach(w=>w.tiles.forEach(([p,g])=>{ if(!need.has(p)) need.set(p,g); }));
+  const pool = []; const seen = new Set(need.keys());
+  words.forEach(w=>(w.decoys||[]).forEach(([p,g])=>{ if(!seen.has(p)){ seen.add(p); pool.push([p,g]); } }));
+  const bank = [...need.entries()].concat(shuffle(pool).slice(0,3)).map(([p,g])=>({p,g,t:mtype(p)}));
+  const bankHtml = MTYPES.map(([t,lbl])=>{
+    const group = bank.filter(m=>m.t===t);
+    if(!group.length) return "";
+    return `<div class="mgroup"><div class="glabel ${t}">${lbl}</div><div class="mtiles">`+
+      shuffle(group).map(m=>`<button type="button" class="mtile ${m.t}" data-p="${esc(m.p)}" data-t="${m.t}">
+        <span class="mm">${esc(m.p)}</span><span class="gl">${esc(m.g)}</span></button>`).join("")+`</div></div>`;
+  }).join("");
+  const rows = active.map(w=>`<div class="wrow" data-w="${esc(w.w)}">
+      <div class="wmean"><span class="pos">${esc(w.pos)}</span>: ${esc(w.meaning)}</div>
+      <div class="wslots">${w.tiles.map((_,i)=>(i?`<span class="wjoin">+</span>`:"")+
+        `<button type="button" class="wslot" data-i="${i}" aria-label="slot ${i+1}"><span class="ph">drop</span></button>`).join("")}</div>
+      <div class="wbuilt"></div></div>`).join("");
+  el("build-body").innerHTML =
+    `<div class="boardhead">
+       <h2>Build the words${BOARDS.length>1?` · board ${bi+1} of ${BOARDS.length}`:""}</h2>
+       <div class="mlegend"><span class="mp">prefix</span><span class="mr">root</span><span class="ms">suffix</span></div>
+     </div>
+     <div class="mbank">${bankHtml}</div>
+     <div class="buildhint" id="buildhint" aria-live="polite"></div>
+     <div class="wtable" id="wtable">${rows}</div>`;
+  buildProg();
+  const body = el("build-body");
+  body.querySelectorAll(".mtile").forEach(tile=>{
+    const info = { p:tile.dataset.p, t:tile.dataset.t };
+    tile.addEventListener("pointerdown", e=>{ if(e.button===0) dragTile(e, tile, info); });
+    tile.addEventListener("click", e=>{ if(e.detail===0) toggleSel(info); });   // keyboard
+  });
+  body.querySelectorAll(".wslot").forEach(slot=>{
+    slot.addEventListener("click", ()=>{
+      if(slot.dataset.p){ clearSlot(slot); return; }
+      if(bctx.sel){ const s=bctx.sel; toggleSel(null); fillSlot(slot, s); }
+    });
+  });
+}
+function toggleSel(info){
+  const same = info && bctx.sel && bctx.sel.p===info.p;
+  bctx.sel = same ? null : info;
+  el("build-body").querySelectorAll(".mtile").forEach(t=>t.classList.toggle("sel", !!bctx.sel && t.dataset.p===bctx.sel.p));
+}
+function dragTile(e, tile, info){
+  e.preventDefault();
+  const sx=e.clientX, sy=e.clientY; let moved=false, ghost=null;
+  try{ tile.setPointerCapture(e.pointerId); }catch(_){}
+  const slotAt = ev=>{ const n=document.elementFromPoint(ev.clientX, ev.clientY); return n ? n.closest("#build-body .wslot") : null; };
+  const clearOver = ()=>el("build-body").querySelectorAll(".wslot.over").forEach(s=>s.classList.remove("over"));
+  function mv(ev){
+    if(!moved && Math.hypot(ev.clientX-sx, ev.clientY-sy) > 6){
+      moved=true; tile.classList.add("dragging");
+      ghost=document.createElement("div"); ghost.className="drag-ghost mtile "+info.t;
+      ghost.innerHTML=tile.innerHTML; document.body.appendChild(ghost);
+    }
+    if(moved){ ghost.style.left=ev.clientX+"px"; ghost.style.top=ev.clientY+"px";
+      clearOver(); const s=slotAt(ev); if(s && !s.dataset.p) s.classList.add("over"); }
+  }
+  function up(ev){
+    tile.removeEventListener("pointermove", mv); tile.removeEventListener("pointerup", up);
+    try{ tile.releasePointerCapture(e.pointerId); }catch(_){}
+    if(moved){
+      tile.classList.remove("dragging"); ghost.remove(); clearOver();
+      const s=slotAt(ev); if(s && !s.dataset.p) fillSlot(s, info);
+    } else toggleSel(info);
+  }
+  tile.addEventListener("pointermove", mv); tile.addEventListener("pointerup", up);
+}
+function fillSlot(slot, info){
+  slot.dataset.p = info.p;
+  slot.className = "wslot filled "+info.t;
+  slot.innerHTML = `<span class="mm">${esc(info.p)}</span>`;
+  checkRow(slot.closest(".wrow"));
+}
+function clearSlot(slot){
+  delete slot.dataset.p;
+  slot.className = "wslot";
+  slot.innerHTML = `<span class="ph">drop</span>`;
+  el("buildhint").textContent = "";
+}
+function checkRow(row){
+  const w = WORDS.find(x=>x.w===row.dataset.w);
+  const slots = [...row.querySelectorAll(".wslot")];
+  if(slots.some(s=>!s.dataset.p)) return;
+  const placed = slots.map(s=>s.dataset.p), answer = w.tiles.map(t=>t[0]);
+  const hint = el("buildhint");
+  if(placed.every((p,i)=>p===answer[i])){
+    hint.textContent = "";
+    if(S.buildFirst[w.w]===undefined) S.buildFirst[w.w] = true;
+    S.buildDone[w.w] = true; save(); buildProg();
+    row.classList.add("done");
+    row.querySelector(".wbuilt").innerHTML = `<span class="wname">${colourWord(w)}</span> <span class="wtick">&#10003;</span>`;
+    setTimeout(()=>{ row.classList.add("gone");
+      setTimeout(()=>{ row.remove();
+        if(!document.querySelector("#wtable .wrow")){
+          const next = BOARDS.findIndex(b=>b.some(x=>!S.buildDone[x.w]));
+          next === -1 ? finishBuild() : renderBoard(next);
+        }
+      }, 300);
+    }, 900);
+  } else {
+    if(S.buildFirst[w.w]===undefined){ S.buildFirst[w.w] = false; save(); }
+    row.classList.add("wrong"); setTimeout(()=>row.classList.remove("wrong"), 320);
+    const sameSet = [...placed].sort().join("~")===[...answer].sort().join("~");
+    hint.innerHTML = sameSet
+      ? "Right pieces, wrong order. Prefix, then root, then suffix. Tap a slot to send its piece back."
+      : "Not a match yet. Reread the meaning. Tap a slot to send its piece back.";
+  }
+}
+
+function finishBuild(){
+  S.done.build = true; save();
+  const cleanN = buildFirstCount();
+  const pct = Math.round(100*cleanN/WORDS.length);
+  const cls = pct>=80?"good":(pct>=60?"mid":"low");
+  el("build-body").innerHTML =
+    `<div class="sumbox"><div class="big ${cls}">${cleanN}/${WORDS.length}</div>
+      <p class="muted">words built right the first time they were filled · ${pct}%</p></div>
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="bHome" type="button">Home</button>
+       <button class="btn btn-primary" id="toDecode" type="button">Work it through →</button>
+     </div>`;
+  el("bHome").addEventListener("click",()=>go("home"));
+  el("toDecode").addEventListener("click",()=>startDecode());
+}
+
+/* ================= STEP 4 · DECODE ================= */
+function startDecode(){
+  go("decode");
+  const body = el("decode-body");
+  body.innerHTML =
+    `<div class="teach">${esc(SCENARIO)}</div>
+     ${DECODE.map((d,i)=>{
+        const st = S.decode[d.w]||{};
+        return `<div class="decword">${esc(d.w)}</div>
+        <p class="qtext" style="margin-bottom:8px">${esc(d.prompt)}</p>
+        <textarea class="dec" id="dec${i}">${esc(st.text||"")}</textarea>
+        <div class="nextrow noprint" style="justify-content:flex-start">
+          <button class="btn btn-ghost" id="decBtn${i}" type="button">Show the criteria</button>
+        </div>
+        <div class="crit" id="crit${i}">${d.crit}
+          <div class="selfmark noprint">
+            <label><input type="radio" name="sm${i}" value="hit" ${st.mark==="hit"?"checked":""}> Mine does all of that</label>
+            <label><input type="radio" name="sm${i}" value="part" ${st.mark==="part"?"checked":""}> Partly</label>
+            <label><input type="radio" name="sm${i}" value="miss" ${st.mark==="miss"?"checked":""}> Mine is the near-miss</label>
+          </div>
+        </div>`;
+     }).join("")}
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="decHome" type="button">Home</button>
+       <button class="btn btn-primary" id="decFinish" type="button">Finish this step →</button>
+     </div>`;
+
+  DECODE.forEach((d,i)=>{
+    const ta = el("dec"+i);
+    ta.addEventListener("input",()=>{
+      S.decode[d.w] = S.decode[d.w]||{};
+      S.decode[d.w].text = ta.value; save();
+    });
+    const btn = el("decBtn"+i);
+    const openCrit = ()=>{
+      if(ta.value.trim().length < 20){
+        ta.focus();
+        ta.placeholder = "Write your answer first.";
+        return;
+      }
+      el("crit"+i).classList.add("show");
+      btn.disabled = true;
+    };
+    btn.addEventListener("click",openCrit);
+    if((S.decode[d.w]||{}).mark){ el("crit"+i).classList.add("show"); btn.disabled=true; }
+    document.querySelectorAll(`input[name="sm${i}"]`).forEach(r=>{
+      r.addEventListener("change",()=>{
+        S.decode[d.w] = S.decode[d.w]||{};
+        S.decode[d.w].mark = r.value; save();
+      });
+    });
+  });
+  el("decHome").addEventListener("click",()=>go("home"));
+  el("decFinish").addEventListener("click",()=>{
+    const missing = DECODE.find((d,i)=>{
+      const st = S.decode[d.w]||{};
+      return !(st.text && st.text.trim().length>=20 && st.mark);
+    });
+    if(missing){
+      alert("For each one: write your answer, open the criteria, and mark yourself.");
+      return;
+    }
+    S.decodeDone = true; save(); startAudit();
+  });
+}
+
+/* ================= STEP 5 · AUDIT ================= */
+function auditStage(idx){
+  if(idx >= AUDIT.length){ finishAudit(); return; }
+  const sec = AUDIT[idx];
+  runAuditSet(sec, false, idx);
+}
+function startAudit(){
+  go("audit");
+  const nextIdx = AUDIT.findIndex(sec=>!S.done["sec_"+sec.id]);
+  auditStage(nextIdx === -1 ? AUDIT.length : nextIdx);
+}
+function auditProgress(sec, cleared, total){
+  el("audit-prog").textContent = `STEP 6 · ${sec.title.toUpperCase()} · cleared ${cleared}/${total}`;
+}
+
+function runAuditSet(sec, isRetry, idx){
+  const items = isRetry ? sec.itemsB : sec.itemsA;
+  const shadow = {};
+  let queue = shuffle(items.slice());
+  let cleared = 0;
+  const total = items.length;
+  const body = el("audit-body");
+
+  function showTeach(){
+    body.innerHTML =
+      `<div class="stagepath">${AUDIT.map(s=>
+        `<span class="spip${S.done["sec_"+s.id]?" done":""}${s.id===sec.id?" now":""}">${esc(s.title)}</span>`).join("")}</div>
+       <h2>${esc(sec.title)}${isRetry?" — second set":""}</h2>
+       <div class="teach">${isRetry?sec.reteach:sec.teach}</div>
+       <p class="muted">${total} questions. Your <b>first attempt</b> on each is what the report records; anything you
+         get wrong comes back until you clear it.</p>
+       <div class="nextrow noprint"><button class="btn btn-primary" id="auStart" type="button">Start →</button></div>`;
+    el("auStart").addEventListener("click",()=>next());
+  }
+
+  function next(){
+    auditProgress(sec, cleared, total);
+    if(!queue.length){ done(); return; }
+    const it = queue.shift();
+    const isFirstOverall = S.first[it.id]===undefined;
+    const isFirstInSet   = shadow[it.id]===undefined;
+
+    body.innerHTML =
+      `<div class="stagepath">${AUDIT.map(s=>
+        `<span class="spip${S.done["sec_"+s.id]?" done":""}${s.id===sec.id?" now":""}">${esc(s.title)}</span>`).join("")}</div>
+       <p class="prompt">${esc(sec.title)}${isRetry?" · second set":""} · cleared ${cleared}/${total}</p>
+       <p class="qtext">${it.q}</p>
+       <div id="ansarea"></div>
+       <div class="feedback" id="fb"></div>
+       <div class="nextrow noprint" id="nextrow"></div>`;
+
+    const ansarea = qa("#ansarea");
+
+    function settle(ok){
+      if(isFirstOverall) S.first[it.id] = ok;
+      if(isFirstInSet)   shadow[it.id] = ok;
+      save();
+      const fb = qa("#fb");
+      fb.className = "feedback " + (ok?"ok":"bad");
+      fb.innerHTML = `<b>${ok?"Correct.":"Not right."}</b> ${it.explain}`;
+      if(ok) cleared++; else queue.push(it);
+      const b=document.createElement("button");
+      b.type="button"; b.className="btn btn-primary";
+      b.textContent = (queue.length||!ok) ? "Next →" : "Finish the section →";
+      b.addEventListener("click",()=>next());
+      qa("#nextrow").appendChild(b);
+      auditProgress(sec, cleared, total);
+    }
+
+    if(it.kind==="mcq"){
+      const order = shuffle(it.opts.map((t,i)=>({t,i})));
+      ansarea.className="opts";
+      order.forEach(o=>{
+        const b=document.createElement("button");
+        b.type="button"; b.className="opt"; b.innerHTML=o.t;
+        b.addEventListener("click",()=>{
+          const ok = o.i===it.a;
+          [...ansarea.querySelectorAll(".opt")].forEach((x,pos)=>{
+            x.disabled=true;
+            if(order[pos].i===it.a) x.classList.add("right");
+            if(x===b && !ok) x.classList.add("wrongpick");
+          });
+          settle(ok);
+        });
+        ansarea.appendChild(b);
+      });
+    } else {
+      ansarea.className="numrow";
+      ansarea.innerHTML =
+        `<input type="text" inputmode="decimal" id="numin" placeholder="?" autocomplete="off">
+         <span class="unit">${esc(it.unit||"")}</span>
+         <button class="btn btn-primary" id="numgo" type="button">Check</button>
+         ${it.hint?`<div class="muted" style="flex-basis:100%;margin-top:6px">Hint: ${esc(it.hint)}</div>`:""}`;
+      const submit = ()=>{
+        const raw = qa("#numin").value.trim();
+        if(raw==="") return;
+        const v = parseFloat(raw.replace(/[^\d.\-]/g,""));
+        const ok = !isNaN(v) && Math.abs(v - it.a) <= (it.tol!=null?it.tol:0.001);
+        qa("#numin").disabled=true; qa("#numgo").disabled=true;
+        settle(ok);
+      };
+      qa("#numgo").addEventListener("click",submit);
+      qa("#numin").addEventListener("keydown",(e)=>{ if(e.key==="Enter") submit(); });
+      setTimeout(()=>{ const n=qa("#numin"); if(n) n.focus(); },40);
+    }
+  }
+
+  function done(){
+    const got = items.filter(it=>shadow[it.id]===true).length;
+    const passed = got >= Math.ceil(total*0.8);
+    const pct = Math.round(100*got/total);
+    const cls = pct>=80?"good":(pct>=60?"mid":"low");
+
+    if(isRetry){ S.retryScores[sec.id] = got; }
+
+    if(!passed && !isRetry){
+      S.reteach[sec.id] = true; save();
+      body.innerHTML =
+        `<div class="sumbox"><div class="big ${cls}">${got}/${total}</div>
+          <p class="muted">first attempts on this set · ${pct}% — below the 80% you need to move on</p></div>
+         <div class="teach"><b>Reteach.</b> ${sec.reteach}</div>
+         <p class="muted">A <b>fresh set</b> of ${sec.itemsB.length} questions on the same skills follows. Your original
+           score stays on the report; this second attempt is recorded beside it.</p>
+         <div class="nextrow noprint">
+           <button class="btn btn-primary" id="auRetry" type="button">Start the fresh set →</button></div>`;
+      el("auRetry").addEventListener("click",()=>runAuditSet(sec, true, idx));
+      return;
+    }
+
+    S.done["sec_"+sec.id] = true; save();
+    const last = idx >= AUDIT.length-1;
+    body.innerHTML =
+      `<div class="sumbox"><div class="big ${cls}">${got}/${total}</div>
+        <p class="muted">first attempts on ${isRetry?"the fresh set":"this section"} · ${pct}%</p>
+        ${isRetry?`<p class="muted" style="margin-top:8px">Both scores go on your report — the original and this one.</p>`:""}</div>
+       <div class="nextrow noprint">
+         <button class="btn btn-ghost" id="auHome" type="button">Home</button>
+         <button class="btn btn-primary" id="auNext" type="button">${last?"Go to my report →":"Next section →"}</button>
+       </div>`;
+    el("auHome").addEventListener("click",()=>go("home"));
+    el("auNext").addEventListener("click",()=>{ last ? finishAudit() : auditStage(idx+1); });
+  }
+
+  showTeach();
+}
+
+function finishAudit(){
+  S.done.audit = true; S.finishedAt = Date.now(); save();
+  go("report");
+}
+
+/* ================= REPORT ================= */
+function vcode(str){
+  let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h+str.charCodeAt(i))|0; }
+  return Math.abs(h).toString(36).toUpperCase().padStart(6,"0").slice(0,6);
+}
+const MARKLBL = { hit:"met the criteria (self-marked)", part:"partly met the criteria (self-marked)", miss:"was the near-miss (self-marked)" };
+
+function renderReport(){
+  const rows = [];
+
+  const E = S.exp;
+  rows.push(E.pred
+    ? `<tr><td>Experiment: prediction</td><td class="score">✓</td><td>${esc(PRED[E.pred])}</td></tr>`
+    : `<tr><td>Experiment: prediction</td><td class="nf">not done</td><td class="nf">—</td></tr>`);
+  ["now","later"].forEach(when=>{
+    const r = E[when];
+    rows.push(r
+      ? `<tr><td>Experiment: ${when==="now"?"test now":"retest"}</td><td class="score">${r.rec} v ${r.rer}</td><td>out of 10 · read once and recall v read three times</td></tr>`
+      : `<tr><td>Experiment: ${when==="now"?"test now":"retest"}</td><td class="nf">not done</td><td class="nf">—</td></tr>`);
+  });
+
+  rows.push(S.studied
+    ? `<tr><td>Word list read</td><td class="score">✓</td><td>Eight words with their morphemes</td></tr>`
+    : `<tr><td>Word list read</td><td class="nf">not yet</td><td class="nf">—</td></tr>`);
+
+  if(S.checkDone || Object.keys(S.first).some(k=>SLIDES.find(s=>s.id===k))){
+    const got = checkFirstCount();
+    const attempted = SLIDES.filter(s=>S.first[s.id]!==undefined).length;
+    rows.push(`<tr><td>Briefing checkpoints</td><td class="score">${got}/${attempted||SLIDES.length}</td>
+      <td>${S.checkDone?"Complete":"NOT FINISHED"} · first attempts · sent back to a slide
+      <b>${S.sendbacks||0}</b> time${(S.sendbacks||0)===1?"":"s"}</td></tr>`);
+  } else {
+    rows.push(`<tr><td>Briefing checkpoints</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+  }
+
+  if(buildCount()){
+    rows.push(`<tr><td>Word builders</td><td class="score">${buildFirstCount()}/${WORDS.length}</td>
+      <td>${S.done.build?"Complete":"NOT FINISHED — "+buildCount()+" of "+WORDS.length+" built"}
+      · built right the first time each word was filled</td></tr>`);
+  } else {
+    rows.push(`<tr><td>Word builders</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+  }
+
+  DECODE.forEach(d=>{
+    const st = S.decode[d.w];
+    if(st && st.mark){
+      rows.push(`<tr><td>Work it through: ${esc(d.w)}</td><td class="score">${st.mark==="hit"?"✓":(st.mark==="part"?"◐":"✗")}</td>
+        <td>${MARKLBL[st.mark]}</td></tr>`);
+    } else {
+      rows.push(`<tr><td>Work it through: ${esc(d.w)}</td><td class="nf">not done</td><td class="nf">—</td></tr>`);
+    }
+  });
+
+  AUDIT.forEach(sec=>{
+    const items = sec.itemsA;
+    const att = items.filter(it=>S.first[it.id]!==undefined);
+    if(!att.length){
+      rows.push(`<tr><td>Audit — ${esc(sec.title)}</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+      return;
+    }
+    const got = items.filter(it=>S.first[it.id]===true).length;
+    const note = S.reteach[sec.id]
+      ? `Below 80% — reteach given, fresh set scored ${S.retryScores[sec.id]!==undefined?S.retryScores[sec.id]+"/"+sec.itemsB.length:"—"}`
+      : (S.done["sec_"+sec.id] ? "Passed first time" : "NOT FINISHED");
+    rows.push(`<tr><td>Audit — ${esc(sec.title)}</td><td class="score">${got}/${items.length}</td><td>${note}</td></tr>`);
+  });
+
+  const allItems = auditItems();
+  const attempted = allItems.filter(it=>S.first[it.id]!==undefined);
+  const totGot = attempted.filter(it=>S.first[it.id]===true).length;
+  const slideAtt = SLIDES.filter(s=>S.first[s.id]!==undefined);
+  const slideGot = slideAtt.filter(s=>S.first[s.id]===true).length;
+  const grandAtt = attempted.length + slideAtt.length;
+  const grandGot = totGot + slideGot;
+
+  const decTexts = DECODE.map(d=>{
+    const st=S.decode[d.w];
+    return st&&st.text?`<p style="margin:6px 0"><b>${esc(d.w)}:</b> ${esc(st.text)}</p>`:"";
+  }).join("");
+
+  el("report-body").innerHTML =
+    `<h2>My report</h2>
+     <div class="idrow noprint">
+       <div><label for="rName">Name</label><input id="rName" value="${esc(S.name)}" placeholder="Your name"></div>
+       <div><label for="rSid">Student ID</label><input id="rSid" value="${esc(S.sid)}" placeholder="ID"></div>
+     </div>
+     <p style="font-size:14px;margin:8px 0"><b>${esc(S.name)||"__________________"}</b>
+        &nbsp;·&nbsp; ID ${esc(S.sid)||"____________"}
+        &nbsp;·&nbsp; Study Lab · Work &amp; Life Education</p>
+
+     <table class="repgrid">
+       <thead><tr><th>Task</th><th>Score</th><th>Notes</th></tr></thead>
+       <tbody>
+         ${rows.join("")}
+         <tr><td><b>All scored questions</b></td>
+             <td class="score"><b>${grandAtt?`${grandGot}/${grandAtt}`:"—"}</b></td>
+             <td>${grandAtt?`<b>${Math.round(100*grandGot/grandAtt)}%</b> on first attempts — every attempted question was then cleared through the retry loop`:"Nothing attempted yet"}</td></tr>
+       </tbody>
+     </table>
+     <p class="muted">Verification code <span class="vcode">${vcode(`${S.name}|${S.sid}|${grandGot}|${grandAtt}|${S.sendbacks||0}|${buildFirstCount()}`)}</span>
+       · Scores are <b>first attempts</b>; wrong answers looped until mastered. Written answers are the student's own
+       words, self-marked against stated criteria. The page does not judge writing.
+       ${Object.keys(S.reteach).length?" A reteach and fresh question set were used.":""}</p>
+
+     ${S.exp.how?`<div class="sheet"><h3>How I study, before the lesson (verbatim)</h3><p style="margin:6px 0">${esc(S.exp.how)}</p></div>`:""}
+     ${decTexts?`<div class="sheet"><h3>Work it through (verbatim)</h3>${decTexts}</div>`:""}
+
+     <div class="nextrow noprint">
+       <button class="btn btn-ghost" id="rHome" type="button">Home</button>
+       <button class="btn btn-ghost" id="rCopy" type="button">Copy row for class sheet</button>
+       <button class="btn btn-primary" id="rPrint" type="button">Print report</button>
+     </div>
+     <p class="muted noprint" id="copyNote"></p>
+
+     <details class="tnote noprint">
+       <summary>For teachers</summary>
+       <div class="in">
+         <ol>
+           <li><b>Lesson 1, tuning in · 15 min.</b> Students open The experiment, write how they study and make their prediction, then close laptops. You press <i>Run it on the projector</i>. The run is timed so both lists get exactly three minutes: List 1 is read once, recalled on paper, then checked; List 2 is read three times. Then two minutes of counting backwards, then students open laptops and take <i>Test now</i>. Space pauses, arrow keys move, Esc exits.</li>
+           <li><b>Ask them not to look at the words again</b> before next lesson, or the retest won't mean much.</li>
+           <li><b>Slides · 20 min.</b> Teach the briefing in Present mode, then students do the checkpoints. Slide 2 explains what today's scores probably show.</li>
+           <li><b>Lab · rest of the lesson.</b> Word list, builders, Work it through and the audit, on their own devices.</li>
+           <li><b>Lesson 2 · 10 min.</b> Students take <i>Test again</i>, then copy their report row into the class sheet. Paste the sheet's rows into <i>Class results</i> on the projector run screen to show the class averages.</li>
+         </ol>
+         <p style="margin-top:10px"><b>How it's built:</b> 20 Swahili–English pairs, all everyday nouns. List 1 (recall) goes first, so if anything the reread list has the recency advantage on the same-day test. Both lists are the same for everyone, so list difficulty isn't balanced. That's worth asking the class: what could make this test unfair?</p>
+         <p style="margin-top:10px"><b>What to expect:</b> rereading often ties or wins on the same day. Recall practice usually wins after a delay (Roediger &amp; Karpicke, 2006). A small class can go either way; the averages are the point, not any one student.</p>
+         <p style="margin-top:10px"><b>Class sheet columns:</b> name, ID, date, prediction, recall now, reread now, recall later, reread later, briefing first try, send-backs, words built clean, audit 1, audit 2, reteach, minutes, self-marks, briefing misses, audit misses, how I study, then the three written answers.</p>
+       </div>
+     </details>
+
+     <p class="muted" style="margin-top:18px">Sources: Roediger &amp; Karpicke (2006), <i>Test-enhanced learning</i>,
+       Psychological Science; Dunlosky et al. (2013), <i>Improving students' learning with effective learning
+       techniques</i>, Psychological Science in the Public Interest; Session 12 materials drawing on Sean Kang
+       (University of Melbourne).</p>`;
+
+  el("rName").addEventListener("input",e=>{ S.name=e.target.value; save(); });
+  el("rSid").addEventListener("input",e=>{ S.sid=e.target.value; save(); });
+  el("rHome").addEventListener("click",()=>go("home"));
+  el("rPrint").addEventListener("click",()=>window.print());
+  el("rCopy").addEventListener("click",copyRow);
+}
+
+/* One tab-separated row per student: paste into a shared sheet and it lands
+   as one row. First attempts only; misses named, not just counted. */
+function classRow(){
+  const clean = t => String(t==null?"":t).replace(/[\t\r\n]+/g," ").trim();
+  const secScore = sec => {
+    const att = sec.itemsA.filter(it=>S.first[it.id]!==undefined);
+    return att.length ? `${sec.itemsA.filter(it=>S.first[it.id]===true).length}/${sec.itemsA.length}` : "";
+  };
+  const slideMiss = SLIDES.filter(s=>S.first[s.id]===false).map(s=>s.title).join("; ");
+  const auditMiss = AUDIT.flatMap(sec=>sec.itemsA.filter(it=>S.first[it.id]===false).map(()=>sec.title));
+  const missCount = {}; auditMiss.forEach(t=>missCount[t]=(missCount[t]||0)+1);
+  const mins = S.startedAt ? Math.round(((S.finishedAt||Date.now())-S.startedAt)/60000) : "";
+  const marks = DECODE.map(d=>{ const m=(S.decode[d.w]||{}).mark; return m==="hit"?"Y":m==="part"?"P":m==="miss"?"N":"-"; }).join("");
+  const E = S.exp;
+  return [
+    S.name, S.sid, new Date().toLocaleDateString("en-AU"),
+    E.pred ? PRED[E.pred] : "",
+    E.now ? E.now.rec : "", E.now ? E.now.rer : "", E.later ? E.later.rec : "", E.later ? E.later.rer : "",
+    SLIDES.some(s=>S.first[s.id]!==undefined) ? `${checkFirstCount()}/${SLIDES.length}` : "",
+    S.sendbacks||0,
+    buildCount() ? `${buildFirstCount()}/${WORDS.length}` : "",
+    secScore(AUDIT[0]), secScore(AUDIT[1]),
+    Object.keys(S.reteach).length ? "yes" : "no",
+    mins, marks, slideMiss,
+    Object.entries(missCount).map(([k,v])=>`${k} x${v}`).join("; "),
+    E.how,
+    ...DECODE.map(d=>(S.decode[d.w]||{}).text||"")
+  ].map(clean).join("\t");
+}
+function copyRow(){
+  const row = classRow();
+  const note = el("copyNote");
+  const done = ()=>{ note.textContent = "Copied. Paste it into the class sheet."; };
+  const fallback = ()=>{
+    const ta=document.createElement("textarea"); ta.value=row; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); done(); }catch(e){ note.textContent = "Couldn't copy automatically. Select this row and copy it: " + row; }
+    ta.remove();
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(row).then(done, fallback); }
+  else fallback();
+}
+
+/* ================= STEP 1 · THE EXPERIMENT ================= */
+const PRED = { rer:"Reading three times", rec:"Reading once, then recalling", same:"About the same" };
+function allCues(){ return ["rec","rer"].flatMap(k=>PAIRS[k].map(p=>({k, sw:p[0], en:p.slice(1)}))); }
+function norm(t){ return String(t||"").toLowerCase().trim().replace(/^(a|an|the)\s+/,"").replace(/[^a-z]/g,""); }
+function lev(a,b){
+  const m=[...Array(b.length+1).keys()];
+  for(let i=1;i<=a.length;i++){ let prev=m[0]; m[0]=i;
+    for(let j=1;j<=b.length;j++){ const t=m[j]; m[j]=Math.min(m[j]+1, m[j-1]+1, prev+(a[i-1]===b[j-1]?0:1)); prev=t; } }
+  return m[b.length];
+}
+/* A single word in English is something the page can honestly judge.
+   Accepts a real second meaning, a plural, and one slip in a longer word. */
+function isRight(ans, accepts){
+  const a=norm(ans); if(!a) return false;
+  return accepts.some(x=>{ const t=norm(x); return a===t || a===t+"s" || (t.length>=4 && lev(a,t)<=1); });
+}
+function startExp(){ go("exp"); }
+function renderExp(){
+  const E=S.exp, body=el("exp-body");
+  body.innerHTML =
+    `<div class="nextrow noprint" style="justify-content:flex-start;margin-top:0">
+       <button class="linkbtn" id="runOpen" type="button">Teacher: run it on the projector &rarr;</button></div>
+     <h2>Before</h2>
+     <label class="lbl2" for="expHow">How do you usually study for a test?</label>
+     <textarea class="dec" id="expHow" style="min-height:70px">${esc(E.how)}</textarea>
+     <p class="lbl2" style="margin-top:12px">Which way will you remember better next lesson?</p>
+     <div class="predrow">${Object.keys(PRED).map(k=>`<label class="pred"><input type="radio" name="pred" value="${k}" ${E.pred===k?"checked":""}> ${esc(PRED[k])}</label>`).join("")}</div>
+     <h2 style="margin-top:22px">Tests</h2>
+     <div class="testbtns">
+       <button class="btn ${E.now?"btn-ghost":"btn-primary"}" id="tNow" type="button">${E.now?"Test now: done, see answers":"Test now"}</button>
+       <button class="btn ${E.later?"btn-ghost":(E.now?"btn-primary":"btn-ghost")}" id="tLater" type="button">${E.later?"Test again: done, see answers":"Test again (next lesson)"}</button>
+     </div>
+     <div id="testArea"></div>
+     ${(E.now||E.later)?resultsHTML():""}`;
+  el("expHow").addEventListener("input",e=>{ S.exp.how=e.target.value; save(); });
+  body.querySelectorAll('input[name="pred"]').forEach(r=>r.addEventListener("change",()=>{ S.exp.pred=r.value; save(); }));
+  el("tNow").addEventListener("click",()=>renderTest("now"));
+  el("tLater").addEventListener("click",()=>renderTest("later"));
+  el("runOpen").addEventListener("click",()=>openRun());
+}
+function renderTest(when){
+  const E=S.exp, area=el("testArea");
+  if(!E.order[when]){ E.order[when]=shuffle(allCues().map(c=>c.sw)); save(); }
+  const cues=E.order[when].map(sw=>allCues().find(c=>c.sw===sw));
+  const done=E[when];
+  area.innerHTML =
+    `<h3>${when==="now"?"Test now":"Test again"}: write the English for each word</h3>
+     <div class="testgrid">${cues.map((c,i)=>{
+        const a = done ? (done.ans[c.sw]||"") : "";
+        const ok = done ? isRight(a, c.en) : null;
+        return `<label class="tq${done?(ok?" ok":" no"):""}"><span class="sw">${esc(c.sw)}</span>
+          <input type="text" data-sw="${esc(c.sw)}" value="${esc(a)}" ${done?"disabled":""} autocomplete="off" spellcheck="false" aria-label="English for ${esc(c.sw)}">
+          ${done?`<span class="mk">${ok?"&#10003;":"&#10007; "+esc(c.en[0])}</span>`:""}</label>`;
+     }).join("")}</div>
+     ${done?"":`<div class="nextrow"><button class="btn btn-primary" id="markTest" type="button">Mark my test</button></div>`}`;
+  area.scrollIntoView({block:"start"});
+  const first=area.querySelector("input:not([disabled])"); if(first) first.focus();
+  area.querySelectorAll("input[data-sw]").forEach((inp,i,all)=>inp.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){ e.preventDefault(); const n=all[i+1]; if(n) n.focus(); else el("markTest").focus(); }
+  }));
+  if(!done) el("markTest").addEventListener("click",()=>{
+    const ans={}; area.querySelectorAll("input[data-sw]").forEach(inp=>ans[inp.dataset.sw]=inp.value);
+    const score={rec:0,rer:0};
+    allCues().forEach(c=>{ if(isRight(ans[c.sw], c.en)) score[c.k]++; });
+    if(when==="now" && !S.startedAt) S.startedAt=Date.now();
+    S.exp[when]={rec:score.rec, rer:score.rer, ans, at:Date.now()}; save();
+    renderExp(); renderTest(when);
+  });
+}
+function bar(v, cls){ return `<div class="bar"><i class="${cls}" style="width:${v*10}%"></i><b>${v}/10</b></div>`; }
+function resultsHTML(){
+  const E=S.exp;
+  const row=(lbl,r)=>`<tr><th>${lbl}</th><td>${r?bar(r.rec,"rec"):"<span class=muted>not yet</span>"}</td><td>${r?bar(r.rer,"rer"):"<span class=muted>not yet</span>"}</td></tr>`;
+  return `<h2 style="margin-top:22px">My results</h2>
+    <table class="restab"><thead><tr><th></th><th>${esc(METHOD.rec)}</th><th>${esc(METHOD.rer)}</th></tr></thead>
+    <tbody>${row("Today",E.now)}${row("Next lesson",E.later)}</tbody></table>
+    ${E.pred?`<p class="muted" style="margin-top:8px">Your prediction: ${esc(PRED[E.pred])}.</p>`:""}`;
+}
+
+/* ---------- projector run: full screen, timed, both lists get 180 s ---------- */
+let R = { i:0, left:0, paused:false, timer:null, cls:false };
+function openRun(){
+  el("run").hidden=false; document.body.classList.add("running");
+  try{ if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}); }catch(e){}
+  R.cls=false; runPhase(0);
+}
+function closeRun(){
+  clearInterval(R.timer); el("run").hidden=true; document.body.classList.remove("running");
+  try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(e){}
+}
+function runPhase(i){
+  clearInterval(R.timer);
+  R.i=Math.max(0,Math.min(PHASES.length-1,i)); R.cls=false; R.paused=false;
+  const ph=PHASES[R.i]; R.left=ph.secs||0;
+  el("runLbl").textContent = `Step ${R.i+1} of ${PHASES.length}`;
+  el("runPause").textContent="Pause"; el("runPause").disabled=!ph.secs;
+  const pairs = ph.list ? PAIRS[ph.list] : [];
+  let html = `<p class="runmsg">${esc(ph.t)}</p>`;
+  if(ph.k==="study"||ph.k==="check") html += `<div class="runpairs">${pairs.map(p=>`<div><b>${esc(p[0])}</b><span>${esc(p[1])}</span></div>`).join("")}</div>`;
+  if(ph.k==="recall") html += `<div class="runpairs recall">${pairs.map((p,n)=>`<div><b>${n+1}. ${esc(p[0])}</b><span>?</span></div>`).join("")}</div>`;
+  el("runBody").innerHTML = html;
+  tick();
+  if(ph.secs) R.timer=setInterval(()=>{ if(R.paused) return; R.left--; tick(); if(R.left<=0){ clearInterval(R.timer); if(R.i<PHASES.length-1) runPhase(R.i+1); } },1000);
+}
+function tick(){ const ph=PHASES[R.i]; el("runTime").textContent = ph.secs ? `${Math.floor(R.left/60)}:${String(R.left%60).padStart(2,"0")}` : ""; }
+function classResults(){
+  clearInterval(R.timer); R.cls=true;
+  el("runLbl").textContent="Class results"; el("runTime").textContent=""; el("runPause").disabled=true;
+  el("runBody").innerHTML =
+    `<p class="runmsg" style="font-size:1.2em">Paste the class sheet rows (from Copy row for class sheet) here.</p>
+     <textarea id="clsIn" class="clsin" spellcheck="false"></textarea>
+     <div id="clsOut"></div>`;
+  const ta=el("clsIn");
+  try{ const kept=localStorage.getItem(KEY+".class"); if(kept) ta.value=kept; }catch(e){}
+  const draw=()=>{
+    try{ localStorage.setItem(KEY+".class", ta.value); }catch(e){}
+    const rows=ta.value.split(/\r?\n/).map(l=>l.split("\t")).filter(c=>c.length>=8);
+    const col=k=>rows.map(c=>c[k]).filter(v=>v!==""&&!isNaN(+v)).map(Number);
+    const avg=a=>a.length?(a.reduce((x,y)=>x+y,0)/a.length):null;
+    const cell=(a,cls)=>a.length?`<div class="bar big"><i class="${cls||""}" style="width:${avg(a)*10}%"></i><b>${avg(a).toFixed(1)}/10</b></div><small>${a.length} student${a.length===1?"":"s"}</small>`:`<span class="muted">no scores yet</span>`;
+    const preds={}; rows.forEach(c=>{ if(c[3]) preds[c[3]]=(preds[c[3]]||0)+1; });
+    el("clsOut").innerHTML = rows.length ? `
+      <table class="restab big"><thead><tr><th></th><th>${esc(METHOD.rec)}</th><th>${esc(METHOD.rer)}</th></tr></thead>
+      <tbody><tr><th>Today</th><td>${cell(col(4),"rec")}</td><td>${cell(col(5),"rer")}</td></tr>
+             <tr><th>Next lesson</th><td>${cell(col(6),"rec")}</td><td>${cell(col(7),"rer")}</td></tr></tbody></table>
+      <p class="runsmall">Predictions: ${Object.entries(preds).map(([k,v])=>`${esc(k)} ${v}`).join(" · ")||"none"}</p>` : "";
+  };
+  ta.addEventListener("input",draw); draw(); ta.focus();
+}
+el("runNext").addEventListener("click",()=>{ if(R.cls) runPhase(R.i); else runPhase(R.i+1); });
+el("runBack").addEventListener("click",()=>{ if(R.cls) runPhase(R.i); else runPhase(R.i-1); });
+el("runPause").addEventListener("click",()=>{ R.paused=!R.paused; el("runPause").textContent=R.paused?"Resume":"Pause"; });
+el("runClass").addEventListener("click",classResults);
+el("runExit").addEventListener("click",closeRun);
+document.addEventListener("keydown",e=>{
+  if(el("run").hidden) return;
+  if(e.key==="Escape"){ closeRun(); return; }
+  if(e.target.closest && e.target.closest("textarea,input")) return;
+  if(e.key==="ArrowRight"){ e.preventDefault(); el("runNext").click(); }
+  else if(e.key==="ArrowLeft"){ e.preventDefault(); el("runBack").click(); }
+  else if(e.key===" "){ e.preventDefault(); if(!el("runPause").disabled) el("runPause").click(); }
+});
+
+/* ================= BOOT ================= */
+renderHome();
+</script>
+
+</body>
+</html>
