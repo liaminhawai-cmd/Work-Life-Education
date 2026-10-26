@@ -338,7 +338,7 @@
   <h2>Ten words for this topic</h2>
   <div id="study-list"></div>
   <div class="nextrow noprint">
-    <button class="btn btn-primary" id="markStudiedBtn" type="button">I've read them all — go to the briefing &rarr;</button>
+    <button class="btn btn-primary" id="markStudiedBtn" type="button">I've read them all. Go to the briefing &rarr;</button>
   </div>
 </div>
 
@@ -718,7 +718,7 @@ const AUDIT = [
               "“No. You stop fighting what you can't change, and work on what you can.”",
               "“You shouldn't ever accept anything bad. You should keep fighting.”"],
         a:2,
-        explain:"Acceptance isn't giving up and isn't agreeing it was fair. It's letting go of what you can't change so your energy goes to what you can." }
+        explain:"Acceptance doesn't mean giving up or agreeing it was fair. You stop fighting what you can't change, so your energy goes to what you can." }
     ],
     itemsB:[
       { id:"s1b1", kind:"mcq",
@@ -1165,7 +1165,7 @@ function renderSendback(sl, i, queue){
   const area = qc("#sbarea");
   area.innerHTML =
     `<div class="sendback">
-       <div class="hd">Back to slide ${i+1} — read it again</div>
+       <div class="hd">Back to slide ${i+1}: read it again</div>
        <div class="slidecopy">
          <h4>${esc(sl.title)}</h4>
          <p style="margin-bottom:8px">${sl.lead}</p>
@@ -1177,7 +1177,7 @@ function renderSendback(sl, i, queue){
   const nextrow = qc("#nextrow");
   const b=document.createElement("button");
   b.type="button"; b.className="btn btn-primary"; b.disabled=true;
-  b.textContent = "I've re-read it — the question comes back later";
+  b.textContent = "I've re-read it. The question comes back later.";
   nextrow.appendChild(b);
   let left = DWELL;
   const t = setInterval(()=>{
@@ -1185,7 +1185,7 @@ function renderSendback(sl, i, queue){
     const d = qc("#dwelltxt");
     if(left<=0){
       clearInterval(t);
-      if(d) d.textContent = "Re-read done. This question will come back before the section is finished.";
+      if(d) d.textContent = "Done. This question comes back before the section ends.";
       b.disabled = false;
     } else if(d){ d.textContent = `You can continue in ${left} second${left===1?"":"s"}.`; }
   },1000);
@@ -1456,7 +1456,7 @@ function runAuditSet(sec, isRetry, idx){
     body.innerHTML =
       `<div class="stagepath">${AUDIT.map(s=>
         `<span class="spip${S.done["sec_"+s.id]?" done":""}${s.id===sec.id?" now":""}">${esc(s.title)}</span>`).join("")}</div>
-       <h2>${esc(sec.title)}${isRetry?" — second set":""}</h2>
+       <h2>${esc(sec.title)}${isRetry?": second set":""}</h2>
        <div class="teach">${isRetry?sec.reteach:sec.teach}</div>
        <p class="muted">${total} questions. Your <b>first attempt</b> on each is what the report records; anything you
          get wrong comes back until you clear it.</p>
@@ -1548,7 +1548,7 @@ function runAuditSet(sec, isRetry, idx){
       S.reteach[sec.id] = true; save();
       body.innerHTML =
         `<div class="sumbox"><div class="big ${cls}">${got}/${total}</div>
-          <p class="muted">first attempts on this set · ${pct}% — below the 80% you need to move on</p></div>
+          <p class="muted">first attempts on this set · ${pct}%. Below the 80% you need to move on</p></div>
          <div class="teach"><b>Reteach.</b> ${sec.reteach}</div>
          <p class="muted">A <b>fresh set</b> of ${sec.itemsB.length} questions on the same skills follows. Your original
            score stays on the report; this second attempt is recorded beside it.</p>
@@ -1563,7 +1563,7 @@ function runAuditSet(sec, isRetry, idx){
     body.innerHTML =
       `<div class="sumbox"><div class="big ${cls}">${got}/${total}</div>
         <p class="muted">first attempts on ${isRetry?"the fresh set":"this section"} · ${pct}%</p>
-        ${isRetry?`<p class="muted" style="margin-top:8px">Both scores go on your report — the original and this one.</p>`:""}</div>
+        ${isRetry?`<p class="muted" style="margin-top:8px">Both scores go on your report, the original and this one.</p>`:""}</div>
        <div class="nextrow noprint">
          <button class="btn btn-ghost" id="auHome" type="button">Home</button>
          <button class="btn btn-primary" id="auNext" type="button">${last?"Go to my report →":"Next section →"}</button>
@@ -1610,7 +1610,7 @@ function renderReport(){
 
   if(buildCount()){
     rows.push(`<tr><td>Word builders</td><td class="score">${buildFirstCount()}/${WORDS.length}</td>
-      <td>${S.done.build?"Complete":"NOT FINISHED — "+buildCount()+" of "+WORDS.length+" built"}
+      <td>${S.done.build?"Complete":"NOT FINISHED: "+buildCount()+" of "+WORDS.length+" built"}
       · built right the first time each word was filled</td></tr>`);
   } else {
     rows.push(`<tr><td>Word builders</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
@@ -1630,14 +1630,14 @@ function renderReport(){
     const items = sec.itemsA;
     const att = items.filter(it=>S.first[it.id]!==undefined);
     if(!att.length){
-      rows.push(`<tr><td>Audit — ${esc(sec.title)}</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
+      rows.push(`<tr><td>Audit: ${esc(sec.title)}</td><td class="nf">not started</td><td class="nf">—</td></tr>`);
       return;
     }
     const got = items.filter(it=>S.first[it.id]===true).length;
     const note = S.reteach[sec.id]
-      ? `Below 80% — reteach given, fresh set scored ${S.retryScores[sec.id]!==undefined?S.retryScores[sec.id]+"/"+sec.itemsB.length:"—"}`
+      ? `Below 80%, reteach given, fresh set scored ${S.retryScores[sec.id]!==undefined?S.retryScores[sec.id]+"/"+sec.itemsB.length:"—"}`
       : (S.done["sec_"+sec.id] ? "Passed first time" : "NOT FINISHED");
-    rows.push(`<tr><td>Audit — ${esc(sec.title)}</td><td class="score">${got}/${items.length}</td><td>${note}</td></tr>`);
+    rows.push(`<tr><td>Audit: ${esc(sec.title)}</td><td class="score">${got}/${items.length}</td><td>${note}</td></tr>`);
   });
 
   const allItems = auditItems();
@@ -1669,12 +1669,12 @@ function renderReport(){
          ${rows.join("")}
          <tr><td><b>All scored questions</b></td>
              <td class="score"><b>${grandAtt?`${grandGot}/${grandAtt}`:"—"}</b></td>
-             <td>${grandAtt?`<b>${Math.round(100*grandGot/grandAtt)}%</b> on first attempts — every attempted question was then cleared through the retry loop`:"Nothing attempted yet"}</td></tr>
+             <td>${grandAtt?`<b>${Math.round(100*grandGot/grandAtt)}%</b> on first attempts. Every attempted question was then cleared through the retry loop`:"Nothing attempted yet"}</td></tr>
        </tbody>
      </table>
      <p class="muted">Verification code <span class="vcode">${vcode(`${S.name}|${S.sid}|${grandGot}|${grandAtt}|${S.sendbacks||0}|${buildFirstCount()}`)}</span>
        · Scores are <b>first attempts</b>; wrong answers looped until mastered. Written answers are the student's own
-       words, self-marked against stated criteria. The page does not judge writing.
+       words, self-marked against stated criteria.
        ${Object.keys(S.reteach).length?" A reteach and fresh question set were used.":""}</p>
 
      ${S.introText?`<div class="sheet"><h3>Ways to cope, before the lesson (verbatim)</h3><p style="margin:6px 0">${esc(S.introText)}</p></div>`:""}
