@@ -444,6 +444,17 @@
   <div id="audit-body"></div>
 </div>
 
+<!-- ============ FINAL RETEST ============ -->
+<div class="screen" id="scr-retest">
+  <div class="topbar noprint">
+    <button class="linkbtn" data-go="home" type="button">&larr; home</button>
+    <span class="progress">FINAL STEP · TEST AGAIN</span>
+  </div>
+  <h2>Test again</h2>
+  <p class="muted" style="margin-bottom:12px">You have now completed the learning activities. Try the same vocabulary test again without looking back at the word list. Compare your score with your first test.</p>
+  <div id="retestArea"></div>
+</div>
+
 <!-- ============ REPORT ============ -->
 <div class="screen" id="scr-report">
   <div class="topbar noprint">
@@ -921,6 +932,7 @@ function go(name){
   if(name==="study") renderStudy();
   if(name==="report") renderReport();
   if(name==="exp") renderExp();
+  if(name==="retest") renderRetest();
 }
 document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
 
@@ -935,10 +947,10 @@ function decodeCount(){ return DECODE.filter(d=>S.decode[d.w] && S.decode[d.w].t
 function renderHome(){
   const wrap = el("home-steps"); wrap.innerHTML="";
   const steps = [
-    { t:"The experiment",
-      d:"Predict, study two lists, take the test now, and the same test again next lesson.",
-      done:!!(S.exp.now && S.exp.later), fn:()=>startExp(),
-      tag:S.exp.later ? "BOTH TESTS DONE" : (S.exp.now ? "RETEST NEXT LESSON" : "") },
+    { t:"First test",
+      d:"Make a prediction, then test what you can recall before the learning activities.",
+      done:!!S.exp.now, fn:()=>startExp(),
+      tag:S.exp.now ? "DONE" : "" },
     { t:"The briefing",
       d:"Nine slides, then one checkpoint question per slide. A wrong answer sends you back to the slide.",
       done:S.checkDone, fn:()=>startSlides(),
@@ -960,14 +972,19 @@ function renderHome(){
       d:"Two sections. Under 80% on a section means a reteach and a fresh set of questions.",
       done:S.done.audit, fn:()=>startAudit(),
       tag:S.done.audit ? `${auditFirstCount()}/${auditItems().length} FIRST TRY` : "" },
+    { t:"Test again",
+      d:"At the very end, repeat the vocabulary test and compare it with your first score.",
+      done:!!S.exp.later, disabled:!S.done.audit, fn:()=>startRetest(),
+      tag:S.exp.later ? "BOTH TESTS DONE" : (!S.done.audit ? "FINISH THE LEARNING FIRST" : "READY") },
     { t:"Report",
       d:"Your experiment results, scores and written answers, print, and a row to copy for your teacher.",
-      done:false, fn:()=>go("report"), tag:"ANY TIME" }
+      done:false, fn:()=>go("report"), tag:"VIEW RESULTS" }
   ];
   steps.forEach((st,i)=>{
     const b=document.createElement("button");
     b.type="button";
     b.className="step"+(st.done?" done":"");
+    b.disabled=!!st.disabled;
     b.innerHTML=`<span class="num">${st.done?"✓":i+1}</span>`+
       `<span><span class="t">${st.t}</span><br><span class="d">${st.d}</span></span>`+
       `<span class="tag">${st.tag}</span>`;
@@ -1798,6 +1815,11 @@ function isRight(ans, accepts){
   return accepts.some(x=>{ const t=norm(x); return a===t || a===t+"s" || (t.length>=4 && lev(a,t)<=1); });
 }
 function startExp(){ go("exp"); }
+function startRetest(){
+  if(!S.done.audit){ alert("Finish the learning activities first, then return here for the final test."); return; }
+  go("retest");
+}
+function renderRetest(){ renderTest("later"); }
 function renderExp(){
   const E=S.exp, body=el("exp-body");
   body.innerHTML =
@@ -1808,21 +1830,21 @@ function renderExp(){
      <textarea class="dec" id="expHow" style="min-height:70px">${esc(E.how)}</textarea>
      <p class="lbl2" style="margin-top:12px">Which way will you remember better next lesson?</p>
      <div class="predrow">${Object.keys(PRED).map(k=>`<label class="pred"><input type="radio" name="pred" value="${k}" ${E.pred===k?"checked":""}> ${esc(PRED[k])}</label>`).join("")}</div>
-     <h2 style="margin-top:22px">Tests</h2>
+     <h2 style="margin-top:22px">First test</h2>
+     <p class="muted" style="margin-bottom:10px">Complete this before the briefing and learning activities. The repeat test unlocks at the very end.</p>
      <div class="testbtns">
        <button class="btn ${E.now?"btn-ghost":"btn-primary"}" id="tNow" type="button">${E.now?"Test now: done, see answers":"Test now"}</button>
-       <button class="btn ${E.later?"btn-ghost":(E.now?"btn-primary":"btn-ghost")}" id="tLater" type="button">${E.later?"Test again: done, see answers":"Test again (next lesson)"}</button>
      </div>
      <div id="testArea"></div>
-     ${(E.now||E.later)?resultsHTML():""}`;
+     ${E.now?resultsHTML():""}`;
   el("expHow").addEventListener("input",e=>{ S.exp.how=e.target.value; save(); });
   body.querySelectorAll('input[name="pred"]').forEach(r=>r.addEventListener("change",()=>{ S.exp.pred=r.value; save(); }));
   el("tNow").addEventListener("click",()=>renderTest("now"));
-  el("tLater").addEventListener("click",()=>renderTest("later"));
   el("runOpen").addEventListener("click",()=>openRun());
 }
 function renderTest(when){
-  const E=S.exp, area=el("testArea");
+  const E=S.exp, area=el(when==="later" ? "retestArea" : "testArea");
+  if(!area) return;
   if(!E.order[when]){ E.order[when]=shuffle(allCues().map(c=>c.sw)); save(); }
   const cues=E.order[when].map(sw=>allCues().find(c=>c.sw===sw));
   const done=E[when];
@@ -1847,7 +1869,8 @@ function renderTest(when){
     allCues().forEach(c=>{ if(isRight(ans[c.sw], c.en)) score[c.k]++; });
     if(when==="now" && !S.startedAt) S.startedAt=Date.now();
     S.exp[when]={rec:score.rec, rer:score.rer, ans, at:Date.now()}; save();
-    renderExp(); renderTest(when);
+    if(when==="now"){ renderExp(); renderTest(when); }
+    else { renderTest(when); renderHome(); }
   });
 }
 function bar(v, cls){ return `<div class="bar"><i class="${cls}" style="width:${v*10}%"></i><b>${v}/10</b></div>`; }
